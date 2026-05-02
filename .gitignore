@@ -1,0 +1,63 @@
+# ================================================================
+# .gitignore — LP Tudo Sobre SIBO
+# Apenas arquivos de produção devem ir pro git.
+# Tudo o resto (fotos brutas, refs, processo, transcrições, screenshots) FORA.
+# ================================================================
+
+# Sistema
+.DS_Store
+*.swp
+*~
+Thumbs.db
+
+# Netlify local
+.netlify/
+.env
+.env.local
+
+# ----------------------------------------------------------------
+# Arquivos de PROCESSO (só local, nunca em produção)
+# ----------------------------------------------------------------
+briefing.md
+copy.md
+layout.md
+persona.md
+pesquisa-mercado.md
+tom-de-voz.md
+design-plan.md
+INTEGRACAO-LOTE-SUPABASE.md
+
+# ----------------------------------------------------------------
+# Material bruto / referências (1GB de fotos brutas, transcrições)
+# ----------------------------------------------------------------
+Transcrições*/
+Transcricoes*/
+referencias/
+_logo/
+
+# Pasta inteira de fotos brutas (1GB) — só fotos editadas/usadas vão pro git
+images/06. OUTROS MATERIAIS/
+images/06.*/
+images/Fotos*/
+images/*.psd
+
+# Imagens NÃO usadas na LP atual
+images/karina-cutout.png
+images/karina-hero.jpg
+images/karina-hero.png
+images/logo-blacksibo.png
+
+# ----------------------------------------------------------------
+# Screenshots de preview (debug local)
+# ----------------------------------------------------------------
+preview-*.png
+preview-*.jpg
+*.preview.png
+
+# ----------------------------------------------------------------
+# Logs e artefatos de build
+# ----------------------------------------------------------------
+*.log
+node_modules/
+dist/
+build/
