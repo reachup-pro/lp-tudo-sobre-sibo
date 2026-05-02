@@ -603,6 +603,67 @@ main,
   font-size: 13px;
 }
 
+/* ---------- Hero CTA (neon purple) ---------- */
+/* Apenas o primeiro botão (hero) recebe o tratamento neon pra dar foco visual máximo. */
+.btn-primary[data-cta="hero"] {
+  background: #8b5cf6;
+  border-color: #8b5cf6;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow:
+    0 0 0 1px rgba(167, 139, 250, 0.4),
+    0 0 24px rgba(139, 92, 246, 0.55),
+    0 0 48px rgba(139, 92, 246, 0.30),
+    0 12px 28px rgba(139, 92, 246, 0.35);
+  animation: heroBtnPulse 2.6s var(--ease-out) infinite;
+}
+
+.btn-primary[data-cta="hero"] .btn-primary__price {
+  color: #ffffff;
+}
+
+.btn-primary[data-cta="hero"]::before {
+  background: #ffffff;
+}
+
+.btn-primary[data-cta="hero"]:hover {
+  border-color: #a78bfa;
+  background: #7c3aed;
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(167, 139, 250, 0.6),
+    0 0 32px rgba(139, 92, 246, 0.75),
+    0 0 64px rgba(139, 92, 246, 0.45),
+    0 16px 36px rgba(139, 92, 246, 0.45);
+}
+
+.btn-primary[data-cta="hero"]:hover::before {
+  opacity: 0.12;
+}
+
+@keyframes heroBtnPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(167, 139, 250, 0.4),
+      0 0 24px rgba(139, 92, 246, 0.55),
+      0 0 48px rgba(139, 92, 246, 0.30),
+      0 12px 28px rgba(139, 92, 246, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(167, 139, 250, 0.6),
+      0 0 32px rgba(139, 92, 246, 0.75),
+      0 0 64px rgba(139, 92, 246, 0.45),
+      0 12px 28px rgba(139, 92, 246, 0.40);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary[data-cta="hero"] {
+    animation: none;
+  }
+}
+
 /* ---------- 9. Lote progress (no hero) ---------- */
 .lote-progress {
   display: flex;
