@@ -19,6 +19,16 @@
   const LOTE_REFRESH_MS = 30000;
   const LOTE_FALLBACK_COR = "#22c55e";
 
+  /** URLs Hotmart por lote — Hotmart não suporta URL única que detecta lote.
+   *  Atualizado dinamicamente nos a[data-cta] conforme lote ativo do Supabase.
+   *  Esgotado mantém Lote 4 (Hotmart valida server-side se vagas reais esgotarem). */
+  const HOTMART_URLS = {
+    1: "https://pay.hotmart.com/Q105652908N?off=7jutk87w&checkoutMode=10",
+    2: "https://pay.hotmart.com/Q105652908N?off=uma7syv2&checkoutMode=10",
+    3: "https://pay.hotmart.com/Q105652908N?off=p3c4ryap&checkoutMode=10",
+    4: "https://pay.hotmart.com/Q105652908N?off=jlj8o4mu&checkoutMode=10",
+  };
+
   /** Piso visual da barra: enquanto vendas reais ≤ 50%, exibe 50% e oculta vagas restantes.
    *  Acima de 50%, exibe valor real e mostra vagas restantes. */
   const PISO_VISUAL = 50;
@@ -80,6 +90,7 @@
 
       pintarLoteCor(corEsgotado);
       atualizarLoteCells(4);
+      aplicarUrlCTAs(4);
       return;
     }
 
@@ -133,6 +144,17 @@
 
     pintarLoteCor(cor);
     atualizarLoteCells(loteNumero);
+    aplicarUrlCTAs(loteNumero);
+  }
+
+  /** Atualiza href de todos os a[data-cta] (hero, oferta, final, float) para
+   *  apontar ao checkout Hotmart do lote ativo. Defensiva: cai pro Lote 1 se inválido. */
+  function aplicarUrlCTAs(loteNumero) {
+    const num = Number(loteNumero) || 1;
+    const url = HOTMART_URLS[num] || HOTMART_URLS[1];
+    document.querySelectorAll("a[data-cta]").forEach((el) => {
+      el.href = url;
+    });
   }
 
   function setText(selector, value) {
