@@ -2881,10 +2881,12 @@ main,
   .hero__author {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 0 0 var(--s-3) 0;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding: 0 0 var(--s-4) 0;
     border-bottom: 1px solid var(--lilac-soft-15);
-    margin-bottom: var(--s-2);
+    margin-bottom: var(--s-3);
   }
   .hero__author-label {
     font-family: var(--font-mono);
@@ -2896,7 +2898,7 @@ main,
   .hero__author-name {
     font-family: var(--font-accent);
     font-weight: 400;
-    font-size: 22px;
+    font-size: 24px;
     color: var(--cream-1);
     letter-spacing: -0.005em;
     line-height: 1.1;
@@ -2906,8 +2908,13 @@ main,
     font-size: 10px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--cream-2);
+    color: var(--lilac-1);
     margin-top: 2px;
+  }
+
+  /* Signals (Online via Zoom etc.) ocultos em mobile — informação redundante */
+  .hero__signals {
+    display: none;
   }
 
   /* Texto vem PRIMEIRO em mobile (foto depois) */
@@ -2918,18 +2925,16 @@ main,
   .hero__text {
     order: 0;
   }
+
+  /* Hero photo: wrapper precisa permitir overflow para as pílulas saírem do frame.
+     Margem reduzida pra foto subir e ocupar espaço dos signals removidos. */
   .hero__photo {
     order: 1;
-    margin-top: var(--s-6);
-  }
-
-  /* Hero photo: wrapper precisa permitir overflow para as pílulas saírem do frame */
-  .hero__photo {
     position: relative;
     overflow: visible;
     padding: 14px 18px;
     max-width: min(310px, 78vw);
-    margin: var(--s-6) auto var(--s-3);
+    margin: var(--s-3) auto 0;
   }
 
   .hero__photo .photo-frame {
