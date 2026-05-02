@@ -521,6 +521,11 @@ main,
   display: none;
 }
 
+/* Hero author line (mobile only — substitui o caption embaixo da foto) */
+.hero__author {
+  display: none;
+}
+
 /* ---------- 8. Botão primário ---------- */
 .btn-primary {
   display: inline-flex;
@@ -2631,7 +2636,7 @@ main,
   }
 
   .hero__photo {
-    order: -1;
+    order: 1;
     max-width: 380px;
     margin: 0 auto;
     width: 100%;
@@ -2872,13 +2877,59 @@ main,
     display: none;
   }
 
+  /* Hero author line aparece (mobile) acima do headline — destaque do nome no topo */
+  .hero__author {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 0 var(--s-3) 0;
+    border-bottom: 1px solid var(--lilac-soft-15);
+    margin-bottom: var(--s-2);
+  }
+  .hero__author-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--cream-3);
+  }
+  .hero__author-name {
+    font-family: var(--font-accent);
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cream-1);
+    letter-spacing: -0.005em;
+    line-height: 1.1;
+  }
+  .hero__author-cred {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream-2);
+    margin-top: 2px;
+  }
+
+  /* Texto vem PRIMEIRO em mobile (foto depois) */
+  .hero__grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero__text {
+    order: 0;
+  }
+  .hero__photo {
+    order: 1;
+    margin-top: var(--s-6);
+  }
+
   /* Hero photo: wrapper precisa permitir overflow para as pílulas saírem do frame */
   .hero__photo {
     position: relative;
     overflow: visible;
     padding: 14px 18px;
     max-width: min(310px, 78vw);
-    margin: 0 auto var(--s-3);
+    margin: var(--s-6) auto var(--s-3);
   }
 
   .hero__photo .photo-frame {
@@ -2887,19 +2938,9 @@ main,
     z-index: 1;
   }
 
-  /* Esconder credenciais em mono do caption (já estão nas pílulas) */
+  /* Caption inteira oculta em mobile — nome já está no topo via hero__author + credenciais nas pílulas */
   .hero__photo .photo-frame__caption {
-    align-items: center;
-    border-left: none;
-    padding-left: 0;
-    margin-top: var(--s-3);
-    text-align: center;
-  }
-  .hero__photo .photo-frame__cred {
     display: none;
-  }
-  .hero__photo .photo-frame__name {
-    font-size: 17px;
   }
 
   /* Floating credentials pills */
