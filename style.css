@@ -513,6 +513,14 @@ main,
   color: var(--cream-3);
 }
 
+/* ================================================================
+   Floating credential pills (mobile only — hidden on desktop)
+   Cercam a foto da Karina como ícones de autoridade flutuantes.
+   ================================================================ */
+.cred-float {
+  display: none;
+}
+
 /* ---------- 8. Botão primário ---------- */
 .btn-primary {
   display: inline-flex;
@@ -2857,6 +2865,92 @@ main,
     width: 12px;
     height: 12px;
   }
+
+  /* ===== Hero clean (mobile) ===== */
+  /* Esconder eyebrow do hero — fica apenas no header sticky */
+  .hero .eyebrow--lilac {
+    display: none;
+  }
+
+  /* Hero photo: wrapper precisa permitir overflow para as pílulas saírem do frame */
+  .hero__photo {
+    position: relative;
+    overflow: visible;
+    padding: 14px 18px;
+    max-width: min(310px, 78vw);
+    margin: 0 auto var(--s-3);
+  }
+
+  .hero__photo .photo-frame {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  /* Esconder credenciais em mono do caption (já estão nas pílulas) */
+  .hero__photo .photo-frame__caption {
+    align-items: center;
+    border-left: none;
+    padding-left: 0;
+    margin-top: var(--s-3);
+    text-align: center;
+  }
+  .hero__photo .photo-frame__cred {
+    display: none;
+  }
+  .hero__photo .photo-frame__name {
+    font-size: 17px;
+  }
+
+  /* Floating credentials pills */
+  .cred-float {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    position: absolute;
+    z-index: 4;
+    background: rgba(8, 6, 13, 0.80);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    padding: 7px 12px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--lilac-soft-30);
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    font-family: var(--font-mono);
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .cred-float__strong {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lilac-1);
+  }
+
+  .cred-float__small {
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--cream-2);
+  }
+
+  .cred-float--tl { top: 4%; left: -6px; }
+  .cred-float--tr { top: 22%; right: -6px; }
+  .cred-float--bl { bottom: 28%; left: -6px; }
+  .cred-float--br { bottom: 6%; right: -6px; }
+
+  @keyframes credFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  .cred-float--tl { animation: credFloat 4s ease-in-out infinite; animation-delay: 0s; }
+  .cred-float--tr { animation: credFloat 4.4s ease-in-out infinite; animation-delay: 0.3s; }
+  .cred-float--bl { animation: credFloat 4.2s ease-in-out infinite; animation-delay: 0.6s; }
+  .cred-float--br { animation: credFloat 4.6s ease-in-out infinite; animation-delay: 0.9s; }
 
   /* ===== Seções 3-11 mobile ===== */
 
