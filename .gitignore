@@ -47,6 +47,11 @@ images/karina-hero.jpg
 images/karina-hero.png
 images/logo-blacksibo.png
 
+# Assets exportados pra Hotmart (não usados na LP — só no checkout/popup/pre-page)
+images/exit-popup/
+images/hotmart/
+images/order-bumps/
+
 # ----------------------------------------------------------------
 # Screenshots de preview (debug local)
 # ----------------------------------------------------------------

@@ -219,9 +219,10 @@ main,
 }
 
 .site-header {
+  background: #ffffff;
   padding: var(--s-5) 0;
   padding-top: max(var(--s-5), env(safe-area-inset-top));
-  border-bottom: 1px solid var(--lilac-soft-08);
+  border-bottom: 1px solid rgba(8, 6, 13, 0.08);
 }
 
 .site-header__inner {
@@ -235,13 +236,13 @@ main,
   display: inline-flex;
   align-items: center;
   gap: var(--s-3);
-  color: var(--cream-1);
+  color: var(--ink-0);
 }
 
 .brand__mark {
   width: 28px;
   height: 28px;
-  color: var(--lilac-1);
+  color: var(--lilac-2);
   flex-shrink: 0;
 }
 
@@ -252,27 +253,30 @@ main,
 }
 
 .brand__title {
-  font-family: var(--font-accent-bold);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: 15px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
+  color: var(--ink-0);
 }
 
 .brand__sub {
   font-family: var(--font-mono);
   font-size: 10px;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--cream-3);
-  margin-top: 2px;
+  color: rgba(8, 6, 13, 0.55);
+  margin-top: 3px;
 }
 
 .site-header__meta {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--cream-2);
+  color: var(--ink-0);
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
@@ -2714,7 +2718,8 @@ main,
 
   .site-header__meta {
     font-size: 10px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
   /* Padding bottom no main para float CTA não cobrir conteúdo */
