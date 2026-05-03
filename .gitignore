@@ -34,6 +34,9 @@ Transcrições*/
 Transcricoes*/
 referencias/
 _logo/
+_source/
+**/_source/
+**/referencias/
 
 # Pasta inteira de fotos brutas (1GB) — só fotos editadas/usadas vão pro git
 images/06. OUTROS MATERIAIS/
@@ -51,6 +54,9 @@ images/logo-blacksibo.png
 images/exit-popup/
 images/hotmart/
 images/order-bumps/
+
+# Anúncios pra Meta Ads (não fazem parte da LP — só assets pra mídia paga)
+images/anuncios/
 
 # ----------------------------------------------------------------
 # Screenshots de preview (debug local)
