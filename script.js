@@ -19,6 +19,17 @@
   const LOTE_REFRESH_MS = 30000;
   const LOTE_FALLBACK_COR = "#22c55e";
 
+  /** Escassez: sobrescreve a cor da barra de progresso (NÃO a identidade do lote)
+   *  quando o lote ativo está prestes a esgotar. Identidade do lote (número, preço,
+   *  badge "atual" na tabela) permanece com a cor real do lote. */
+  const SCARCITY_COR = "#ef4444";
+  const SCARCITY_VAGAS_MAX = 5;
+  const SCARCITY_PERCENT_MIN = 90;
+
+  function emEscassez(realPercent, vagasRestantes) {
+    return vagasRestantes <= SCARCITY_VAGAS_MAX || realPercent >= SCARCITY_PERCENT_MIN;
+  }
+
   /** URLs Hotmart por lote — Hotmart não suporta URL única que detecta lote.
    *  Atualizado dinamicamente nos a[data-cta] conforme lote ativo do Supabase.
    *  Esgotado mantém Lote 4 (Hotmart valida server-side se vagas reais esgotarem). */
@@ -63,7 +74,7 @@
       .forEach((el) => el.classList.remove("lote-erro"));
 
     if (data.esgotado) {
-      const corEsgotado = "#ef4444";
+      const corEsgotado = SCARCITY_COR;
       loteState.cor = corEsgotado;
       loteState.realPercent = 100;
       loteState.displayPercent = 100;
@@ -83,6 +94,10 @@
       /* Esgotado nunca é low: mostra "Esgotado" no lugar das vagas */
       document.querySelectorAll("[data-lote-bar]").forEach((el) => {
         el.dataset.lowVendas = "false";
+        el.dataset.scarcity = "true";
+      });
+      document.querySelectorAll(".float-cta").forEach((el) => {
+        el.dataset.scarcity = "true";
       });
       document.querySelectorAll(".lotes-table").forEach((el) => {
         el.dataset.lowVendas = "false";
@@ -101,6 +116,8 @@
     const vagasRestantes = Number(data.lote_vagas_restantes) || 0;
     const lotePreco = Number(data.lote_preco) || 0;
     const loteNumero = Number(data.lote_numero) || 1;
+    const escassez = emEscassez(realPercent, vagasRestantes);
+    const corEfetiva = escassez ? SCARCITY_COR : cor;
 
     loteState.cor = cor;
     loteState.realPercent = realPercent;
@@ -126,7 +143,7 @@
 
     document.querySelectorAll("[data-lote-percent-fill]").forEach((el) => {
       el.style.width = displayPercent + "%";
-      el.style.backgroundColor = cor;
+      el.style.backgroundColor = corEfetiva;
     });
 
     document.querySelectorAll(".lote-big__bar").forEach((el) => {
@@ -136,13 +153,17 @@
     /* Marca containers para CSS ocultar vagas-restantes + separador adjacente */
     document.querySelectorAll("[data-lote-bar]").forEach((el) => {
       el.dataset.lowVendas = String(!showVagas);
+      el.dataset.scarcity = String(escassez);
+    });
+    document.querySelectorAll(".float-cta").forEach((el) => {
+      el.dataset.scarcity = String(escassez);
     });
     /* Tabela de lotes: oculta capacidade ("50 vagas"/"100 vagas") nos cards quando low */
     document.querySelectorAll(".lotes-table").forEach((el) => {
       el.dataset.lowVendas = String(!showVagas);
     });
 
-    pintarLoteCor(cor);
+    pintarLoteCor(corEfetiva);
     atualizarLoteCells(loteNumero);
     aplicarUrlCTAs(loteNumero);
   }

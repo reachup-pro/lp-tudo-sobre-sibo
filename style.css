@@ -913,6 +913,29 @@ main,
   animation: none;
 }
 
+/* ================================================================
+   Escassez — barra de progresso pulsa quando o lote ativo está
+   prestes a esgotar (≤ 5 vagas OU ≥ 90% vendido).
+   Override visual no JS sobrescreve a cor do fill para vermelho;
+   esta regra só adiciona a animação de atenção.
+   ================================================================ */
+[data-lote-bar][data-scarcity="true"] [data-lote-percent-fill],
+.float-cta[data-scarcity="true"] .float-cta__fill {
+  animation: lote-scarcity-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes lote-scarcity-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
+  50%      { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-lote-bar][data-scarcity="true"] [data-lote-percent-fill],
+  .float-cta[data-scarcity="true"] .float-cta__fill {
+    animation: none;
+  }
+}
+
 /* ---------- 10. Para quem é (bento) ---------- */
 .quemepra {
   padding: var(--s-10) 0;
