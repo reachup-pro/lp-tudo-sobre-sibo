@@ -649,8 +649,14 @@ body {
 
 .tbl__num { text-align: right; font-variant-numeric: tabular-nums; }
 .tbl__roas { font-weight: 600; color: var(--lilac-1); }
-.tbl__roas[data-bad] { color: var(--lote-4); }
 .tbl__roas[data-good] { color: var(--lote-1); }
+.tbl__roas[data-warn] { color: var(--lote-2); }
+.tbl__roas[data-bad]  { color: var(--lote-4); }
+
+/* Generic threshold cor pra qualquer célula numérica (CPA, ROAS, etc) */
+.tbl__num[data-good] { color: var(--lote-1); font-weight: 600; }
+.tbl__num[data-warn] { color: var(--lote-2); font-weight: 600; }
+.tbl__num[data-bad]  { color: var(--lote-4); font-weight: 600; }
 
 .tbl-empty {
   padding: var(--s-6);

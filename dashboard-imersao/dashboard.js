@@ -1,6 +1,6 @@
 // dashboard.js — orchestrator do dashboard real-time Karina/SIBO
 import { sb, rpc, from, SUPABASE_URL } from '/dashboard-imersao/lib/supabase.js';
-import { brl, num, pct, ago, dateBRT, timeBRT, freshness, countdown, delta } from '/dashboard-imersao/lib/format.js';
+import { brl, num, pct, ago, dateBRT, timeBRT, freshness, countdown, delta, roasClass, cpaClass, applyThresholdAttr, applyThresholdCard } from '/dashboard-imersao/lib/format.js';
 import { makeTimelineChart, COLORS } from '/dashboard-imersao/lib/charts.js';
 import { subscribeVendas, startPolling } from '/dashboard-imersao/lib/realtime.js';
 
@@ -198,15 +198,18 @@ function renderKPIs() {
   setText('[data-kpi-vendas-sub]',
     `geral ${num(k.vendas_count)} (hoje ${k.vendas_hoje} · ontem ${k.vendas_ontem})`);
 
-  // ====== CPA (calculado sobre vendas Ads) ======
+  // ====== CPA (calculado sobre vendas Ads) — semáforo CPA vs AOV ======
   setText('[data-kpi-cpa-val]', k.cpa_ads_brl != null ? brl(k.cpa_ads_brl) : '—');
-  setText('[data-kpi-cpa-sub]', k.meta_cpa ? `meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '');
-  setMetaBadge(document.querySelector('[data-kpi-cpa-card]'), k.cpa_ads_brl, k.meta_cpa, true);
+  const cpaSub = k.aov_ads_brl != null
+    ? `vs AOV ${brl(k.aov_ads_brl, { cents: false })}` + (k.meta_cpa ? ` · meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '')
+    : (k.meta_cpa ? `meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '');
+  setText('[data-kpi-cpa-sub]', cpaSub);
+  applyThresholdCard(document.querySelector('[data-kpi-cpa-card]'), cpaClass(k.cpa_ads_brl, k.aov_ads_brl));
 
-  // ====== ROAS (calculado sobre receita Ads) ======
+  // ====== ROAS (calculado sobre receita Ads) — semáforo ROAS 1.0/0.9 ======
   setText('[data-kpi-roas-val]', k.roas_ads != null ? Number(k.roas_ads).toFixed(2) : '—');
-  setText('[data-kpi-roas-sub]', k.meta_roas ? `meta ≥ ${k.meta_roas}` : '');
-  setMetaBadge(document.querySelector('[data-kpi-roas-card]'), k.roas_ads, k.meta_roas, false);
+  setText('[data-kpi-roas-sub]', k.meta_roas ? `verde ≥ 1.0 · meta ≥ ${k.meta_roas}` : 'verde ≥ 1.0 · amarelo ≥ 0.9');
+  applyThresholdCard(document.querySelector('[data-kpi-roas-card]'), roasClass(k.roas_ads));
 
   // ====== AOV Ads (com sub geral) ======
   setText('[data-kpi-aov-val]', k.aov_ads_brl != null ? brl(k.aov_ads_brl) : '—');
@@ -393,16 +396,21 @@ function renderTopAds() {
   const { key, dir } = state.sort.topAds;
   const sorted = applySort(state.topAds, key, dir);
   tbody.innerHTML = sorted.map(a => {
-    const roasClass = a.roas == null ? '' : (a.roas >= 3 ? 'data-good' : (a.roas < 1 ? 'data-bad' : ''));
+    const rCls = roasClass(a.roas);
+    const receitaEfetiva = a.receita_efetiva_brl ?? a.purchase_value_meta_brl ?? 0;
+    const vendasEfetivo  = a.vendas_efetivo ?? a.purchases_meta ?? 0;
+    // AOV por linha = receita/vendas do próprio ad (cascata UTM > pixel)
+    const aovLinha = vendasEfetivo > 0 ? Number(receitaEfetiva) / Number(vendasEfetivo) : null;
+    const cCls = cpaClass(a.cpa_brl, aovLinha);
     const thumb = a.thumbnail_url
       ? `<img src="${a.thumbnail_url}" class="tbl__thumb" loading="lazy" alt="">`
       : `<div class="tbl__thumb"></div>`;
     const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
-    const vendasEfetivo = a.vendas_efetivo ?? a.purchases_meta ?? 0;
-    const receitaEfetiva = a.receita_efetiva_brl ?? a.purchase_value_meta_brl ?? 0;
     const nameHtml = a.instagram_permalink_url
       ? `<a href="${escapeHtml(a.instagram_permalink_url)}" target="_blank" rel="noopener noreferrer" class="tbl__ad-link" title="Abrir no Instagram">${escapeHtml(a.ad_name || '—')} <span class="tbl__ext">↗</span></a>`
       : escapeHtml(a.ad_name || '—');
+    const roasAttr = rCls ? ` ${rCls}` : '';
+    const cpaAttr  = cCls ? ` ${cCls}` : '';
     return `
       <tr>
         <td>${thumb}</td>
@@ -412,8 +420,8 @@ function renderTopAds() {
         <td class="tbl__num">${pct(a.ctr)}</td>
         <td class="tbl__num" title="${a.fonte_atribuicao || 'sem dados'}">${fonteEmoji} ${num(vendasEfetivo)}<br><small style="color:var(--cream-3)">utm ${a.vendas_ads_atribuidas || 0} · pixel ${a.purchases_meta || 0}</small></td>
         <td class="tbl__num">${brl(receitaEfetiva)}</td>
-        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : Number(a.roas).toFixed(2)}</td>
-        <td class="tbl__num">${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
+        <td class="tbl__num tbl__roas"${roasAttr}>${a.roas == null ? '—' : Number(a.roas).toFixed(2)}</td>
+        <td class="tbl__num"${cpaAttr}>${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
       </tr>`;
   }).join('');
 }
@@ -428,9 +436,14 @@ function renderTopAudiences() {
   const { key, dir } = state.sort.topAudiences;
   const sorted = applySort(state.topAudiences, key, dir);
   tbody.innerHTML = sorted.map(a => {
-    const roasClass = a.roas == null ? '' : (a.roas >= 3 ? 'data-good' : (a.roas < 1 ? 'data-bad' : ''));
+    const rCls = roasClass(a.roas);
+    const receitaEfetiva = a.receita_efetiva_brl ?? a.purchase_value_meta_brl ?? 0;
+    const vendasEfetivo  = a.vendas_efetivo ?? a.purchases_meta ?? 0;
+    const aovLinha = vendasEfetivo > 0 ? Number(receitaEfetiva) / Number(vendasEfetivo) : null;
+    const cCls = cpaClass(a.cpa_brl, aovLinha);
     const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
-    const vendasEfetivo = a.vendas_efetivo ?? a.purchases_meta ?? 0;
+    const roasAttr = rCls ? ` ${rCls}` : '';
+    const cpaAttr  = cCls ? ` ${cCls}` : '';
     return `
       <tr>
         <td>${escapeHtml(a.adset_name || '—')}<br><small style="color:var(--cream-3)">${escapeHtml(a.campaign_name || '')}</small></td>
@@ -439,8 +452,8 @@ function renderTopAudiences() {
         <td class="tbl__num">${pct(a.ctr)}</td>
         <td class="tbl__num">${brl(a.cpm_brl)}</td>
         <td class="tbl__num" title="${a.fonte_atribuicao || 'sem dados'}">${fonteEmoji} ${num(vendasEfetivo)}<br><small style="color:var(--cream-3)">utm ${a.vendas_ads_atribuidas || 0} · pixel ${a.purchases_meta || 0}</small></td>
-        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : Number(a.roas).toFixed(2)}</td>
-        <td class="tbl__num">${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
+        <td class="tbl__num tbl__roas"${roasAttr}>${a.roas == null ? '—' : Number(a.roas).toFixed(2)}</td>
+        <td class="tbl__num"${cpaAttr}>${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
       </tr>`;
   }).join('');
 }

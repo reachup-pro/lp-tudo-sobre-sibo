@@ -90,3 +90,47 @@ export const delta = (atual, anterior) => {
 };
 
 export const TZ_BRT = TZ;
+
+// ==========================================================
+// Thresholds de performance (verde / amarelo / vermelho)
+// Decisão produto: ≥1.0× ROAS verde, ≥0.9× amarelo, <0.9× vermelho.
+// CPA usa CPA/AOV: ≤1.0 verde, ≤1.1 amarelo, >1.1 vermelho.
+// Retornam 'data-good' | 'data-warn' | 'data-bad' | '' (neutro).
+// ==========================================================
+export function roasClass(roas) {
+  const n = Number(roas);
+  if (roas == null || !Number.isFinite(n)) return '';
+  if (n >= 1.0) return 'data-good';
+  if (n >= 0.9) return 'data-warn';
+  return 'data-bad';
+}
+
+export function cpaClass(cpa, aov) {
+  const c = Number(cpa);
+  const a = Number(aov);
+  if (cpa == null || aov == null || !Number.isFinite(c) || !Number.isFinite(a) || a <= 0 || c <= 0) return '';
+  const ratio = c / a;
+  if (ratio <= 1.0) return 'data-good';
+  if (ratio <= 1.1) return 'data-warn';
+  return 'data-bad';
+}
+
+// Aplica a classe gerada acima como atributo data-good/warn/bad num <td> ou <div>
+export function applyThresholdAttr(el, cls) {
+  if (!el) return;
+  el.removeAttribute('data-good');
+  el.removeAttribute('data-warn');
+  el.removeAttribute('data-bad');
+  if (cls) el.setAttribute(cls, '');
+}
+
+// Aplica como border-left no card KPI (data-meta-ok/warn/bad já tem CSS)
+export function applyThresholdCard(card, cls) {
+  if (!card) return;
+  card.removeAttribute('data-meta-ok');
+  card.removeAttribute('data-meta-warn');
+  card.removeAttribute('data-meta-bad');
+  if (cls === 'data-good') card.setAttribute('data-meta-ok', '');
+  if (cls === 'data-warn') card.setAttribute('data-meta-warn', '');
+  if (cls === 'data-bad')  card.setAttribute('data-meta-bad', '');
+}
