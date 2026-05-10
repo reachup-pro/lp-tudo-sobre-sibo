@@ -400,10 +400,13 @@ function renderTopAds() {
     const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
     const vendasEfetivo = a.vendas_efetivo ?? a.purchases_meta ?? 0;
     const receitaEfetiva = a.receita_efetiva_brl ?? a.purchase_value_meta_brl ?? 0;
+    const nameHtml = a.instagram_permalink_url
+      ? `<a href="${escapeHtml(a.instagram_permalink_url)}" target="_blank" rel="noopener noreferrer" class="tbl__ad-link" title="Abrir no Instagram">${escapeHtml(a.ad_name || '—')} <span class="tbl__ext">↗</span></a>`
+      : escapeHtml(a.ad_name || '—');
     return `
       <tr>
         <td>${thumb}</td>
-        <td>${escapeHtml(a.ad_name || '—')}<br><small style="color:var(--cream-3)">${escapeHtml(a.adset_name || '')}</small></td>
+        <td>${nameHtml}<br><small style="color:var(--cream-3)">${escapeHtml(a.adset_name || '')}</small></td>
         <td class="tbl__num">${brl(a.spend_brl)}</td>
         <td class="tbl__num">${num(a.impressions, { compact: true })}</td>
         <td class="tbl__num">${pct(a.ctr)}</td>

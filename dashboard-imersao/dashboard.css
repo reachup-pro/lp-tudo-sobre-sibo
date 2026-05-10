@@ -472,6 +472,25 @@ body {
 .tbl__sortable.tbl__sort-active.tbl__sort-asc::after  { content: '↑'; opacity: 1; }
 .tbl__sortable.tbl__sort-active.tbl__sort-desc::after { content: '↓'; opacity: 1; }
 
+/* Link do nome do anúncio → Instagram permalink */
+.tbl__ad-link {
+  color: var(--cream-1);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--lilac-soft-30, rgba(184,164,216,0.30));
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.tbl__ad-link:hover {
+  color: var(--lilac);
+  border-bottom-color: var(--lilac);
+}
+.tbl__ad-link .tbl__ext {
+  font-size: 9px;
+  color: var(--lilac);
+  opacity: 0.6;
+  margin-left: 2px;
+}
+.tbl__ad-link:hover .tbl__ext { opacity: 1; }
+
 /* ========================================================== */
 /* Heatmap dia-da-semana × hora                                */
 /* ========================================================== */
