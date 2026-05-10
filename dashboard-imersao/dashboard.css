@@ -319,6 +319,35 @@ body {
 .kpi[data-meta-warn] { border-left: 2px solid var(--lote-2); }
 .kpi[data-meta-bad]  { border-left: 2px solid var(--lote-4); }
 
+/* Badge "fonte: utm | pixel_fallback" no header de Performance */
+.badge-fonte {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cream-3);
+  background: var(--ink-1);
+  border: 1px solid var(--lilac-soft-15);
+  border-radius: var(--r-sm, 4px);
+  padding: 2px 8px;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+.badge-fonte em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--lilac);
+}
+.badge-fonte[data-fonte="pixel_fallback"] em { color: var(--lote-2); }
+.badge-fonte[data-fonte="sem_dados"]      em { color: var(--cream-3); }
+.badge-fonte[data-fonte="utm"]            em { color: var(--lote-1); }
+
+/* Sub label "geral X" — destaca contraste sutil pra dual KPI */
+.kpi__sub--geral {
+  color: var(--cream-3);
+  opacity: 0.7;
+}
+
 /* ---------- Charts container ---------- */
 .chart-card {
   background: var(--ink-1);

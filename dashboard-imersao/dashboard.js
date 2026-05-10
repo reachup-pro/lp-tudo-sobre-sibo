@@ -110,12 +110,11 @@ function renderKPIs() {
   const k = state.kpis;
   if (!k) return;
 
-  // Receita (total: ingresso + orderbumps)
-  setText('[data-kpi-receita-val]', brl(k.receita_total_brl));
-  // delta vs ontem
+  // ====== Receita Ads (com sub geral) ======
+  setText('[data-kpi-receita-val]', brl(k.receita_ads_brl));
   const dEl = document.querySelector('[data-kpi-receita-delta]');
-  if (dEl && k.receita_ontem_brl !== undefined) {
-    const d = delta(+k.receita_hoje_brl || 0, +k.receita_ontem_brl || 0);
+  if (dEl && k.receita_ads_ontem_brl !== undefined) {
+    const d = delta(+k.receita_ads_hoje_brl || 0, +k.receita_ads_ontem_brl || 0);
     dEl.textContent = `${d} vs ontem`;
     const numD = parseFloat(d);
     dEl.removeAttribute('data-positive'); dEl.removeAttribute('data-negative'); dEl.removeAttribute('data-neutral');
@@ -124,40 +123,51 @@ function renderKPIs() {
     else dEl.setAttribute('data-negative', '');
   }
   setText('[data-kpi-receita-sub]',
-    `ingressos ${brl(k.receita_ingressos_brl, { cents: false })} + orderbumps ${brl(k.orderbump_receita_brl, { cents: false })}`);
+    `geral ${brl(k.receita_total_brl, { cents: false })} (ingr ${brl(k.receita_ingressos_brl, { cents: false })} + bumps ${brl(k.orderbump_receita_brl, { cents: false })})`);
 
-  // Investimento
+  // ====== Investimento ======
   setText('[data-kpi-spend-val]', brl(k.ads_spend_brl));
   setText('[data-kpi-spend-sub]',
     `${num(k.ads_impressions, { compact: true })} imp · CTR ${pct(k.ads_ctr)} · CPM ${brl(k.ads_cpm_brl)}`);
 
-  // Vendas (ingresso)
-  setText('[data-kpi-vendas-val]', num(k.vendas_count));
+  // ====== Vendas Ads (com sub geral) ======
+  setText('[data-kpi-vendas-val]', num(k.vendas_ads_count));
   const vDel = document.querySelector('[data-kpi-vendas-delta]');
   if (vDel) {
-    const d = delta(+k.vendas_hoje || 0, +k.vendas_ontem || 0);
-    vDel.textContent = `hoje ${k.vendas_hoje} · ontem ${k.vendas_ontem} (${d})`;
+    const d = delta(+k.vendas_ads_hoje || 0, +k.vendas_ads_ontem || 0);
+    vDel.textContent = `hoje ${k.vendas_ads_hoje} · ontem ${k.vendas_ads_ontem} (${d})`;
     const numD = parseFloat(d);
     vDel.removeAttribute('data-positive'); vDel.removeAttribute('data-negative'); vDel.removeAttribute('data-neutral');
     if (Number.isNaN(numD) || numD === 0) vDel.setAttribute('data-neutral', '');
     else if (numD > 0) vDel.setAttribute('data-positive', '');
     else vDel.setAttribute('data-negative', '');
   }
+  setText('[data-kpi-vendas-sub]',
+    `geral ${num(k.vendas_count)} (hoje ${k.vendas_hoje} · ontem ${k.vendas_ontem})`);
 
-  // CPA
-  setText('[data-kpi-cpa-val]', k.cpa_brl != null ? brl(k.cpa_brl) : '—');
+  // ====== CPA (calculado sobre vendas Ads) ======
+  setText('[data-kpi-cpa-val]', k.cpa_ads_brl != null ? brl(k.cpa_ads_brl) : '—');
   setText('[data-kpi-cpa-sub]', k.meta_cpa ? `meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '');
-  setMetaBadge(document.querySelector('[data-kpi-cpa-card]'), k.cpa_brl, k.meta_cpa, true);
+  setMetaBadge(document.querySelector('[data-kpi-cpa-card]'), k.cpa_ads_brl, k.meta_cpa, true);
 
-  // ROAS
-  setText('[data-kpi-roas-val]', k.roas != null ? k.roas.toFixed(2) : '—');
+  // ====== ROAS (calculado sobre receita Ads) ======
+  setText('[data-kpi-roas-val]', k.roas_ads != null ? Number(k.roas_ads).toFixed(2) : '—');
   setText('[data-kpi-roas-sub]', k.meta_roas ? `meta ≥ ${k.meta_roas}` : '');
-  setMetaBadge(document.querySelector('[data-kpi-roas-card]'), k.roas, k.meta_roas, false);
+  setMetaBadge(document.querySelector('[data-kpi-roas-card]'), k.roas_ads, k.meta_roas, false);
 
-  // AOV (receita_total / vendas_count)
-  setText('[data-kpi-aov-val]', k.aov_brl != null ? brl(k.aov_brl) : '—');
+  // ====== AOV Ads (com sub geral) ======
+  setText('[data-kpi-aov-val]', k.aov_ads_brl != null ? brl(k.aov_ads_brl) : '—');
   setText('[data-kpi-aov-sub]',
-    k.orderbump_attach_pct != null ? `attach orderbump ${pct(k.orderbump_attach_pct)}` : '');
+    k.aov_brl != null ? `geral ${brl(k.aov_brl)} · attach bumps ${pct(k.orderbump_attach_pct || 0)}` : '');
+
+  // ====== Badge fonte (utm | pixel_fallback | sem_dados) ======
+  const fonteEl = document.querySelector('[data-fonte-ads-hoje]');
+  if (fonteEl && k.fonte_ads_hoje) {
+    const labels = { utm: 'UTM real', pixel_fallback: 'fallback gerenciador', sem_dados: 'sem dados hoje' };
+    fonteEl.querySelector('em').textContent = labels[k.fonte_ads_hoje] || k.fonte_ads_hoje;
+    fonteEl.setAttribute('data-fonte', k.fonte_ads_hoje);
+    fonteEl.hidden = false;
+  }
 }
 
 function renderTimeline(rows) {
@@ -240,6 +250,9 @@ function renderTopAds() {
     const thumb = a.thumbnail_url
       ? `<img src="${a.thumbnail_url}" class="tbl__thumb" loading="lazy" alt="">`
       : `<div class="tbl__thumb"></div>`;
+    const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
+    const vendasEfetivo = a.vendas_efetivo ?? a.purchases_meta ?? 0;
+    const receitaEfetiva = a.receita_efetiva_brl ?? a.purchase_value_meta_brl ?? 0;
     return `
       <tr>
         <td>${thumb}</td>
@@ -247,9 +260,9 @@ function renderTopAds() {
         <td class="tbl__num">${brl(a.spend_brl)}</td>
         <td class="tbl__num">${num(a.impressions, { compact: true })}</td>
         <td class="tbl__num">${pct(a.ctr)}</td>
-        <td class="tbl__num">${num(a.purchases_meta)}</td>
-        <td class="tbl__num">${brl(a.purchase_value_meta_brl)}</td>
-        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : a.roas.toFixed(2)}</td>
+        <td class="tbl__num" title="${a.fonte_atribuicao || 'sem dados'}">${fonteEmoji} ${num(vendasEfetivo)}<br><small style="color:var(--cream-3)">utm ${a.vendas_ads_atribuidas || 0} · pixel ${a.purchases_meta || 0}</small></td>
+        <td class="tbl__num">${brl(receitaEfetiva)}</td>
+        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : Number(a.roas).toFixed(2)}</td>
         <td class="tbl__num">${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
       </tr>`;
   }).join('');
@@ -264,6 +277,8 @@ function renderTopAudiences() {
   }
   tbody.innerHTML = state.topAudiences.map(a => {
     const roasClass = a.roas == null ? '' : (a.roas >= 3 ? 'data-good' : (a.roas < 1 ? 'data-bad' : ''));
+    const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
+    const vendasEfetivo = a.vendas_efetivo ?? a.purchases_meta ?? 0;
     return `
       <tr>
         <td>${escapeHtml(a.adset_name || '—')}<br><small style="color:var(--cream-3)">${escapeHtml(a.campaign_name || '')}</small></td>
@@ -271,8 +286,8 @@ function renderTopAudiences() {
         <td class="tbl__num">${num(a.impressions, { compact: true })}</td>
         <td class="tbl__num">${pct(a.ctr)}</td>
         <td class="tbl__num">${brl(a.cpm_brl)}</td>
-        <td class="tbl__num">${num(a.purchases_meta)}</td>
-        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : a.roas.toFixed(2)}</td>
+        <td class="tbl__num" title="${a.fonte_atribuicao || 'sem dados'}">${fonteEmoji} ${num(vendasEfetivo)}<br><small style="color:var(--cream-3)">utm ${a.vendas_ads_atribuidas || 0} · pixel ${a.purchases_meta || 0}</small></td>
+        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : Number(a.roas).toFixed(2)}</td>
         <td class="tbl__num">${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
       </tr>`;
   }).join('');
