@@ -1039,22 +1039,40 @@ body {
     padding: 2px 6px;
   }
 
-  /* ===== Hero compacto ===== */
-  .dash-section.hero { margin-bottom: var(--s-3); }
-  .hero__big-num {
-    font-size: clamp(36px, 9vw, 50px);
-    letter-spacing: -0.03em;
+  /* ===== Hero compacto (linha única + lote magro) ===== */
+  .dash-section.hero {
+    margin-bottom: var(--s-3);
+    grid-template-columns: 1fr !important;
+    gap: var(--s-2) !important;
   }
-  .hero__big-label { font-size: 9px; margin-top: 4px; letter-spacing: 0.08em; }
+  .hero__big {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hero__big-num {
+    font-size: 32px !important;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .hero__big-label {
+    font-size: 9px;
+    margin-top: 0;
+    letter-spacing: 0.08em;
+  }
   .hero__receita {
-    font-size: 20px;
-    margin-top: var(--s-2);
+    font-size: 18px;
+    margin-top: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
   }
   .hero__receita small { display: none; }
-  .hero__lote { padding: var(--s-3); margin-top: var(--s-3); }
-  .hero__lote-pill { padding: 4px 10px; font-size: 10px; margin-bottom: var(--s-2); }
-  .hero__lote-bar  { height: 10px; }
-  .hero__lote-meta { font-size: 9px; }
+  .hero__lote { padding: 10px var(--s-3); margin-top: 0; }
+  .hero__lote-pill { padding: 3px 8px; font-size: 9px; margin-bottom: 6px; }
+  .hero__lote-bar  { height: 8px; }
+  .hero__lote-meta { font-size: 8px; margin-top: 4px; }
 
   /* ===== Seletor de período compacto ===== */
   .dash-periodo { padding-bottom: var(--s-2); }
@@ -1069,7 +1087,8 @@ body {
     padding: 3px 9px;
     font-size: 10px;
   }
-  .periodo__custom { flex-basis: 100%; }
+  .periodo__custom[hidden] { display: none !important; }
+  .periodo__custom { flex-basis: 100%; flex-wrap: wrap; gap: 4px; }
   .periodo__custom label { font-size: 10px; }
   .periodo__custom input[type=date] { padding: 3px 6px; font-size: 10px; }
   .periodo__resumo {
