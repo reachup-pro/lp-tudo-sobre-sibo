@@ -1006,3 +1006,148 @@ body {
   font-size: 12px;
   color: var(--lilac-1);
 }
+
+/* ==========================================================
+ * Mobile density pass — ≤640px
+ * Reduz scroll: hero 280→140px, seletor 80→40px, KPIs 300→170px.
+ * Desktop intocado (sem regressão).
+ * ========================================================== */
+@media (max-width: 640px) {
+
+  /* ===== Container global ===== */
+  .dash             { padding: 0 var(--s-3); padding-bottom: var(--s-6); }
+  .dash-header__inner { padding: 0 var(--s-3); gap: var(--s-2); }
+  .dash-section    { margin-bottom: var(--s-4); }
+
+  /* ===== Section titles ===== */
+  .dash-section__title {
+    font-size: 11px;
+    margin-bottom: var(--s-2);
+    padding-bottom: 6px;
+  }
+  .dash-section__title small {
+    display: block;
+    font-size: 9px;
+    margin-top: 2px;
+    margin-left: 0;
+  }
+  .badge-fonte {
+    flex-basis: 100%;
+    margin-left: 0;
+    margin-top: 4px;
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  /* ===== Hero compacto ===== */
+  .dash-section.hero { margin-bottom: var(--s-3); }
+  .hero__big-num {
+    font-size: clamp(36px, 9vw, 50px);
+    letter-spacing: -0.03em;
+  }
+  .hero__big-label { font-size: 9px; margin-top: 4px; letter-spacing: 0.08em; }
+  .hero__receita {
+    font-size: 20px;
+    margin-top: var(--s-2);
+  }
+  .hero__receita small { display: none; }
+  .hero__lote { padding: var(--s-3); margin-top: var(--s-3); }
+  .hero__lote-pill { padding: 4px 10px; font-size: 10px; margin-bottom: var(--s-2); }
+  .hero__lote-bar  { height: 10px; }
+  .hero__lote-meta { font-size: 9px; }
+
+  /* ===== Seletor de período compacto ===== */
+  .dash-periodo { padding-bottom: var(--s-2); }
+  .periodo {
+    padding: var(--s-2) var(--s-3);
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .periodo__label { display: none; }
+  .periodo__chips { gap: 4px; }
+  .periodo__chip {
+    padding: 3px 9px;
+    font-size: 10px;
+  }
+  .periodo__custom { flex-basis: 100%; }
+  .periodo__custom label { font-size: 10px; }
+  .periodo__custom input[type=date] { padding: 3px 6px; font-size: 10px; }
+  .periodo__resumo {
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: center;
+    font-size: 9px;
+  }
+
+  /* ===== KPIs 2 colunas densos ===== */
+  .kpis {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-2);
+  }
+  .kpi {
+    padding: 10px var(--s-3);
+    border-radius: 8px;
+  }
+  .kpi__label {
+    font-size: 9px;
+    margin-bottom: 2px;
+    letter-spacing: 0.06em;
+  }
+  .kpi__value {
+    font-size: clamp(15px, 4.2vw, 19px);
+    line-height: 1.05;
+  }
+  .kpi__delta { font-size: 9px; margin-top: 2px; }
+  .kpi__sub {
+    font-size: 9px;
+    margin-top: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .kpi[data-meta-ok], .kpi[data-meta-warn], .kpi[data-meta-bad] {
+    border-left-width: 2px;
+  }
+
+  /* ===== Chart timeline ===== */
+  .chart-card { padding: var(--s-2); }
+  .chart-canvas-wrap { height: 220px; }
+  .chart-canvas-wrap canvas { height: 220px !important; }
+
+  /* ===== Distribuição lotes ===== */
+  .lotes-grid { gap: var(--s-2); }
+  .lote-card  { padding: var(--s-2); }
+
+  /* ===== Heatmap ===== */
+  .heatmap {
+    grid-template-columns: 26px 1fr;
+    font-size: 7px;
+    gap: 2px;
+  }
+  .heatmap__hours span { font-size: 7px; }
+  .heatmap__days       { font-size: 8px; }
+  .heatmap__cell       { min-height: 10px; }
+  .heatmap__legend     { font-size: 9px; gap: 4px; flex-wrap: wrap; }
+  .heatmap__top        { flex-basis: 100%; text-align: center; margin-left: 0; }
+
+  /* ===== Funil + tabelas + feed: pequenos ajustes ===== */
+  .funil__row    { gap: var(--s-2); }
+  .funil__label  { font-size: 10px; min-width: 70px; }
+  .funil__num    { font-size: 11px; min-width: 50px; }
+  .funil__pct    { font-size: 9px; min-width: 40px; }
+  .tbl-wrap      { font-size: 11px; }
+  .tbl           { min-width: 640px; }
+  .tbl__thumb    { width: 32px; height: 32px; }
+  .tbl__sortable { padding-right: 8px; }
+
+  .feed-row      { gap: 6px; padding: 6px var(--s-2); }
+  .feed-row__nome { font-size: 11px; }
+  .feed-row__valor { font-size: 11px; }
+  .feed-row__when { font-size: 9px; }
+
+  /* ===== Footer ===== */
+  .dash-footer__inner { flex-direction: column; gap: 4px; font-size: 9px; padding: var(--s-3); }
+}
