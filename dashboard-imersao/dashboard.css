@@ -445,6 +445,33 @@ body {
   font-style: italic;
 }
 
+/* ========================================================== */
+/* Tabelas com ordenação clicável                              */
+/* ========================================================== */
+.tbl__sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.tbl__sortable:hover {
+  color: var(--lilac);
+  background: var(--lilac-soft-10);
+}
+.tbl__sortable::after {
+  content: '↕';
+  margin-left: 6px;
+  font-size: 10px;
+  opacity: 0.3;
+  display: inline-block;
+  vertical-align: middle;
+}
+.tbl__sortable.tbl__sort-active {
+  color: var(--lilac);
+}
+.tbl__sortable.tbl__sort-active.tbl__sort-asc::after  { content: '↑'; opacity: 1; }
+.tbl__sortable.tbl__sort-active.tbl__sort-desc::after { content: '↓'; opacity: 1; }
+
 /* ---------- Charts container ---------- */
 .chart-card {
   background: var(--ink-1);

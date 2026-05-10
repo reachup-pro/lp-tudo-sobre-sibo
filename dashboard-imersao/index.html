@@ -168,20 +168,20 @@
 
   <!-- =================== 6. TOP META ADS =================== -->
   <section class="dash-section">
-    <h2 class="dash-section__title">Top 10 anúncios <small>por spend · últimos 7 dias</small></h2>
+    <h2 class="dash-section__title">Top 10 anúncios <small>clique no cabeçalho pra ordenar</small></h2>
     <div class="tbl-wrap">
-      <table class="tbl">
+      <table class="tbl" data-table="topAds">
         <thead>
           <tr>
             <th></th>
-            <th>Anúncio / Conjunto</th>
-            <th class="tbl__num">Spend</th>
-            <th class="tbl__num">Impressões</th>
-            <th class="tbl__num">CTR</th>
-            <th class="tbl__num">Vendas (Pixel)</th>
-            <th class="tbl__num">Receita (Pixel)</th>
-            <th class="tbl__num">ROAS</th>
-            <th class="tbl__num">CPA</th>
+            <th class="tbl__sortable" data-sort-key="ad_name">Anúncio / Conjunto</th>
+            <th class="tbl__num tbl__sortable tbl__sort-active tbl__sort-desc" data-sort-key="spend_brl">Spend</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="impressions">Impressões</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="ctr">CTR</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="vendas_efetivo">Vendas</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="receita_efetiva_brl">Receita</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="roas">ROAS</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="cpa_brl">CPA</th>
           </tr>
         </thead>
         <tbody data-topads-body>
@@ -193,19 +193,19 @@
 
   <!-- =================== 7. TOP AUDIENCES =================== -->
   <section class="dash-section">
-    <h2 class="dash-section__title">Top 10 públicos (conjuntos) <small>por spend · últimos 7 dias</small></h2>
+    <h2 class="dash-section__title">Top 10 públicos (conjuntos) <small>clique no cabeçalho pra ordenar</small></h2>
     <div class="tbl-wrap">
-      <table class="tbl">
+      <table class="tbl" data-table="topAudiences">
         <thead>
           <tr>
-            <th>Conjunto / Campanha</th>
-            <th class="tbl__num">Spend</th>
-            <th class="tbl__num">Impressões</th>
-            <th class="tbl__num">CTR</th>
-            <th class="tbl__num">CPM</th>
-            <th class="tbl__num">Vendas (Pixel)</th>
-            <th class="tbl__num">ROAS</th>
-            <th class="tbl__num">CPA</th>
+            <th class="tbl__sortable" data-sort-key="adset_name">Conjunto / Campanha</th>
+            <th class="tbl__num tbl__sortable tbl__sort-active tbl__sort-desc" data-sort-key="spend_brl">Spend</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="impressions">Impressões</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="ctr">CTR</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="cpm_brl">CPM</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="vendas_efetivo">Vendas</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="roas">ROAS</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="cpa_brl">CPA</th>
           </tr>
         </thead>
         <tbody data-topaudiences-body>

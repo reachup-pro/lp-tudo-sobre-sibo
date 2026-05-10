@@ -21,8 +21,57 @@ const state = {
   lastUpdate: Date.now(),
   // Período selecionado pra métricas de mídia (KPIs ads, funil, top ads/audiences)
   // Hero (vagas/receita acumulada) e Distribuição por lote NÃO seguem o período
-  periodo: { dias: 30, label: 'últimos 30 dias' }
+  periodo: { dias: 30, label: 'últimos 30 dias' },
+  // Ordenação client-side das tabelas
+  sort: {
+    topAds:       { key: 'spend_brl', dir: 'desc' },
+    topAudiences: { key: 'spend_brl', dir: 'desc' }
+  }
 };
+
+function applySort(rows, key, dir) {
+  if (!rows || !rows.length || !key) return rows;
+  const m = dir === 'asc' ? 1 : -1;
+  return [...rows].sort((a, b) => {
+    const va = a[key], vb = b[key];
+    // Strings — case-insensitive
+    if (typeof va === 'string' || typeof vb === 'string') {
+      const sa = (va ?? '').toString().toLowerCase();
+      const sb = (vb ?? '').toString().toLowerCase();
+      return sa < sb ? -1*m : sa > sb ? 1*m : 0;
+    }
+    // Números — null/undefined sempre no fim independente da direção
+    const na = va == null ? Infinity*m : Number(va);
+    const nb = vb == null ? Infinity*m : Number(vb);
+    return na < nb ? -1*m : na > nb ? 1*m : 0;
+  });
+}
+
+function setSortIndicator(table, key, dir) {
+  table.querySelectorAll('th.tbl__sortable').forEach(th => {
+    th.classList.remove('tbl__sort-active','tbl__sort-asc','tbl__sort-desc');
+    if (th.dataset.sortKey === key) {
+      th.classList.add('tbl__sort-active', dir === 'asc' ? 'tbl__sort-asc' : 'tbl__sort-desc');
+    }
+  });
+}
+
+function bindSortableTables() {
+  document.querySelectorAll('table[data-table]').forEach(table => {
+    const which = table.dataset.table;
+    table.querySelectorAll('th.tbl__sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sortKey;
+        const cur = state.sort[which];
+        const newDir = (cur.key === key && cur.dir === 'desc') ? 'asc' : 'desc';
+        state.sort[which] = { key, dir: newDir };
+        setSortIndicator(table, key, newDir);
+        if (which === 'topAds')       renderTopAds();
+        if (which === 'topAudiences') renderTopAudiences();
+      });
+    });
+  });
+}
 
 // =========================================================
 // 1. GATE — valida token na URL
@@ -248,7 +297,9 @@ function renderTopAds() {
       </td></tr>`;
     return;
   }
-  tbody.innerHTML = state.topAds.map(a => {
+  const { key, dir } = state.sort.topAds;
+  const sorted = applySort(state.topAds, key, dir);
+  tbody.innerHTML = sorted.map(a => {
     const roasClass = a.roas == null ? '' : (a.roas >= 3 ? 'data-good' : (a.roas < 1 ? 'data-bad' : ''));
     const thumb = a.thumbnail_url
       ? `<img src="${a.thumbnail_url}" class="tbl__thumb" loading="lazy" alt="">`
@@ -278,7 +329,9 @@ function renderTopAudiences() {
     tbody.innerHTML = `<tr><td colspan="8" class="tbl-empty">Aguardando dados Meta Ads</td></tr>`;
     return;
   }
-  tbody.innerHTML = state.topAudiences.map(a => {
+  const { key, dir } = state.sort.topAudiences;
+  const sorted = applySort(state.topAudiences, key, dir);
+  tbody.innerHTML = sorted.map(a => {
     const roasClass = a.roas == null ? '' : (a.roas >= 3 ? 'data-good' : (a.roas < 1 ? 'data-bad' : ''));
     const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
     const vendasEfetivo = a.vendas_efetivo ?? a.purchases_meta ?? 0;
@@ -506,6 +559,7 @@ async function boot() {
   if (!(await gate())) return;
 
   bindPeriodoChips();
+  bindSortableTables();
 
   await Promise.allSettled([
     loadKPIs(),
