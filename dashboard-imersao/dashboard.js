@@ -200,15 +200,13 @@ function renderKPIs() {
 
   // ====== CPA (calculado sobre vendas Ads) — semáforo CPA vs AOV ======
   setText('[data-kpi-cpa-val]', k.cpa_ads_brl != null ? brl(k.cpa_ads_brl) : '—');
-  const cpaSub = k.aov_ads_brl != null
-    ? `vs AOV ${brl(k.aov_ads_brl, { cents: false })}` + (k.meta_cpa ? ` · meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '')
-    : (k.meta_cpa ? `meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '');
-  setText('[data-kpi-cpa-sub]', cpaSub);
+  setText('[data-kpi-cpa-sub]',
+    k.aov_ads_brl != null ? `vs AOV ${brl(k.aov_ads_brl, { cents: false })}` : '');
   applyThresholdCard(document.querySelector('[data-kpi-cpa-card]'), cpaClass(k.cpa_ads_brl, k.aov_ads_brl));
 
-  // ====== ROAS (calculado sobre receita Ads) — semáforo ROAS 1.0/0.9 ======
+  // ====== ROAS (calculado sobre receita Ads) — semáforo ROAS 1.0 / 0.9 ======
   setText('[data-kpi-roas-val]', k.roas_ads != null ? Number(k.roas_ads).toFixed(2) : '—');
-  setText('[data-kpi-roas-sub]', k.meta_roas ? `verde ≥ 1.0 · meta ≥ ${k.meta_roas}` : 'verde ≥ 1.0 · amarelo ≥ 0.9');
+  setText('[data-kpi-roas-sub]', '≥ 1.0 verde · ≥ 0.9 amarelo · < 0.9 vermelho');
   applyThresholdCard(document.querySelector('[data-kpi-roas-card]'), roasClass(k.roas_ads));
 
   // ====== AOV Ads (com sub geral) ======
