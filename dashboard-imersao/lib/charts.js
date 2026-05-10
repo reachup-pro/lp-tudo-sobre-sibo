@@ -46,37 +46,61 @@ const baseGrid = { color: C.lilacSoft08, drawBorder: false };
 const baseTicks = { color: C.cream3, font: { family: C.fontMono, size: 10 } };
 
 // Timeline 72h: vendas (barra lilás) + investimento (linha rouge)
-export function makeTimelineChart(canvas, { labels, vendas, spend }) {
-  return new window.Chart(canvas, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          type: 'bar',
-          label: 'Vendas',
-          data: vendas,
-          backgroundColor: C.lilac2,
-          borderColor: C.lilac1,
-          borderWidth: 1,
-          borderRadius: 3,
-          yAxisID: 'y'
-        },
-        {
-          type: 'line',
-          label: 'Investimento (R$)',
-          data: spend,
-          borderColor: C.rouge,
-          backgroundColor: 'transparent',
-          borderWidth: 1.5,
-          tension: 0.25,
-          pointRadius: 0,
-          pointHoverRadius: 4,
-          pointHoverBackgroundColor: C.rouge,
-          yAxisID: 'y1'
-        }
-      ]
+export function makeTimelineChart(canvas, { labels, vendas, spend, meta = null, hojeIdx = -1 }) {
+  const datasets = [
+    {
+      type: 'line',
+      label: 'Vendas/dia',
+      data: vendas,
+      borderColor: C.lilac1,
+      backgroundColor: 'rgba(184,164,216,0.10)',
+      borderWidth: 2,
+      tension: 0.3,
+      fill: true,
+      pointRadius: vendas.map((_, i) => i === hojeIdx ? 5 : 3),
+      pointBackgroundColor: vendas.map((_, i) => i === hojeIdx ? C.lilac1 : C.ink2),
+      pointBorderColor: C.lilac1,
+      pointBorderWidth: 1.5,
+      pointHoverRadius: 6,
+      yAxisID: 'y'
     },
+    {
+      type: 'line',
+      label: 'Investimento (R$)',
+      data: spend,
+      borderColor: C.rouge,
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      tension: 0.25,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: C.rouge,
+      yAxisID: 'y1'
+    }
+  ];
+
+  if (meta != null && hojeIdx >= 0) {
+    // Meta aparece só de hoje em diante (passado fica null pra "nascer" no ponto de hoje)
+    const metaData = labels.map((_, i) => i >= hojeIdx ? meta : null);
+    datasets.push({
+      type: 'line',
+      label: `Meta diária (${meta}/dia)`,
+      data: metaData,
+      borderColor: C.lote2,
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderDash: [6, 4],
+      tension: 0,
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      yAxisID: 'y',
+      spanGaps: false
+    });
+  }
+
+  return new window.Chart(canvas, {
+    type: 'line',
+    data: { labels, datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -86,13 +110,13 @@ export function makeTimelineChart(canvas, { labels, vendas, spend }) {
       scales: {
         x: {
           grid: baseGrid,
-          ticks: { ...baseTicks, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 }
+          ticks: { ...baseTicks, maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }
         },
         y: {
           beginAtZero: true,
           grid: baseGrid,
           ticks: { ...baseTicks, precision: 0 },
-          title: { display: true, text: 'Vendas', color: C.lilac1, font: { size: 10 } }
+          title: { display: true, text: 'Vendas/dia', color: C.lilac1, font: { size: 10 } }
         },
         y1: {
           beginAtZero: true,

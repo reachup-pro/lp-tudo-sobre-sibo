@@ -17,6 +17,7 @@ const state = {
   distrib: null,
   health: null,
   feed: [],
+  heatmap: [],
   charts: { timeline: null },
   lastUpdate: Date.now(),
   // Período selecionado pra métricas de mídia (KPIs ads, funil, top ads/audiences)
@@ -224,12 +225,104 @@ function renderKPIs() {
 
 function renderTimeline(rows) {
   if (!rows || !rows.length) return;
-  const labels = rows.map(r => dateBRT(r.hora));
-  const vendas = rows.map(r => r.vendas);
-  const spend = rows.map(() => 0); // placeholder até ter spend hour-by-hour
+  // rows = [{ data, vendas, receita_brl, spend_brl }] ordenado por data
+  const TZ = 'America/Sao_Paulo';
+  const fmtData = (s) => {
+    const d = new Date(s + 'T12:00:00Z');
+    return d.toLocaleDateString('pt-BR', { timeZone: TZ, day: '2-digit', month: '2-digit' });
+  };
+  const labels = rows.map(r => fmtData(r.data));
+  const vendas = rows.map(r => Number(r.vendas) || 0);
+  const spend  = rows.map(r => Number(r.spend_brl) || 0);
+
+  // Calcular meta diária dinâmica
+  const k = state.kpis || {};
+  const metaCap = Number(k.meta_capacidade) || 300;
+  const acumuladas = Number(k.vendas_count) || 0;
+  const dataEvento = k.data_evento ? new Date(k.data_evento) : null;
+  const hoje = new Date(new Date().toLocaleString('en-US', { timeZone: TZ }));
+  hoje.setHours(0,0,0,0);
+  let meta = null;
+  let diasFaltam = 0;
+  if (dataEvento) {
+    const dEv = new Date(dataEvento.toLocaleString('en-US', { timeZone: TZ }));
+    dEv.setHours(0,0,0,0);
+    diasFaltam = Math.max(1, Math.ceil((dEv - hoje) / 86400000) + 1);
+    const faltam = Math.max(0, metaCap - acumuladas);
+    meta = Math.ceil(faltam / diasFaltam);
+  }
+
+  // Achar idx de hoje no array
+  const hojeStr = hoje.toLocaleDateString('en-CA', { timeZone: TZ }); // YYYY-MM-DD
+  const hojeIdx = rows.findIndex(r => r.data === hojeStr);
+
   if (state.charts.timeline) state.charts.timeline.destroy();
   const canvas = document.querySelector('[data-chart-timeline]');
-  if (canvas) state.charts.timeline = makeTimelineChart(canvas, { labels, vendas, spend });
+  if (canvas) state.charts.timeline = makeTimelineChart(canvas, { labels, vendas, spend, meta, hojeIdx });
+
+  // Sub-header com meta visível
+  setText('[data-meta-data-evento]', dataEvento ? dataEvento.toLocaleDateString('pt-BR', { timeZone: TZ, day:'2-digit', month:'2-digit' }) : '—');
+  if (meta != null) {
+    setText('[data-meta-diaria]', String(meta));
+    setText('[data-meta-faltam]', String(Math.max(0, metaCap - acumuladas)));
+    setText('[data-meta-dias]', String(diasFaltam));
+    const resumoEl = document.querySelector('[data-meta-resumo]');
+    if (resumoEl) resumoEl.hidden = false;
+  }
+}
+
+function renderHeatmap() {
+  const data = state.heatmap || [];
+  const gridEl  = document.querySelector('[data-heatmap-grid]');
+  const hoursEl = document.querySelector('[data-heatmap-hours]');
+  const daysEl  = document.querySelector('[data-heatmap-days]');
+  const topEl   = document.querySelector('[data-heatmap-top]');
+  if (!gridEl) return;
+
+  // Headers: horas (00..23) e dias (D, S, T, Q, Q, S, S — ISO domingo→sábado)
+  if (hoursEl && !hoursEl.children.length) {
+    hoursEl.innerHTML = Array.from({length: 24}, (_, h) =>
+      `<span>${String(h).padStart(2,'0')}</span>`
+    ).join('');
+  }
+  const diasLabels = ['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
+  if (daysEl && !daysEl.children.length) {
+    daysEl.innerHTML = diasLabels.map(d => `<span>${d}</span>`).join('');
+  }
+
+  // Map (dia, hora) → vendas
+  const m = new Map();
+  let max = 0;
+  for (const r of data) {
+    const key = `${r.dia_semana}-${r.hora}`;
+    const v = Number(r.vendas) || 0;
+    m.set(key, v);
+    if (v > max) max = v;
+  }
+
+  // Renderiza 7×24 células
+  const cells = [];
+  let topV = 0, topD = 0, topH = 0;
+  for (let d = 0; d < 7; d++) {
+    for (let h = 0; h < 24; h++) {
+      const v = m.get(`${d}-${h}`) || 0;
+      const opacity = max > 0 ? Math.min(1, 0.08 + 0.92 * (v / max)) : 0.08;
+      const titleTxt = v > 0
+        ? `${diasLabels[d]} ${String(h).padStart(2,'0')}h: ${v} venda${v>1?'s':''}`
+        : `${diasLabels[d]} ${String(h).padStart(2,'0')}h: sem vendas`;
+      cells.push(`<div class="heatmap__cell" ${v>0?`data-vendas="${v}"`:''}
+        style="background: rgba(184,164,216,${opacity.toFixed(3)});"
+        title="${titleTxt}"></div>`);
+      if (v > topV) { topV = v; topD = d; topH = h; }
+    }
+  }
+  gridEl.innerHTML = cells.join('');
+
+  if (topEl) {
+    topEl.textContent = topV > 0
+      ? `pico: ${diasLabels[topD]} ${String(topH).padStart(2,'0')}h (${topV} vendas)`
+      : 'sem vendas no período';
+  }
 }
 
 function renderDistribuicaoLotes() {
@@ -466,8 +559,18 @@ async function loadHealth() {
   renderHealth();
 }
 async function loadTimeline() {
-  const rows = await rpc('dashboard_vendas_timeline', { p_evento_slug: EVENTO_SLUG, p_horas: 72 });
+  const rows = await rpc('dashboard_vendas_timeline_diaria', {
+    p_evento_slug: EVENTO_SLUG,
+    p_dias_passado: state.periodo.dias
+  });
   renderTimeline(rows);
+}
+async function loadHeatmap() {
+  state.heatmap = await rpc('dashboard_heatmap_horarios', {
+    p_evento_slug: EVENTO_SLUG,
+    p_dias: state.periodo.dias
+  });
+  renderHeatmap();
 }
 async function loadFeedInicial() {
   state.feed = await from('vendas_realtime', {
@@ -516,7 +619,7 @@ function setPeriodo(dias, label) {
     c.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
   // Re-carregar só o que depende do período
-  Promise.allSettled([loadKPIs(), loadFunil(), loadTopAds(), loadTopAudiences()]);
+  Promise.allSettled([loadKPIs(), loadFunil(), loadTopAds(), loadTopAudiences(), loadTimeline(), loadHeatmap()]);
 }
 
 function bindPeriodoChips() {
@@ -570,6 +673,7 @@ async function boot() {
     loadDistribuicao(),
     loadHealth(),
     loadTimeline(),
+    loadHeatmap(),
     loadFeedInicial()
   ]);
 
@@ -587,6 +691,7 @@ async function boot() {
   startPolling(loadOrderbumps,   60_000, 'orderbumps');
   startPolling(loadFunil,       300_000, 'funil');
   startPolling(loadTimeline,    300_000, 'timeline');
+  startPolling(loadHeatmap,     300_000, 'heatmap');
   startPolling(loadDistribuicao, 60_000, 'distrib');
 
   setInterval(() => {

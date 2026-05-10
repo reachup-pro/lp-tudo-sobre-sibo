@@ -129,9 +129,15 @@
     </div>
   </section>
 
-  <!-- =================== 3. TIMELINE =================== -->
+  <!-- =================== 3. TIMELINE DIÁRIA =================== -->
   <section class="dash-section">
-    <h2 class="dash-section__title">Timeline 72h <small>vendas/hora + investimento</small></h2>
+    <h2 class="dash-section__title">
+      Vendas / dia
+      <small>diário · investimento · meta dinâmica até <span data-meta-data-evento>—</span></small>
+      <span class="badge-fonte" data-meta-resumo hidden>
+        meta: <em data-meta-diaria>—</em>/dia · faltam <em data-meta-faltam>—</em> em <em data-meta-dias>—</em> dias
+      </span>
+    </h2>
     <div class="chart-card">
       <div class="chart-canvas-wrap">
         <canvas data-chart-timeline></canvas>
@@ -212,6 +218,28 @@
           <tr><td colspan="8" class="tbl-empty">Carregando…</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- =================== 7.5 HEATMAP HORÁRIOS =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">
+      Heatmap de vendas por horário
+      <small>cor = volume · clique pra ver detalhe · base no período</small>
+    </h2>
+    <div class="heatmap-wrap">
+      <div class="heatmap" data-heatmap>
+        <div class="heatmap__corner"></div>
+        <div class="heatmap__hours" data-heatmap-hours></div>
+        <div class="heatmap__days" data-heatmap-days></div>
+        <div class="heatmap__grid" data-heatmap-grid></div>
+      </div>
+      <div class="heatmap__legend">
+        <span>menos</span>
+        <span class="heatmap__legend-bar"></span>
+        <span>mais</span>
+        <span class="heatmap__top" data-heatmap-top>—</span>
+      </div>
     </div>
   </section>
 
