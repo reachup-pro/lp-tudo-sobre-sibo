@@ -1019,25 +1019,36 @@ body {
   .dash-header__inner { padding: 0 var(--s-3); gap: var(--s-2); }
   .dash-section    { margin-bottom: var(--s-4); }
 
-  /* ===== Section titles ===== */
+  /* ===== Section titles compactos (truncados) ===== */
   .dash-section__title {
     font-size: 11px;
-    margin-bottom: var(--s-2);
-    padding-bottom: 6px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 8px;
   }
   .dash-section__title small {
-    display: block;
     font-size: 9px;
-    margin-top: 2px;
-    margin-left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    color: var(--cream-3);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
   }
   .badge-fonte {
-    flex-basis: 100%;
-    margin-left: 0;
-    margin-top: 4px;
     font-size: 9px;
-    padding: 2px 6px;
+    padding: 1px 6px;
+    margin-left: auto;
+    background: transparent;
+    border-width: 0;
   }
+  .badge-fonte em { font-weight: 600; }
 
   /* ===== Hero compacto (linha única + lote magro) ===== */
   .dash-section.hero {
@@ -1074,29 +1085,41 @@ body {
   .hero__lote-bar  { height: 8px; }
   .hero__lote-meta { font-size: 8px; margin-top: 4px; }
 
-  /* ===== Seletor de período compacto ===== */
+  /* ===== Seletor de período: 1 linha com scroll horizontal ===== */
   .dash-periodo { padding-bottom: var(--s-2); }
   .periodo {
-    padding: var(--s-2) var(--s-3);
+    padding: 6px var(--s-3);
     gap: 6px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
   }
   .periodo__label { display: none; }
-  .periodo__chips { gap: 4px; }
+  .periodo__chips {
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .periodo__chips::-webkit-scrollbar { display: none; }
   .periodo__chip {
     padding: 3px 9px;
     font-size: 10px;
+    flex-shrink: 0;
   }
   .periodo__custom[hidden] { display: none !important; }
-  .periodo__custom { flex-basis: 100%; flex-wrap: wrap; gap: 4px; }
+  .periodo__custom {
+    flex-basis: 100%;
+    order: 99;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
   .periodo__custom label { font-size: 10px; }
   .periodo__custom input[type=date] { padding: 3px 6px; font-size: 10px; }
-  .periodo__resumo {
-    flex-basis: 100%;
-    margin-left: 0;
-    text-align: center;
-    font-size: 9px;
-  }
+  .periodo__resumo { display: none; }
 
   /* ===== KPIs 2 colunas densos ===== */
   .kpis {
