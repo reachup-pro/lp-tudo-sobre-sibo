@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard · Tudo Sobre SIBO · Karina al Assal</title>
+  <meta name="description" content="Painel real-time de vendas e Meta Ads do evento Tudo Sobre SIBO.">
+
+  <!-- Fonts (mesma da LP) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tokens da LP + estilo do dashboard -->
+  <link rel="stylesheet" href="/style.css?v=37">
+  <link rel="stylesheet" href="/dashboard-imersao/dashboard.css?v=1">
+</head>
+<body>
+
+<!-- =================== HEADER =================== -->
+<header class="dash-header">
+  <div class="dash-header__inner">
+    <div class="dash-header__title">
+      <span data-evt-nome>Tudo Sobre SIBO</span>
+      <small>Karina al Assal · painel real-time</small>
+    </div>
+    <div class="dash-countdown">
+      <small>até o evento</small>
+      <span data-countdown>—d 00h 00m 00s</span>
+    </div>
+    <div class="dash-header__status">
+      <span data-clock>—</span>
+      <span class="dash-header__live" data-live>ao vivo</span>
+    </div>
+  </div>
+</header>
+
+<main class="dash">
+
+  <!-- =================== 1. HERO =================== -->
+  <section class="dash-section hero">
+    <div>
+      <span class="hero__big">
+        <span class="hero__big-num skeleton" data-hero-vendas>—/300</span>
+        <span class="hero__big-label">vagas vendidas no evento</span>
+      </span>
+      <div class="hero__receita">
+        <small>receita acumulada</small>
+        <span class="skeleton" data-hero-receita>R$ —</span>
+      </div>
+    </div>
+    <div class="hero__lote">
+      <span class="hero__lote-pill skeleton" data-lote-pill>Lote — · R$— · — vagas</span>
+      <div class="hero__lote-bar"><div class="hero__lote-fill" data-lote-fill style="width:2%"></div></div>
+      <div class="hero__lote-meta">
+        <span data-lote-meta-vendas>—/—</span>
+        <span data-lote-meta-pct>—%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 2. KPIs =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">KPIs <small>real-time</small></h2>
+    <div class="kpis">
+
+      <div class="kpi" data-kpi-receita-card>
+        <div class="kpi__label">Receita</div>
+        <div class="kpi__value skeleton" data-kpi-receita-val>R$ —</div>
+        <div class="kpi__sub">total acumulado</div>
+      </div>
+
+      <div class="kpi" data-kpi-vendas-card>
+        <div class="kpi__label">Vendas hoje</div>
+        <div class="kpi__value skeleton" data-kpi-vendas-val>—</div>
+        <div class="kpi__delta" data-kpi-vendas-delta data-neutral>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-roas-card>
+        <div class="kpi__label">ROAS</div>
+        <div class="kpi__value skeleton" data-kpi-roas-val>—</div>
+        <div class="kpi__sub" data-kpi-roas-sub>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-cpa-card>
+        <div class="kpi__label">CPA</div>
+        <div class="kpi__value skeleton" data-kpi-cpa-val>R$ —</div>
+        <div class="kpi__sub" data-kpi-cpa-sub>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-spend-card>
+        <div class="kpi__label">Investimento (30d)</div>
+        <div class="kpi__value skeleton" data-kpi-spend-val>R$ —</div>
+        <div class="kpi__sub" data-kpi-spend-sub>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-conv-card>
+        <div class="kpi__label">Conversão clique→venda</div>
+        <div class="kpi__value skeleton" data-kpi-conv-val>—</div>
+        <div class="kpi__sub" data-kpi-conv-sub>—</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================== 3. TIMELINE =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Timeline 72h <small>vendas/hora + investimento</small></h2>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap">
+        <canvas data-chart-timeline></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 4. DISTRIBUIÇÃO LOTES =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Distribuição por lote <small>vendidas / capacidade</small></h2>
+    <div class="lotes-grid" data-lotes-grid>
+      <!-- preenchido por dashboard.js -->
+    </div>
+  </section>
+
+  <!-- =================== 5. TOP META ADS =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Top 10 Meta Ads <small>por spend · últimos 7 dias</small></h2>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Anúncio / Conjunto</th>
+            <th class="tbl__num">Spend</th>
+            <th class="tbl__num">Impressões</th>
+            <th class="tbl__num">CTR</th>
+            <th class="tbl__num">Vendas (Pixel)</th>
+            <th class="tbl__num">Receita (Pixel)</th>
+            <th class="tbl__num">ROAS</th>
+            <th class="tbl__num">CPA</th>
+          </tr>
+        </thead>
+        <tbody data-topads-body>
+          <tr><td colspan="9" class="tbl-empty">Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 6. FUNIL =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Funil <small>impressões → cliques → vendas · 30 dias</small></h2>
+    <div class="funil">
+      <div class="funil__row" data-funil-impr>
+        <span class="funil__label">Impressões</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct"></span>
+      </div>
+      <div class="funil__row" data-funil-clicks>
+        <span class="funil__label">Cliques</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct">—</span>
+      </div>
+      <div class="funil__row" data-funil-vendas>
+        <span class="funil__label">Vendas</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct">—</span>
+      </div>
+
+      <div class="cascata">
+        <span class="badge" data-src="REAL" data-cascata-real>0 (0%)</span>
+        <span class="badge" data-src="UTM"  data-cascata-utm>0 (0%)</span>
+        <span class="badge" data-src="MGR"  data-cascata-mgr>0 (0%)</span>
+        <small style="font-family:var(--font-mono); font-size:10px; color:var(--cream-3); margin-left:auto; align-self:center;">
+          atribuição: REAL=ad_id match · UTM=campanha SIBO · MGR=fallback
+        </small>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 7. FEED REAL-TIME =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Feed real-time <small>últimas 20 vendas (anonimizadas)</small></h2>
+    <div class="feed" data-feed>
+      <div class="feed-empty">Carregando…</div>
+    </div>
+  </section>
+
+  <!-- =================== FOOTER STATUS =================== -->
+  <footer class="dash-footer">
+    <span data-updated>atualizado há —s</span>
+    <span data-health-meta>Meta Ads: —</span>
+    <span data-health-vendas>Vendas: —</span>
+    <span>v1.0 · Reach Up</span>
+  </footer>
+
+</main>
+
+<!-- ========== Scripts ========== -->
+<!-- Supabase JS via CDN UMD -->
+<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" crossorigin="anonymous"></script>
+<!-- Chart.js + adapter -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
+
+<!-- Dashboard JS (módulo) -->
+<script type="module" src="/dashboard-imersao/dashboard.js?v=1"></script>
+
+</body>
+</html>
