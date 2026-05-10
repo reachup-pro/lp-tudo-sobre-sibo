@@ -467,6 +467,50 @@ body {
   text-align: right;
 }
 
+/* Métricas extras do funil (CTR/CPM/CPC/Conversão página) */
+.funil-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+  padding: var(--s-4);
+  background: var(--lilac-soft-08);
+  border-radius: var(--r-sm);
+}
+.funil-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.funil-stats small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cream-3);
+}
+.funil-stats b {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--cream-1);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Feed: coluna produto (orderbump label) */
+.feed__produto {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cream-2);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  background: var(--lilac-soft-08);
+  border: 1px solid var(--lilac-soft-15);
+  white-space: nowrap;
+}
+
 /* Cascata REAL/UTM/MGR */
 .cascata {
   display: flex;

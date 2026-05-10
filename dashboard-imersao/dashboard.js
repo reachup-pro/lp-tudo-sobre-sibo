@@ -1,23 +1,23 @@
 // dashboard.js — orchestrator do dashboard real-time Karina/SIBO
 import { sb, rpc, from, SUPABASE_URL } from '/dashboard-imersao/lib/supabase.js';
-import { brl, num, pct, ago, dateBRT, timeBRT, dateOnly, freshness, countdown, delta } from '/dashboard-imersao/lib/format.js';
-import { makeTimelineChart, makeLotesChart, COLORS } from '/dashboard-imersao/lib/charts.js';
+import { brl, num, pct, ago, dateBRT, timeBRT, freshness, countdown, delta } from '/dashboard-imersao/lib/format.js';
+import { makeTimelineChart, COLORS } from '/dashboard-imersao/lib/charts.js';
 import { subscribeVendas, startPolling } from '/dashboard-imersao/lib/realtime.js';
 
 const EVENTO_SLUG = 'tudo-sobre-sibo';
-const LOTE_ENDPOINT = `${SUPABASE_URL}/functions/v1/lote-sibo?evento=${EVENTO_SLUG}`;
 
 // State
 const state = {
-  evento: null,                 // resposta de validate_token
-  lote: null,                   // resposta do lote-sibo (Edge)
+  evento: null,
   kpis: null,
   funil: null,
   topAds: [],
+  topAudiences: [],
+  orderbumps: [],
   distrib: null,
   health: null,
-  feed: [],                     // últimas 20 vendas
-  charts: { timeline: null, lotes: null },
+  feed: [],
+  charts: { timeline: null },
   lastUpdate: Date.now()
 };
 
@@ -42,12 +42,17 @@ function redirectGate() {
 }
 
 // =========================================================
-// 2. RENDER — KPIs, hero, funil, distrib, top ads, feed
+// 2. RENDER
 // =========================================================
-
 function setText(sel, value) {
   const el = document.querySelector(sel);
   if (el) { el.textContent = value; el.classList.remove('skeleton'); }
+}
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s)
+    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 }
 
 function renderHeader() {
@@ -60,15 +65,12 @@ function renderHero() {
   const k = state.kpis;
   if (!k) return;
   const lote = k.lote || {};
-  const totalVendas = k.vendas_count || 0;
-  const cap = k.meta_capacidade || 300;
-  setText('[data-hero-vendas]', `${totalVendas}/${cap}`);
-  setText('[data-hero-receita]', brl(k.vendas_total_brl, { cents: false }));
+  setText('[data-hero-vendas]', `${k.vendas_count || 0}/${k.meta_capacidade || 300}`);
+  setText('[data-hero-receita]', brl(k.receita_total_brl, { cents: false }));
 
-  // Pill lote
-  setText('[data-lote-pill]', `Lote ${lote.lote_numero || '—'} · ${brl(lote.lote_preco, { cents: false })} · ${lote.lote_vagas_restantes ?? '—'} vagas`);
+  setText('[data-lote-pill]',
+    `Lote ${lote.lote_numero || '—'} · ${brl(lote.lote_preco, { cents: false })} · ${lote.lote_vagas_restantes ?? '—'} vagas`);
 
-  // Barra
   const fill = document.querySelector('[data-lote-fill]');
   if (fill) {
     const pctVal = lote.lote_percent ?? 0;
@@ -76,36 +78,31 @@ function renderHero() {
     fill.style.background = lote.lote_cor || 'var(--lote-1)';
   }
   setText('[data-lote-meta-vendas]', `${lote.lote_vendas ?? 0}/${lote.lote_capacidade ?? 0}`);
-  setText('[data-lote-meta-pct]', `${pctVal(lote.lote_percent)}`);
-
-  function pctVal(v) { return v != null ? `${v.toFixed?.(0) ?? v}%` : '—'; }
+  setText('[data-lote-meta-pct]', lote.lote_percent != null ? `${Math.round(lote.lote_percent)}%` : '—');
 }
 
 function renderCountdown() {
   if (!state.kpis?.data_evento) return;
   const c = countdown(state.kpis.data_evento);
-  if (c.ended) {
-    setText('[data-countdown]', 'EVENTO INICIADO');
-    return;
-  }
-  setText('[data-countdown]', `${c.d}d ${String(c.h).padStart(2, '0')}h ${String(c.m).padStart(2, '0')}m ${String(c.s).padStart(2, '0')}s`);
+  if (c.ended) { setText('[data-countdown]', 'EVENTO INICIADO'); return; }
+  setText('[data-countdown]',
+    `${c.d}d ${String(c.h).padStart(2,'0')}h ${String(c.m).padStart(2,'0')}m ${String(c.s).padStart(2,'0')}s`);
 }
 
-function setKpiCard(label, valueEl, deltaEl, value, prevValue, formatter, options = {}) {
-  if (valueEl) {
-    valueEl.textContent = value === null || value === undefined ? '—' : formatter(value);
-    valueEl.classList.remove('skeleton');
-  }
-  if (deltaEl && prevValue !== undefined) {
-    const d = delta(value || 0, prevValue || 0);
-    deltaEl.textContent = d;
-    const numD = parseFloat(d);
-    deltaEl.removeAttribute('data-positive');
-    deltaEl.removeAttribute('data-negative');
-    deltaEl.removeAttribute('data-neutral');
-    if (Number.isNaN(numD) || numD === 0) deltaEl.setAttribute('data-neutral', '');
-    else if (options.invertColors ? numD < 0 : numD > 0) deltaEl.setAttribute('data-positive', '');
-    else deltaEl.setAttribute('data-negative', '');
+function setMetaBadge(card, value, target, lessIsBetter = false) {
+  if (!card) return;
+  card.removeAttribute('data-meta-ok');
+  card.removeAttribute('data-meta-warn');
+  card.removeAttribute('data-meta-bad');
+  if (value == null || target == null) return;
+  if (lessIsBetter) {
+    if (value <= target) card.setAttribute('data-meta-ok', '');
+    else if (value <= target * 1.2) card.setAttribute('data-meta-warn', '');
+    else card.setAttribute('data-meta-bad', '');
+  } else {
+    if (value >= target) card.setAttribute('data-meta-ok', '');
+    else if (value >= target * 0.8) card.setAttribute('data-meta-warn', '');
+    else card.setAttribute('data-meta-bad', '');
   }
 }
 
@@ -113,68 +110,61 @@ function renderKPIs() {
   const k = state.kpis;
   if (!k) return;
 
-  setKpiCard('Receita',
-    document.querySelector('[data-kpi-receita-val]'),
-    null,
-    k.vendas_total_brl, null, brl);
+  // Receita (total: ingresso + orderbumps)
+  setText('[data-kpi-receita-val]', brl(k.receita_total_brl));
+  // delta vs ontem
+  const dEl = document.querySelector('[data-kpi-receita-delta]');
+  if (dEl && k.receita_ontem_brl !== undefined) {
+    const d = delta(+k.receita_hoje_brl || 0, +k.receita_ontem_brl || 0);
+    dEl.textContent = `${d} vs ontem`;
+    const numD = parseFloat(d);
+    dEl.removeAttribute('data-positive'); dEl.removeAttribute('data-negative'); dEl.removeAttribute('data-neutral');
+    if (Number.isNaN(numD) || numD === 0) dEl.setAttribute('data-neutral', '');
+    else if (numD > 0) dEl.setAttribute('data-positive', '');
+    else dEl.setAttribute('data-negative', '');
+  }
+  setText('[data-kpi-receita-sub]',
+    `ingressos ${brl(k.receita_ingressos_brl, { cents: false })} + orderbumps ${brl(k.orderbump_receita_brl, { cents: false })}`);
 
-  setKpiCard('Vendas hoje',
-    document.querySelector('[data-kpi-vendas-val]'),
-    document.querySelector('[data-kpi-vendas-delta]'),
-    k.vendas_hoje, k.vendas_ontem, num);
+  // Investimento
+  setText('[data-kpi-spend-val]', brl(k.ads_spend_brl));
+  setText('[data-kpi-spend-sub]',
+    `${num(k.ads_impressions, { compact: true })} imp · CTR ${pct(k.ads_ctr)} · CPM ${brl(k.ads_cpm_brl)}`);
 
-  // ROAS com meta visual
-  const roasEl = document.querySelector('[data-kpi-roas-val]');
-  const roasCard = document.querySelector('[data-kpi-roas-card]');
-  if (roasEl) {
-    roasEl.textContent = k.roas !== null && k.roas !== undefined ? k.roas.toFixed(2) : '—';
-    roasEl.classList.remove('skeleton');
+  // Vendas (ingresso)
+  setText('[data-kpi-vendas-val]', num(k.vendas_count));
+  const vDel = document.querySelector('[data-kpi-vendas-delta]');
+  if (vDel) {
+    const d = delta(+k.vendas_hoje || 0, +k.vendas_ontem || 0);
+    vDel.textContent = `hoje ${k.vendas_hoje} · ontem ${k.vendas_ontem} (${d})`;
+    const numD = parseFloat(d);
+    vDel.removeAttribute('data-positive'); vDel.removeAttribute('data-negative'); vDel.removeAttribute('data-neutral');
+    if (Number.isNaN(numD) || numD === 0) vDel.setAttribute('data-neutral', '');
+    else if (numD > 0) vDel.setAttribute('data-positive', '');
+    else vDel.setAttribute('data-negative', '');
   }
-  if (roasCard && k.meta_roas) {
-    roasCard.removeAttribute('data-meta-ok');
-    roasCard.removeAttribute('data-meta-warn');
-    roasCard.removeAttribute('data-meta-bad');
-    if (k.roas == null) {/* sem dado */ }
-    else if (k.roas >= k.meta_roas) roasCard.setAttribute('data-meta-ok', '');
-    else if (k.roas >= k.meta_roas * 0.8) roasCard.setAttribute('data-meta-warn', '');
-    else roasCard.setAttribute('data-meta-bad', '');
-  }
-  setText('[data-kpi-roas-sub]', k.meta_roas ? `meta ≥ ${k.meta_roas}` : '');
 
-  // CPA com meta visual
-  const cpaEl = document.querySelector('[data-kpi-cpa-val]');
-  const cpaCard = document.querySelector('[data-kpi-cpa-card]');
-  if (cpaEl) {
-    cpaEl.textContent = k.cpa_brl !== null && k.cpa_brl !== undefined ? brl(k.cpa_brl) : '—';
-    cpaEl.classList.remove('skeleton');
-  }
-  if (cpaCard && k.meta_cpa) {
-    cpaCard.removeAttribute('data-meta-ok');
-    cpaCard.removeAttribute('data-meta-warn');
-    cpaCard.removeAttribute('data-meta-bad');
-    if (k.cpa_brl == null) {/* sem dado */ }
-    else if (k.cpa_brl <= k.meta_cpa) cpaCard.setAttribute('data-meta-ok', '');
-    else if (k.cpa_brl <= k.meta_cpa * 1.2) cpaCard.setAttribute('data-meta-warn', '');
-    else cpaCard.setAttribute('data-meta-bad', '');
-  }
+  // CPA
+  setText('[data-kpi-cpa-val]', k.cpa_brl != null ? brl(k.cpa_brl) : '—');
   setText('[data-kpi-cpa-sub]', k.meta_cpa ? `meta ≤ ${brl(k.meta_cpa, { cents: false })}` : '');
+  setMetaBadge(document.querySelector('[data-kpi-cpa-card]'), k.cpa_brl, k.meta_cpa, true);
 
-  setText('[data-kpi-spend-val]', brl(k.ads_spend_brl, { cents: false }));
-  setText('[data-kpi-spend-sub]', `${num(k.ads_impressions, { compact: true })} impressões · CTR ${pct(k.ads_ctr)}`);
+  // ROAS
+  setText('[data-kpi-roas-val]', k.roas != null ? k.roas.toFixed(2) : '—');
+  setText('[data-kpi-roas-sub]', k.meta_roas ? `meta ≥ ${k.meta_roas}` : '');
+  setMetaBadge(document.querySelector('[data-kpi-roas-card]'), k.roas, k.meta_roas, false);
 
-  // Conversão: vendas_count / clicks
-  const conv = k.ads_clicks > 0 ? (k.vendas_count / k.ads_clicks * 100) : null;
-  setText('[data-kpi-conv-val]', conv !== null ? pct(conv) : '—');
-  setText('[data-kpi-conv-sub]', k.ads_clicks ? `${num(k.ads_clicks, { compact: true })} cliques` : '—');
+  // AOV (receita_total / vendas_count)
+  setText('[data-kpi-aov-val]', k.aov_brl != null ? brl(k.aov_brl) : '—');
+  setText('[data-kpi-aov-sub]',
+    k.orderbump_attach_pct != null ? `attach orderbump ${pct(k.orderbump_attach_pct)}` : '');
 }
 
 function renderTimeline(rows) {
   if (!rows || !rows.length) return;
   const labels = rows.map(r => dateBRT(r.hora));
   const vendas = rows.map(r => r.vendas);
-  // Spend por hora (placeholder — com meta_ads vazio será 0)
-  const spend = rows.map(() => 0);
-
+  const spend = rows.map(() => 0); // placeholder até ter spend hour-by-hour
   if (state.charts.timeline) state.charts.timeline.destroy();
   const canvas = document.querySelector('[data-chart-timeline]');
   if (canvas) state.charts.timeline = makeTimelineChart(canvas, { labels, vendas, spend });
@@ -183,7 +173,6 @@ function renderTimeline(rows) {
 function renderDistribuicaoLotes() {
   if (!state.distrib?.por_preco) return;
   const map = new Map(state.distrib.por_preco.map(r => [Number(r.preco), Number(r.qtd)]));
-  // Lotes canônicos do plano
   const lotes = [
     { num: 1, preco: 27,  cap: 50,  cor: '#22c55e' },
     { num: 2, preco: 47,  cap: 100, cor: '#eab308' },
@@ -194,19 +183,45 @@ function renderDistribuicaoLotes() {
   if (!container) return;
   container.innerHTML = lotes.map(l => {
     const vendidas = map.get(l.preco) || 0;
-    const pct = Math.min(100, Math.round(vendidas / l.cap * 100));
+    const pctV = Math.min(100, Math.round(vendidas / l.cap * 100));
     return `
       <div class="lote-card" style="--lote-color: ${l.cor}">
         <div class="lote-card__num">Lote ${l.num}</div>
         <div class="lote-card__preco">${brl(l.preco, { cents: false })}</div>
-        <div class="lote-card__bar"><div class="lote-card__fill" style="width: ${Math.max(2, pct)}%"></div></div>
+        <div class="lote-card__bar"><div class="lote-card__fill" style="width: ${Math.max(2, pctV)}%"></div></div>
         <div class="lote-card__meta">
           <span>${vendidas}/${l.cap}</span>
-          <span>${pct}%</span>
+          <span>${pctV}%</span>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
+}
+
+function renderOrderbumps() {
+  const tbody = document.querySelector('[data-orderbumps-body]');
+  if (!tbody) return;
+  if (!state.orderbumps?.length) {
+    tbody.innerHTML = `<tr><td colspan="5" class="tbl-empty">Sem vendas de orderbump ainda</td></tr>`;
+    return;
+  }
+  const totalReceita = state.orderbumps.reduce((s, o) => s + Number(o.receita_brl || 0), 0);
+  tbody.innerHTML = state.orderbumps.map(o => `
+    <tr>
+      <td>${escapeHtml(o.orderbump_produto || '—')}</td>
+      <td class="tbl__num">${num(o.qtd)}</td>
+      <td class="tbl__num">${brl(o.receita_brl)}</td>
+      <td class="tbl__num">${pct(o.attach_pct)}</td>
+      <td class="tbl__num">${brl(o.ticket_medio_brl)}</td>
+    </tr>
+  `).join('') + `
+    <tr style="font-weight:600;border-top:1px solid var(--lilac-soft-30)">
+      <td>Total</td>
+      <td class="tbl__num">${num(state.orderbumps.reduce((s,o)=>s+Number(o.qtd||0),0))}</td>
+      <td class="tbl__num">${brl(totalReceita)}</td>
+      <td class="tbl__num">—</td>
+      <td class="tbl__num">—</td>
+    </tr>
+  `;
 }
 
 function renderTopAds() {
@@ -215,8 +230,8 @@ function renderTopAds() {
   if (!state.topAds.length) {
     tbody.innerHTML = `
       <tr><td colspan="9" class="tbl-empty">
-        Nenhum dado Meta Ads ainda
-        <small>Aguardando primeiro ciclo do workflow [Karina] Meta Ads → Supabase (45min)</small>
+        Aguardando dados Meta Ads
+        <small>Workflow [Karina al Assal] Meta Ads → Supabase rodando a cada 45min</small>
       </td></tr>`;
     return;
   }
@@ -236,8 +251,30 @@ function renderTopAds() {
         <td class="tbl__num">${brl(a.purchase_value_meta_brl)}</td>
         <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : a.roas.toFixed(2)}</td>
         <td class="tbl__num">${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
-      </tr>
-    `;
+      </tr>`;
+  }).join('');
+}
+
+function renderTopAudiences() {
+  const tbody = document.querySelector('[data-topaudiences-body]');
+  if (!tbody) return;
+  if (!state.topAudiences.length) {
+    tbody.innerHTML = `<tr><td colspan="8" class="tbl-empty">Aguardando dados Meta Ads</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = state.topAudiences.map(a => {
+    const roasClass = a.roas == null ? '' : (a.roas >= 3 ? 'data-good' : (a.roas < 1 ? 'data-bad' : ''));
+    return `
+      <tr>
+        <td>${escapeHtml(a.adset_name || '—')}<br><small style="color:var(--cream-3)">${escapeHtml(a.campaign_name || '')}</small></td>
+        <td class="tbl__num">${brl(a.spend_brl)}</td>
+        <td class="tbl__num">${num(a.impressions, { compact: true })}</td>
+        <td class="tbl__num">${pct(a.ctr)}</td>
+        <td class="tbl__num">${brl(a.cpm_brl)}</td>
+        <td class="tbl__num">${num(a.purchases_meta)}</td>
+        <td class="tbl__num tbl__roas" ${roasClass}>${a.roas == null ? '—' : a.roas.toFixed(2)}</td>
+        <td class="tbl__num">${a.cpa_brl == null ? '—' : brl(a.cpa_brl)}</td>
+      </tr>`;
   }).join('');
 }
 
@@ -260,17 +297,20 @@ function renderFunil() {
 
   setBar('[data-funil-impr]', f.impressoes); setNum('[data-funil-impr]', f.impressoes);
   setBar('[data-funil-clicks]', f.cliques);  setNum('[data-funil-clicks]', f.cliques);  setPct('[data-funil-clicks]', f.ctr);
-  setBar('[data-funil-vendas]', f.vendas);   setNum('[data-funil-vendas]', f.vendas);   setPct('[data-funil-vendas]', f.conv_clique_venda);
+  setBar('[data-funil-landing]', f.landing_views); setNum('[data-funil-landing]', f.landing_views); setPct('[data-funil-landing]', f.conv_clique_landing);
+  setBar('[data-funil-vendas]', f.vendas);   setNum('[data-funil-vendas]', f.vendas);   setPct('[data-funil-vendas]', f.conv_landing_venda);
+
+  // Métricas extras (CTR, CPM, CPC, conversão página)
+  setText('[data-funil-ctr]', pct(f.ctr));
+  setText('[data-funil-cpm]', brl(f.cpm_brl));
+  setText('[data-funil-cpc]', brl(f.cpc_brl));
+  setText('[data-funil-conv-pagina]', pct(f.conv_clique_venda));
 
   // Cascata
   const c = f.cascata || {};
-  const setBadge = (sel, n, p) => {
-    const el = document.querySelector(sel);
-    if (el) el.textContent = `${n} (${p}%)`;
-  };
-  setBadge('[data-cascata-real]', c.REAL || 0, c.pct_REAL || 0);
-  setBadge('[data-cascata-utm]',  c.UTM  || 0, c.pct_UTM  || 0);
-  setBadge('[data-cascata-mgr]',  c.MGR  || 0, c.pct_MGR  || 0);
+  document.querySelector('[data-cascata-real]').textContent = `${c.REAL || 0} (${c.pct_REAL || 0}%)`;
+  document.querySelector('[data-cascata-utm]').textContent  = `${c.UTM  || 0} (${c.pct_UTM  || 0}%)`;
+  document.querySelector('[data-cascata-mgr]').textContent  = `${c.MGR  || 0} (${c.pct_MGR  || 0}%)`;
 }
 
 function renderFeed() {
@@ -280,9 +320,10 @@ function renderFeed() {
     container.innerHTML = `<div class="feed-empty">Aguardando primeira venda…</div>`;
     return;
   }
-  container.innerHTML = state.feed.slice(0, 20).map(v => `
+  container.innerHTML = state.feed.slice(0, 25).map(v => `
     <div class="feed__item">
       <span class="feed__nome">${escapeHtml(v.nome_publico || 'Anônimo')}${v.ddd ? `<small>(DDD ${v.ddd})</small>` : ''}</span>
+      <span class="feed__produto" title="${escapeHtml(v.produto || '')}">${escapeHtml(v.produto_label || (v.produto === 'Tudo Sobre SIBO' ? 'Ingresso' : '—'))}</span>
       <span class="badge" data-src="${v.attribution_source}">${v.attribution_source}</span>
       <span class="feed__valor">${brl(v.transaction_value, { cents: false })}</span>
       <span class="feed__time">${ago(v.created_at)}</span>
@@ -307,13 +348,6 @@ function renderHealth() {
   }
 }
 
-function escapeHtml(s) {
-  if (s == null) return '';
-  return String(s)
-    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;').replaceAll("'", '&#39;');
-}
-
 // =========================================================
 // 3. DATA FETCHERS
 // =========================================================
@@ -322,65 +356,60 @@ async function loadKPIs() {
   state.lastUpdate = Date.now();
   renderHero(); renderKPIs(); renderHeader();
 }
-
 async function loadFunil() {
   state.funil = await rpc('dashboard_funil', { p_evento_slug: EVENTO_SLUG, p_dias: 30 });
   renderFunil();
 }
-
 async function loadTopAds() {
   state.topAds = await rpc('dashboard_top_ads', { p_evento_slug: EVENTO_SLUG, p_dias: 7, p_limit: 10 });
   renderTopAds();
 }
-
+async function loadTopAudiences() {
+  state.topAudiences = await rpc('dashboard_top_audiences', { p_evento_slug: EVENTO_SLUG, p_dias: 7, p_limit: 10 });
+  renderTopAudiences();
+}
+async function loadOrderbumps() {
+  state.orderbumps = await rpc('dashboard_orderbumps', { p_evento_slug: EVENTO_SLUG });
+  renderOrderbumps();
+}
 async function loadDistribuicao() {
   state.distrib = await rpc('dashboard_distribuicao_lotes', { p_evento_slug: EVENTO_SLUG });
   renderDistribuicaoLotes();
 }
-
 async function loadHealth() {
   state.health = await rpc('dashboard_health', { p_evento_slug: EVENTO_SLUG });
   renderHealth();
 }
-
 async function loadTimeline() {
   const rows = await rpc('dashboard_vendas_timeline', { p_evento_slug: EVENTO_SLUG, p_horas: 72 });
   renderTimeline(rows);
 }
-
 async function loadFeedInicial() {
   state.feed = await from('vendas_realtime', {
-    select: 'id, nome_publico, ddd, transaction_value, attribution_source, created_at, status',
-    eq: { produto: 'Tudo Sobre SIBO' },
-    order: 'created_at', asc: false, limit: 20
+    select: 'id, nome_publico, ddd, transaction_value, attribution_source, created_at, status, produto, produto_label',
+    order: 'created_at', asc: false, limit: 25
   });
   renderFeed();
 }
 
 // =========================================================
-// 4. REALTIME — recebe nova venda, atualiza feed e re-fetch KPIs
+// 4. REALTIME
 // =========================================================
 function onNovaVenda(row) {
-  // Insere no topo do feed (se não duplicado)
   if (!state.feed.find(v => v.id === row.id)) {
     state.feed.unshift(row);
-    if (state.feed.length > 20) state.feed.pop();
+    if (state.feed.length > 25) state.feed.pop();
     renderFeed();
   }
-  // Refetch KPIs imediatamente (cheap)
-  loadKPIs().catch(() => { });
-  loadDistribuicao().catch(() => { });
+  loadKPIs().catch(() => {});
+  loadDistribuicao().catch(() => {});
+  loadOrderbumps().catch(() => {});
 }
-
 function onUpdateVenda(row) {
   const i = state.feed.findIndex(v => v.id === row.id);
-  if (i !== -1) {
-    state.feed[i] = row;
-    renderFeed();
-  }
-  loadKPIs().catch(() => { });
+  if (i !== -1) { state.feed[i] = row; renderFeed(); }
+  loadKPIs().catch(() => {});
 }
-
 function setLiveStatus(connected) {
   const live = document.querySelector('[data-live]');
   if (!live) return;
@@ -394,18 +423,18 @@ function setLiveStatus(connected) {
 async function boot() {
   if (!(await gate())) return;
 
-  // Fetch inicial em paralelo
   await Promise.allSettled([
     loadKPIs(),
     loadFunil(),
     loadTopAds(),
+    loadTopAudiences(),
+    loadOrderbumps(),
     loadDistribuicao(),
     loadHealth(),
     loadTimeline(),
     loadFeedInicial()
   ]);
 
-  // Realtime subscribe
   subscribeVendas(
     onNovaVenda,
     onUpdateVenda,
@@ -413,15 +442,15 @@ async function boot() {
     () => setLiveStatus(false)
   );
 
-  // Polling
-  startPolling(loadKPIs,         30_000, 'kpis');     // 30s
-  startPolling(loadHealth,       60_000, 'health');   // 60s
-  startPolling(loadTopAds,      300_000, 'topads');   // 5 min
-  startPolling(loadFunil,       300_000, 'funil');    // 5 min
-  startPolling(loadTimeline,    300_000, 'timeline'); // 5 min
-  startPolling(loadDistribuicao, 60_000, 'distrib');  // 60s
+  startPolling(loadKPIs,         30_000, 'kpis');
+  startPolling(loadHealth,       60_000, 'health');
+  startPolling(loadTopAds,      300_000, 'topads');
+  startPolling(loadTopAudiences,300_000, 'topaud');
+  startPolling(loadOrderbumps,   60_000, 'orderbumps');
+  startPolling(loadFunil,       300_000, 'funil');
+  startPolling(loadTimeline,    300_000, 'timeline');
+  startPolling(loadDistribuicao, 60_000, 'distrib');
 
-  // Clock + countdown 1s
   setInterval(() => {
     setText('[data-clock]', timeBRT(new Date().toISOString()));
     setText('[data-updated]', `atualizado ${ago(state.lastUpdate)}`);
