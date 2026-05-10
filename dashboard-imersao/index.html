@@ -57,11 +57,33 @@
     </div>
   </section>
 
+  <!-- =================== 1.5 SELETOR DE PERÍODO =================== -->
+  <section class="dash-section dash-periodo">
+    <div class="periodo">
+      <span class="periodo__label">Período de mídia</span>
+      <div class="periodo__chips" role="tablist" aria-label="Período de análise">
+        <button type="button" class="periodo__chip" data-periodo="1"   role="tab">Hoje</button>
+        <button type="button" class="periodo__chip" data-periodo="2"   role="tab">Ontem+Hoje</button>
+        <button type="button" class="periodo__chip" data-periodo="7"   role="tab">7d</button>
+        <button type="button" class="periodo__chip is-active" data-periodo="30"  role="tab" aria-selected="true">30d</button>
+        <button type="button" class="periodo__chip" data-periodo="90"  role="tab">90d</button>
+        <button type="button" class="periodo__chip" data-periodo="365" role="tab">Tudo</button>
+        <button type="button" class="periodo__chip periodo__chip--custom" data-periodo="custom" role="tab">📅 Custom</button>
+      </div>
+      <div class="periodo__custom" data-periodo-custom hidden>
+        <label>De <input type="date" data-periodo-de></label>
+        <label>Até <input type="date" data-periodo-ate></label>
+        <button type="button" class="periodo__apply" data-periodo-apply>Aplicar</button>
+      </div>
+      <span class="periodo__resumo" data-periodo-resumo>últimos 30 dias</span>
+    </div>
+  </section>
+
   <!-- =================== 2. PERFORMANCE DE MÍDIA (ads-only) =================== -->
   <section class="dash-section">
     <h2 class="dash-section__title">
       Performance de mídia
-      <small>vendas atribuídas (UTM) + fallback gerenciador · 30d</small>
+      <small>vendas atribuídas (UTM) + fallback gerenciador</small>
       <span class="badge-fonte" data-fonte-ads-hoje hidden>fonte hoje: <em>—</em></span>
     </h2>
     <div class="kpis">

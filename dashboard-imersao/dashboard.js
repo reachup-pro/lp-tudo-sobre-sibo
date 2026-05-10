@@ -18,7 +18,10 @@ const state = {
   health: null,
   feed: [],
   charts: { timeline: null },
-  lastUpdate: Date.now()
+  lastUpdate: Date.now(),
+  // Período selecionado pra métricas de mídia (KPIs ads, funil, top ads/audiences)
+  // Hero (vagas/receita acumulada) e Distribuição por lote NÃO seguem o período
+  periodo: { dias: 30, label: 'últimos 30 dias' }
 };
 
 // =========================================================
@@ -367,20 +370,34 @@ function renderHealth() {
 // 3. DATA FETCHERS
 // =========================================================
 async function loadKPIs() {
-  state.kpis = await rpc('dashboard_kpis_realtime', { p_evento_slug: EVENTO_SLUG });
+  state.kpis = await rpc('dashboard_kpis_realtime', {
+    p_evento_slug: EVENTO_SLUG,
+    p_dias: state.periodo.dias
+  });
   state.lastUpdate = Date.now();
   renderHero(); renderKPIs(); renderHeader();
 }
 async function loadFunil() {
-  state.funil = await rpc('dashboard_funil', { p_evento_slug: EVENTO_SLUG, p_dias: 30 });
+  state.funil = await rpc('dashboard_funil', {
+    p_evento_slug: EVENTO_SLUG,
+    p_dias: state.periodo.dias
+  });
   renderFunil();
 }
 async function loadTopAds() {
-  state.topAds = await rpc('dashboard_top_ads', { p_evento_slug: EVENTO_SLUG, p_dias: 7, p_limit: 10 });
+  state.topAds = await rpc('dashboard_top_ads', {
+    p_evento_slug: EVENTO_SLUG,
+    p_dias: state.periodo.dias,
+    p_limit: 10
+  });
   renderTopAds();
 }
 async function loadTopAudiences() {
-  state.topAudiences = await rpc('dashboard_top_audiences', { p_evento_slug: EVENTO_SLUG, p_dias: 7, p_limit: 10 });
+  state.topAudiences = await rpc('dashboard_top_audiences', {
+    p_evento_slug: EVENTO_SLUG,
+    p_dias: state.periodo.dias,
+    p_limit: 10
+  });
   renderTopAudiences();
 }
 async function loadOrderbumps() {
@@ -433,10 +450,62 @@ function setLiveStatus(connected) {
 }
 
 // =========================================================
+// 4.5 SELETOR DE PERÍODO
+// =========================================================
+function setPeriodo(dias, label) {
+  state.periodo = { dias: Number(dias), label: label || `últimos ${dias} dias` };
+  setText('[data-periodo-resumo]', state.periodo.label);
+  setText('[data-funil-periodo]', `${state.periodo.dias}d`);
+  // Marcar chip ativo
+  document.querySelectorAll('.periodo__chip').forEach(c => {
+    const isActive = c.dataset.periodo === String(dias) && !c.classList.contains('periodo__chip--custom');
+    c.classList.toggle('is-active', isActive);
+    c.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  // Re-carregar só o que depende do período
+  Promise.allSettled([loadKPIs(), loadFunil(), loadTopAds(), loadTopAudiences()]);
+}
+
+function bindPeriodoChips() {
+  const customWrap = document.querySelector('[data-periodo-custom]');
+  document.querySelectorAll('.periodo__chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const v = chip.dataset.periodo;
+      if (v === 'custom') {
+        if (customWrap) customWrap.hidden = !customWrap.hidden;
+        document.querySelectorAll('.periodo__chip').forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        return;
+      }
+      if (customWrap) customWrap.hidden = true;
+      const labels = { 1: 'hoje', 2: 'ontem + hoje', 7: 'últimos 7 dias', 30: 'últimos 30 dias',
+                       90: 'últimos 90 dias', 365: 'desde o início' };
+      setPeriodo(v, labels[v] || `últimos ${v} dias`);
+    });
+  });
+  const apply = document.querySelector('[data-periodo-apply]');
+  if (apply) {
+    apply.addEventListener('click', () => {
+      const de  = document.querySelector('[data-periodo-de]')?.value;
+      const ate = document.querySelector('[data-periodo-ate]')?.value;
+      if (!de || !ate) return;
+      const d1 = new Date(de), d2 = new Date(ate);
+      const diff = Math.max(1, Math.ceil((d2 - d1) / 86400000) + 1);
+      // Backend aceita só p_dias contado para trás de hoje. Se data de início ≠ hoje-X, aproximamos
+      // pelo diff em dias até hoje
+      const ateAteHoje = Math.max(1, Math.ceil((Date.now() - d1.getTime()) / 86400000) + 1);
+      setPeriodo(ateAteHoje, `${de} → ${ate} (${diff}d)`);
+    });
+  }
+}
+
+// =========================================================
 // 5. BOOT
 // =========================================================
 async function boot() {
   if (!(await gate())) return;
+
+  bindPeriodoChips();
 
   await Promise.allSettled([
     loadKPIs(),
