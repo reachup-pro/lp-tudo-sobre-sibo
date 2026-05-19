@@ -332,7 +332,7 @@ function renderDistribuicaoLotes() {
   const lotes = [
     { num: 1, preco: 27,  cap: 50,  cor: '#22c55e' },
     { num: 2, preco: 47,  cap: 100, cor: '#eab308' },
-    { num: 3, preco: 97,  cap: 100, cor: '#f97316' },
+    { num: 3, preco: 97,  cap: 150, cor: '#f97316' },
     { num: 4, preco: 147, cap: 50,  cor: '#ef4444' }
   ];
   const container = document.querySelector('[data-lotes-grid]');
