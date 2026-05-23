@@ -74,36 +74,44 @@
       .forEach((el) => el.classList.remove("lote-erro"));
 
     if (data.esgotado) {
-      const corEsgotado = SCARCITY_COR;
-      loteState.cor = corEsgotado;
-      loteState.realPercent = 100;
-      loteState.displayPercent = 100;
-      loteState.showVagas = true;
+      /* Override pós-350: mantém venda aberta no Lote 4 mesmo após bater a
+       * capacidade total. NÃO renderiza "Esgotado". A Hotmart continua aceitando
+       * compras no link do Lote 4 (validação server-side de quantidade ali). */
+      const corLote4 = "#ef4444";
+      loteState.cor = corLote4;
+      loteState.realPercent = 95;
+      loteState.displayPercent = 95;
+      loteState.showVagas = false;
       loteState.loteNumero = 4;
-      loteState.esgotado = true;
+      loteState.esgotado = false;
 
-      setText("[data-lote-percent-text]", "100%");
-      setText("[data-lote-vagas-restantes]", "Esgotado");
-      setText("[data-lote-preco]", "—");
+      setText("[data-lote-percent-text]", "95%");
+      setText("[data-lote-vagas-restantes]", "");
+      setText("[data-lote-preco]", "R$147");
 
       document.querySelectorAll("[data-lote-percent-fill]").forEach((el) => {
-        el.style.width = "100%";
-        el.style.backgroundColor = corEsgotado;
+        el.style.width = "95%";
+        el.style.backgroundColor = corLote4;
       });
 
-      /* Esgotado nunca é low: mostra "Esgotado" no lugar das vagas */
+      document.querySelectorAll(".lote-big__bar").forEach((el) => {
+        el.setAttribute("aria-valuenow", "95");
+      });
+
+      /* lowVendas=true esconde o "X vagas restantes" (número falsificado seria pior
+       * que omitir); scarcity=true mantém o visual urgente vermelho. */
       document.querySelectorAll("[data-lote-bar]").forEach((el) => {
-        el.dataset.lowVendas = "false";
+        el.dataset.lowVendas = "true";
         el.dataset.scarcity = "true";
       });
       document.querySelectorAll(".float-cta").forEach((el) => {
         el.dataset.scarcity = "true";
       });
       document.querySelectorAll(".lotes-table").forEach((el) => {
-        el.dataset.lowVendas = "false";
+        el.dataset.lowVendas = "true";
       });
 
-      pintarLoteCor(corEsgotado);
+      pintarLoteCor(corLote4);
       atualizarLoteCells(4);
       aplicarUrlCTAs(4);
       return;
