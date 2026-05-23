@@ -75,40 +75,45 @@
 
     if (data.esgotado) {
       /* Override pós-350: mantém venda aberta no Lote 4 mesmo após bater a
-       * capacidade total. NÃO renderiza "Esgotado". A Hotmart continua aceitando
-       * compras no link do Lote 4 (validação server-side de quantidade ali). */
+       * capacidade total. NÃO renderiza "Esgotado". Trava em 99% + 10 vagas
+       * restantes (escassez máxima). A Hotmart continua aceitando compras no
+       * link do Lote 4 (validação server-side de quantidade ali). */
       const corLote4 = "#ef4444";
+      const PERCENT_TRAVADO = 99;
+      const VAGAS_RESTANTES_TRAVADO = 10;
       loteState.cor = corLote4;
-      loteState.realPercent = 95;
-      loteState.displayPercent = 95;
-      loteState.showVagas = false;
+      loteState.realPercent = PERCENT_TRAVADO;
+      loteState.displayPercent = PERCENT_TRAVADO;
+      loteState.showVagas = true;
       loteState.loteNumero = 4;
       loteState.esgotado = false;
 
-      setText("[data-lote-percent-text]", "95%");
-      setText("[data-lote-vagas-restantes]", "");
+      setText("[data-lote-percent-text]", PERCENT_TRAVADO + "%");
+      setText(
+        "[data-lote-vagas-restantes]",
+        VAGAS_RESTANTES_TRAVADO + " vagas restantes"
+      );
       setText("[data-lote-preco]", "R$147");
 
       document.querySelectorAll("[data-lote-percent-fill]").forEach((el) => {
-        el.style.width = "95%";
+        el.style.width = PERCENT_TRAVADO + "%";
         el.style.backgroundColor = corLote4;
       });
 
       document.querySelectorAll(".lote-big__bar").forEach((el) => {
-        el.setAttribute("aria-valuenow", "95");
+        el.setAttribute("aria-valuenow", String(PERCENT_TRAVADO));
       });
 
-      /* lowVendas=true esconde o "X vagas restantes" (número falsificado seria pior
-       * que omitir); scarcity=true mantém o visual urgente vermelho. */
+      /* lowVendas=false: exibe "10 vagas restantes". scarcity=true: visual urgente. */
       document.querySelectorAll("[data-lote-bar]").forEach((el) => {
-        el.dataset.lowVendas = "true";
+        el.dataset.lowVendas = "false";
         el.dataset.scarcity = "true";
       });
       document.querySelectorAll(".float-cta").forEach((el) => {
         el.dataset.scarcity = "true";
       });
       document.querySelectorAll(".lotes-table").forEach((el) => {
-        el.dataset.lowVendas = "true";
+        el.dataset.lowVendas = "false";
       });
 
       pintarLoteCor(corLote4);
