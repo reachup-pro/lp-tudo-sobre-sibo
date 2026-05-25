@@ -30,16 +30,23 @@
   }
 
   /* ---------- 1. Countdown ----------
-     Encerra em 26/05/2026 às 23h59 (24h após o pitch da imersão).
-     Pra ajustar a data, alterar END_ISO. Após zerar, segue mostrando 00:00:00.
+     Encerra em 31/05/2026 às 23h59. Pra ajustar a data, alterar END_ISO.
+     Formato adaptativo:
+       - Quando faltam >= 24h → mostra "Xd : YYh : ZZmin" (sem segundos)
+       - Quando faltam  < 24h → mostra "YYh : ZZmin : SSs"
   */
-  const END_ISO = '2026-05-26T23:59:59-03:00';
+  const END_ISO = '2026-05-31T23:59:59-03:00';
   const endTs = new Date(END_ISO).getTime();
 
   const nodes = {
     hours: document.querySelector('[data-cd="hours"]'),
     minutes: document.querySelector('[data-cd="minutes"]'),
     seconds: document.querySelector('[data-cd="seconds"]'),
+  };
+  const unitNodes = {
+    hours: document.querySelector('[data-cd-unit="0"]'),
+    minutes: document.querySelector('[data-cd-unit="1"]'),
+    seconds: document.querySelector('[data-cd-unit="2"]'),
   };
 
   const pad = (n) => String(Math.max(0, n)).padStart(2, '0');
@@ -48,15 +55,29 @@
     const now = Date.now();
     let diff = Math.max(0, endTs - now);
 
-    const totalHours = Math.floor(diff / 3_600_000);
-    diff -= totalHours * 3_600_000;
+    const days = Math.floor(diff / 86_400_000);
+    diff -= days * 86_400_000;
+    const hours = Math.floor(diff / 3_600_000);
+    diff -= hours * 3_600_000;
     const minutes = Math.floor(diff / 60_000);
     diff -= minutes * 60_000;
     const seconds = Math.floor(diff / 1000);
 
-    if (nodes.hours) nodes.hours.textContent = pad(totalHours);
-    if (nodes.minutes) nodes.minutes.textContent = pad(minutes);
-    if (nodes.seconds) nodes.seconds.textContent = pad(seconds);
+    if (days > 0) {
+      if (nodes.hours) nodes.hours.textContent = days;
+      if (nodes.minutes) nodes.minutes.textContent = pad(hours);
+      if (nodes.seconds) nodes.seconds.textContent = pad(minutes);
+      if (unitNodes.hours) unitNodes.hours.textContent = 'd';
+      if (unitNodes.minutes) unitNodes.minutes.textContent = 'h';
+      if (unitNodes.seconds) unitNodes.seconds.textContent = 'min';
+    } else {
+      if (nodes.hours) nodes.hours.textContent = pad(hours);
+      if (nodes.minutes) nodes.minutes.textContent = pad(minutes);
+      if (nodes.seconds) nodes.seconds.textContent = pad(seconds);
+      if (unitNodes.hours) unitNodes.hours.textContent = 'h';
+      if (unitNodes.minutes) unitNodes.minutes.textContent = 'min';
+      if (unitNodes.seconds) unitNodes.seconds.textContent = 's';
+    }
   }
 
   tickCountdown();
@@ -100,19 +121,49 @@
   function tickSticky() {
     const now = Date.now();
     let diff = Math.max(0, endTs - now);
-    const totalHours = Math.floor(diff / 3_600_000);
-    diff -= totalHours * 3_600_000;
+    const days = Math.floor(diff / 86_400_000);
+    diff -= days * 86_400_000;
+    const hours = Math.floor(diff / 3_600_000);
+    diff -= hours * 3_600_000;
     const minutes = Math.floor(diff / 60_000);
     diff -= minutes * 60_000;
     const seconds = Math.floor(diff / 1000);
 
-    if (sbNodes.hours) sbNodes.hours.textContent = pad(totalHours);
-    if (sbNodes.minutes) sbNodes.minutes.textContent = pad(minutes);
-    if (sbNodes.seconds) sbNodes.seconds.textContent = pad(seconds);
-
-    mirrorNodes.forEach((n) => {
-      n.textContent = `${pad(totalHours)}h ${pad(minutes)}min`;
-    });
+    if (days > 0) {
+      // Sticky bar: troca os textos dos spans pra Xd YYh ZZmin
+      const parent = sbNodes.hours && sbNodes.hours.parentElement;
+      if (parent && !parent.dataset.daysMode) {
+        parent.dataset.daysMode = '1';
+        // Reescreve o conteúdo inteiro com unidades novas
+        parent.innerHTML = '<span data-sb="hours">'+days+'</span>d <span data-sb="minutes">'+pad(hours)+'</span>h <span data-sb="seconds">'+pad(minutes)+'</span>min';
+        sbNodes.hours = parent.querySelector('[data-sb="hours"]');
+        sbNodes.minutes = parent.querySelector('[data-sb="minutes"]');
+        sbNodes.seconds = parent.querySelector('[data-sb="seconds"]');
+      } else {
+        if (sbNodes.hours) sbNodes.hours.textContent = days;
+        if (sbNodes.minutes) sbNodes.minutes.textContent = pad(hours);
+        if (sbNodes.seconds) sbNodes.seconds.textContent = pad(minutes);
+      }
+      mirrorNodes.forEach((n) => {
+        n.textContent = days + 'd ' + pad(hours) + 'h';
+      });
+    } else {
+      const parent = sbNodes.hours && sbNodes.hours.parentElement;
+      if (parent && parent.dataset.daysMode) {
+        delete parent.dataset.daysMode;
+        parent.innerHTML = '<span data-sb="hours">'+pad(hours)+'</span>h <span data-sb="minutes">'+pad(minutes)+'</span>min <span data-sb="seconds">'+pad(seconds)+'</span>s';
+        sbNodes.hours = parent.querySelector('[data-sb="hours"]');
+        sbNodes.minutes = parent.querySelector('[data-sb="minutes"]');
+        sbNodes.seconds = parent.querySelector('[data-sb="seconds"]');
+      } else {
+        if (sbNodes.hours) sbNodes.hours.textContent = pad(hours);
+        if (sbNodes.minutes) sbNodes.minutes.textContent = pad(minutes);
+        if (sbNodes.seconds) sbNodes.seconds.textContent = pad(seconds);
+      }
+      mirrorNodes.forEach((n) => {
+        n.textContent = pad(hours) + 'h ' + pad(minutes) + 'min';
+      });
+    }
   }
   tickSticky();
   setInterval(tickSticky, 1000);
