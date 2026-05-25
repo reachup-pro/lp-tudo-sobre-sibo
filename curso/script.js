@@ -30,13 +30,16 @@
   }
 
   /* ---------- 1. Countdown ----------
-     Encerra em 31/05/2026 às 23h59. Pra ajustar a data, alterar END_ISO.
+     Encerra em 31/05/2026 às 23h59. Ativa em 28/05/2026 00h00 (BRT).
+     Antes da ativação: countdown oculto via classe `html.countdown-pre`
+     (definida no inline script do head). Ticks do JS pulam quando inativo.
      Formato adaptativo:
        - Quando faltam >= 24h → mostra "Xd : YYh : ZZmin" (sem segundos)
        - Quando faltam  < 24h → mostra "YYh : ZZmin : SSs"
   */
   const END_ISO = '2026-05-31T23:59:59-03:00';
   const endTs = new Date(END_ISO).getTime();
+  const countdownActive = document.documentElement.classList.contains('countdown-on');
 
   const nodes = {
     hours: document.querySelector('[data-cd="hours"]'),
@@ -80,8 +83,10 @@
     }
   }
 
-  tickCountdown();
-  setInterval(tickCountdown, 1000);
+  if (countdownActive) {
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+  }
 
   /* ---------- 2. Reveal: CSS-only (sem JS). Animation dispara no load com stagger. ---------- */
 
@@ -165,8 +170,10 @@
       });
     }
   }
-  tickSticky();
-  setInterval(tickSticky, 1000);
+  if (countdownActive) {
+    tickSticky();
+    setInterval(tickSticky, 1000);
+  }
 
   if (stickyBar) {
     const hero = document.querySelector('.hero');
