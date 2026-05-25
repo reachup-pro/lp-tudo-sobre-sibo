@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js">
+<head>
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#08060d" />
+
+<title>SIBO na Prática Clínica · Oferta Especial Imersão · Karina Al Assal</title>
+<meta name="description" content="Curso completo SIBO na Prática Clínica com a IA Gut AI inclusa. Oferta especial de R$1997, exclusiva para quem está na imersão de hoje. Válido por 24 horas." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Outfit:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" />
+
+<link rel="stylesheet" href="/curso/style.css?v=7" />
+</head>
+<body>
+
+<!-- Noise overlay global -->
+<div class="noise" aria-hidden="true"></div>
+
+<!-- Vignette ambient -->
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- Scroll progress bar (global, top) -->
+<div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div>
+
+<!-- Sticky countdown bar (aparece após scroll do hero) -->
+<div class="sticky-bar" id="stickyBar" aria-hidden="true">
+  <div class="sticky-bar__inner">
+    <span class="sticky-bar__marker">OFERTA IMERSÃO · R$1997</span>
+    <div class="sticky-bar__countdown" aria-live="polite">
+      <span class="sb__label">ENCERRA EM</span>
+      <span class="sb__clock">
+        <span data-sb="hours">23</span>h
+        <span data-sb="minutes">59</span>min
+        <span data-sb="seconds">12</span>s
+      </span>
+    </div>
+    <a href="#oferta" class="sticky-bar__cta">Ver oferta</a>
+  </div>
+</div>
+
+<!-- Custom cursor (apenas desktop fine-pointer) -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <span class="cursor__dot"></span>
+  <span class="cursor__label"></span>
+</div>
+
+<!-- ============================================================
+     HERO · Editorial Type-Driven (3-row layout)
+     Row 1: header  (marker | countdown)
+     Row 2: title   (eyebrow + headline full-width)
+     Row 3: main    (foto bleed-left | CTA card right)
+     Row 4: meta    (3 cols footer full-width)
+     ============================================================ -->
+<header class="hero">
+  <div class="hero__container">
+
+    <!-- ROW 1 · Header editorial -->
+    <div class="hero__header">
+      <div class="hero__marker">
+        <span class="marker__id">N° 002</span>
+        <span class="marker__rule" aria-hidden="true"></span>
+        <span class="marker__edition">EDIÇÃO IMERSÃO · MAI 2026</span>
+      </div>
+
+      <aside class="hero__countdown" aria-live="polite">
+        <span class="countdown__label">OFERTA ENCERRA EM</span>
+        <div class="countdown__clock" id="countdown">
+          <span class="cd__group"><span class="cd__num" data-cd="hours">23</span><span class="cd__unit">h</span></span>
+          <span class="cd__sep">:</span>
+          <span class="cd__group"><span class="cd__num" data-cd="minutes">59</span><span class="cd__unit">min</span></span>
+          <span class="cd__sep">:</span>
+          <span class="cd__group"><span class="cd__num" data-cd="seconds">12</span><span class="cd__unit">s</span></span>
+        </div>
+        <span class="countdown__hint">SÓ PARA QUEM ESTÁ NA IMERSÃO</span>
+      </aside>
+    </div>
+
+    <!-- ROW 2 · Main split (foto à esquerda, headline+cta à direita) -->
+    <div class="hero__main">
+
+      <figure class="hero__photo">
+        <img
+          src="/.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85"
+          srcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=600&q=85 600w,
+                  /.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85 900w,
+                  /.netlify/images?url=/curso/images/karina-cutout.png&w=1200&q=85 1200w"
+          sizes="(max-width: 900px) 70vw, 540px"
+          alt="Karina Al Assal"
+          width="900"
+          height="1200"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption class="photo__credit">
+          <span class="credit__name">Karina Al Assal</span>
+          <span class="credit__role">Nutricionista clínica<br/>FMUSP · UNIFESP · Monash</span>
+        </figcaption>
+      </figure>
+
+      <div class="hero__content">
+        <span class="eyebrow">Você acabou de viver 3 horas comigo.</span>
+        <h1 class="display">
+          <span class="display__line">Aqui está</span>
+          <span class="display__line display__line--accent">o caminho</span>
+          <span class="display__line">
+            <em class="display__italic">completo.</em>
+          </span>
+        </h1>
+
+        <div class="hero__cta">
+          <p class="hero__lede">
+            O curso <em>SIBO na Prática Clínica</em> inteiro, com a <strong>Gut&nbsp;AI</strong> lançada hoje incluída.
+            Por <span class="hero__price">R$ 1.997</span> em 12x de R$ 206,54. Só para quem está nessa imersão, até amanhã às 23h59.
+          </p>
+
+          <a href="#oferta" class="cta" data-magnetic>
+            <span class="cta__label">Quero o curso completo</span>
+            <span class="cta__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+
+          <p class="hero__micro">
+            Pagamento via Hotmart. <span aria-hidden="true">·</span>
+            7 dias de garantia. <span aria-hidden="true">·</span>
+            Pix ou cartão.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 4 · Meta footer -->
+    <div class="hero__meta">
+      <span class="meta__rule" aria-hidden="true"></span>
+      <div class="meta__cols">
+        <div>
+          <span class="meta__key">CURSO</span>
+          <span class="meta__val">20 aulas · 5 módulos · 2 bônus</span>
+        </div>
+        <div>
+          <span class="meta__key">BÔNUS</span>
+          <span class="meta__val">Gut AI · 6 meses inclusos</span>
+        </div>
+        <div>
+          <span class="meta__key">ACESSO</span>
+          <span class="meta__val">12 meses · comunidade · certificado</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ============================================================
+     SEÇÃO 2 · Por que essa página está aberta agora
+     Arquetipo: Single Focus + White Space Hero
+     ============================================================ -->
+<section class="confidencial" id="confidencial">
+  <div class="confidencial__inner">
+
+    <span class="confidencial__tag" data-reveal>
+      <span class="tag__dot" aria-hidden="true"></span>
+      LINK NÃO PÚBLICO
+    </span>
+
+    <h2 class="confidencial__h2" data-reveal>
+      Essa página não está pública.
+    </h2>
+
+    <div class="confidencial__body">
+      <p data-reveal>
+        O link que você acessou foi solto agora, no chat do Zoom, só para a turma da imersão.
+      </p>
+
+      <p data-reveal>
+        Quando eu fechar a aula daqui a pouco, ele continua de pé por mais 24 horas. Depois disso, o preço volta para <span class="strike">R$ 2.997</span> e a <strong>Gut AI sai do pacote</strong>.
+      </p>
+
+      <p data-reveal>
+        Não é truque de escassez. É que essa condição, R$1.997 com a Gut AI inclusa, é a condição que eu posso oferecer hoje para quem chegou até aqui ao vivo, viu a aula inteira, e está pronto para aprofundar comigo no curso completo.
+      </p>
+
+      <p data-reveal>
+        Se você sentiu, durante a aula, que precisa estruturar isso de uma vez, segue comigo até o fim dessa página. Eu vou destrinchar o que tem no curso, o que é a Gut AI, como funciona o acesso e como decidir se faz sentido.
+      </p>
+    </div>
+
+    <a href="#oferta" class="confidencial__cta" data-reveal>
+      <span>Continuar para a oferta</span>
+      <span class="confidencial__cta__rule" aria-hidden="true"></span>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 3 · O que é o curso completo
+     Arquetipo: Split Assimétrico + Layered Cards
+     ============================================================ -->
+<section class="comparison" id="o-curso">
+  <div class="container comparison__grid">
+
+    <div class="comparison__left">
+      <span class="eyebrow eyebrow--ink" data-reveal>O CURSO COMPLETO</span>
+      <h2 class="h2 h2--ink" data-reveal>
+        A versão <em>estendida</em><br/>
+        do que você viu hoje.
+      </h2>
+      <p class="lede lede--ink" data-reveal>Caso por caso, do começo ao fim.</p>
+      <p class="body" data-reveal>
+        Na imersão de hoje, a gente passou pelo algoritmo inteiro em 3 horas. Diagnosticar, tratar, prevenir. Foi uma versão concentrada, com caso real e gráfico real.
+      </p>
+      <p class="body" data-reveal>
+        O curso é o aprofundamento disso. Em vez de uma única passada acelerada, você tem 20 aulas gravadas que destrincham cada parte do raciocínio com mais respiro. Mais casos, mais nuance, mais tempo para internalizar.
+      </p>
+    </div>
+
+    <div class="comparison__cards" data-reveal>
+
+      <article class="cmp-card cmp-card--past" data-tilt>
+        <header class="cmp-card__head">
+          <span class="cmp-card__tag">IMERSÃO DE HOJE</span>
+        </header>
+        <ul class="cmp-card__list">
+          <li><span class="cmp-card__big">3<small>h</small></span><span class="cmp-card__lbl">Ao vivo</span></li>
+          <li><span class="cmp-card__big">1</span><span class="cmp-card__lbl">Caso real demonstrado</span></li>
+          <li><span class="cmp-card__big">—</span><span class="cmp-card__lbl">Sem revisão</span></li>
+          <li><span class="cmp-card__big">—</span><span class="cmp-card__lbl">Sem comunidade</span></li>
+          <li><span class="cmp-card__big">—</span><span class="cmp-card__lbl">Sem Gut AI</span></li>
+        </ul>
+      </article>
+
+      <article class="cmp-card cmp-card--full" data-tilt>
+        <span class="cmp-card__seal">INCLUI GUT AI</span>
+        <header class="cmp-card__head">
+          <span class="cmp-card__tag cmp-card__tag--gold">CURSO COMPLETO</span>
+        </header>
+        <ul class="cmp-card__list">
+          <li><span class="cmp-card__big" data-counter="60" data-suffix="h+">3h+</span><span class="cmp-card__lbl">De conteúdo</span></li>
+          <li><span class="cmp-card__big">20</span><span class="cmp-card__lbl">Aulas gravadas + 2 bônus</span></li>
+          <li><span class="cmp-card__big">12</span><span class="cmp-card__lbl">Meses de acesso</span></li>
+          <li><span class="cmp-card__big">∞</span><span class="cmp-card__lbl">Comunidade ativa</span></li>
+          <li><span class="cmp-card__big cmp-card__big--gold">6</span><span class="cmp-card__lbl cmp-card__lbl--gold">Meses de Gut AI inclusos</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+  <div class="comparison__decor" aria-hidden="true"></div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 4 · Os 5 módulos detalhados
+     Arquetipo: Bento Box
+     ============================================================ -->
+<section class="modulos" id="modulos">
+  <div class="container container--wide">
+
+    <header class="modulos__head">
+      <span class="eyebrow eyebrow--center" data-reveal>O CONTEÚDO</span>
+      <h2 class="h2 h2--center" data-reveal>
+        O que está dentro,<br/>módulo por <em>módulo</em>.
+      </h2>
+      <p class="lede lede--center" data-reveal>
+        20 aulas gravadas em 5 módulos, mais 2 bônus e os encontros ao vivo das turmas anteriores.
+      </p>
+    </header>
+
+    <div class="bento">
+      <article class="bento__cell bento__cell--m1" data-reveal data-tilt>
+        <span class="bento__id">M1</span>
+        <h3 class="bento__title">Fundamentos do SIBO</h3>
+        <p class="bento__sub">A base teórica que sustenta o raciocínio.</p>
+        <ul class="bento__list">
+          <li>Fundamentos Básicos</li>
+          <li>Fisiopatologia</li>
+          <li>Etiologia e Causas</li>
+        </ul>
+        <span class="bento__count">3 aulas</span>
+      </article>
+
+      <article class="bento__cell bento__cell--m2 bento__cell--featured" data-reveal data-tilt>
+        <span class="bento__star" aria-hidden="true">★</span>
+        <span class="bento__id">M2</span>
+        <h3 class="bento__title">Diagnóstico</h3>
+        <p class="bento__sub">A parte onde a maioria das nutris fica perdida.</p>
+        <ul class="bento__list">
+          <li>SIBO vs IBS vs Disbiose</li>
+          <li>Diagnóstico e Testes</li>
+          <li>Interpretação de Testes com Estudo de Caso <span class="bento__pin">★</span></li>
+        </ul>
+        <span class="bento__count">3 aulas · base do Gut AI</span>
+      </article>
+
+      <article class="bento__cell bento__cell--m3" data-reveal data-tilt>
+        <span class="bento__id">M3</span>
+        <h3 class="bento__title">Dieta no SIBO</h3>
+        <p class="bento__sub">Como construir a dieta sem cair no protocolo genérico.</p>
+        <ul class="bento__list">
+          <li>Introdução à Dieta</li>
+          <li>Low-FODMAP</li>
+          <li>Adaptação para o paciente brasileiro</li>
+          <li>Dieta Elementar</li>
+        </ul>
+        <span class="bento__count">4 aulas</span>
+      </article>
+
+      <article class="bento__cell bento__cell--m4" data-reveal data-tilt>
+        <span class="bento__id">M4</span>
+        <h3 class="bento__title">Eixo Cérebro-Intestino</h3>
+        <p class="bento__sub">A parte que ninguém ensina e que decide a recidiva.</p>
+        <ul class="bento__list">
+          <li>Eixo Intestino-Cérebro e Estresse</li>
+          <li>Convidada: Coloproctologia <span class="bento__pin">★</span><br/><small>Dra. Priscila Rebouças</small></li>
+        </ul>
+        <span class="bento__count">2 aulas + bônus</span>
+      </article>
+
+      <article class="bento__cell bento__cell--m5 bento__cell--featured" data-reveal data-tilt>
+        <span class="bento__star" aria-hidden="true">★</span>
+        <span class="bento__id">M5</span>
+        <h3 class="bento__title">Tratamento e Prevenção</h3>
+        <p class="bento__sub">A parte que mais muda a sua consulta.</p>
+        <ul class="bento__list">
+          <li>Pró-cinéticos <span class="bento__pin">★</span></li>
+          <li>Estratégias de Tratamento</li>
+          <li>Prevenção da Recidiva</li>
+          <li><strong>Bônus:</strong> Síndrome Fúngica</li>
+        </ul>
+        <span class="bento__count">3 aulas + bônus</span>
+      </article>
+    </div>
+
+    <article class="ao-vivo" data-reveal>
+      <div class="ao-vivo__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z" fill="currentColor"/></svg>
+      </div>
+      <div class="ao-vivo__body">
+        <span class="ao-vivo__tag">ENCONTROS AO VIVO GRAVADOS</span>
+        <h4 class="ao-vivo__title">Horas e horas de paciente real discutido em grupo.</h4>
+        <p class="ao-vivo__text">
+          As turmas anteriores tiveram encontros ao vivo de raciocínio clínico, estudos de caso e tira-dúvidas. Todas as gravações ficam disponíveis para você.
+        </p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 5 · BÔNUS GUT AI · SEÇÃO-ÂNCORA
+     Arquetipo: Spotlight + Glassmorphism + Demo Interativa
+     ============================================================ -->
+<section class="gutai" id="gut-ai">
+
+  <div class="gutai__atmosphere" aria-hidden="true">
+    <div class="gutai__orb gutai__orb--lilac"></div>
+    <div class="gutai__orb gutai__orb--gold"></div>
+    <canvas class="gutai__particles" id="gutaiParticles"></canvas>
+  </div>
+
+  <div class="container container--narrow">
+    <span class="eyebrow eyebrow--center eyebrow--gold" data-reveal>O BÔNUS QUE MUDA A CONVERSA</span>
+    <h2 class="h2 h2--center h2--xlarge" data-reveal>
+      A Gut AI interpreta o teste do seu paciente em <em>segundos</em>.<br/>
+      E está incluída na oferta de hoje.
+    </h2>
+    <p class="lede lede--center" data-reveal>
+      Sistema clínico que eu construí com base nas minhas aulas, no meu raciocínio e nos critérios que valido na prática. Roda no navegador. <strong>Acesso de 6 meses incluso.</strong>
+    </p>
+  </div>
+
+  <div class="gutai__mockup-wrap" data-reveal data-parallax-3d data-cursor="demo">
+    <a href="https://sibo.karinalassal.com.br" target="_blank" rel="noopener" class="gutai__mockup">
+      <header class="mockup__topbar">
+        <span class="mockup__dots"><i></i><i></i><i></i></span>
+        <span class="mockup__url">sibo.karinalassal.com.br</span>
+        <span class="mockup__badge">Gut AI</span>
+      </header>
+
+      <div class="mockup__body">
+        <aside class="mockup__sidebar">
+          <span class="mockup__side-label">PACIENTES</span>
+          <ul class="mockup__patients">
+            <li class="is-active"><b>Maria S.</b><small>Lactulose · hoje</small></li>
+            <li><b>Júlia R.</b><small>Glicose · ontem</small></li>
+            <li><b>Ana P.</b><small>Lactulose · 3d</small></li>
+          </ul>
+        </aside>
+
+        <div class="mockup__main">
+          <div class="mockup__patient-head">
+            <h4>Maria S. · 34a · Teste SIBO</h4>
+            <span class="mockup__chip mockup__chip--purple">Lactulose 10g · 120min</span>
+          </div>
+
+          <div class="mockup__chart">
+            <svg viewBox="0 0 400 180" class="mockup__svg" preserveAspectRatio="none">
+              <!-- Grid -->
+              <g stroke="rgba(255,255,255,0.06)" stroke-width="1">
+                <line x1="0" y1="30" x2="400" y2="30"/>
+                <line x1="0" y1="60" x2="400" y2="60"/>
+                <line x1="0" y1="90" x2="400" y2="90"/>
+                <line x1="0" y1="120" x2="400" y2="120"/>
+                <line x1="0" y1="150" x2="400" y2="150"/>
+              </g>
+              <!-- Threshold H2 (basal+20) -->
+              <line class="svg-threshold" x1="0" y1="110" x2="400" y2="110" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4 4"/>
+              <!-- CH4 curve (gold) - sobe lentamente -->
+              <path class="svg-curve svg-curve--ch4" d="M0,150 C50,148 100,144 150,138 C200,132 250,122 300,108 C350,96 380,88 400,82" fill="none" stroke="#c9a86e" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- H2 curve (lilac) - pico aos 90min (x=300) -->
+              <path class="svg-curve svg-curve--h2" d="M0,145 C50,142 100,138 150,130 C200,120 240,90 290,55 C340,75 370,95 400,105" fill="none" stroke="#b8a4d8" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Peak marker -->
+              <circle class="svg-peak" cx="290" cy="55" r="5" fill="#b8a4d8"/>
+              <text x="296" y="48" fill="#c9b4e8" font-size="11" font-family="Geist Mono">pico 68 ppm</text>
+            </svg>
+            <div class="mockup__legend">
+              <span><i style="background:#b8a4d8"></i> H₂</span>
+              <span><i style="background:#c9a86e"></i> CH₄</span>
+              <span><i class="dashed"></i> threshold</span>
+            </div>
+          </div>
+
+          <div class="mockup__cards">
+            <article class="mockup__card mockup__card--interp">
+              <header><span class="mockup__chip mockup__chip--lilac">SIBO · Hidrogênio</span><span class="mockup__chip mockup__chip--warn">Severidade moderada</span></header>
+              <p>Pico H₂ de <b>68 ppm</b> aos 90min sobre basal de 8 ppm (+60). Padrão clássico de supercrescimento de gram-negativas. CH₄ subindo lento, sem critério para IMO.</p>
+              <small class="mockup__cite">— Fontes: [M2 · Interpretação, 22:15] [M2 · Testes, 14:30]</small>
+            </article>
+
+            <article class="mockup__card mockup__card--plan">
+              <h5>Plano de conduta</h5>
+              <ol class="mockup__plan">
+                <li><span>01</span> Antimicrobiana<small>Rifaximina 550mg 8/8h · 14 dias</small></li>
+                <li><span>02</span> Dieta<small>Low-FODMAP fase 1 + adaptação BR</small></li>
+                <li><span>03</span> Prevenção<small>Pró-cinético + investigar MMC</small></li>
+                <li><span>04</span> Subjacentes<small>TSH · hipocloridria · estresse</small></li>
+              </ol>
+            </article>
+          </div>
+        </div>
+
+        <aside class="mockup__chat">
+          <span class="mockup__side-label">CHAT GUT AI</span>
+          <div class="mockup__bubbles">
+            <div class="bubble bubble--user">
+              <p>Posso usar rifaximina + neomicina nessa paciente?</p>
+            </div>
+            <div class="bubble bubble--ai">
+              <p>Para SIBO-H₂ puro sem componente CH₄ significativo, rifaximina sozinha tem boa resposta. Neomicina entra quando há IMO (CH₄ ≥ 10ppm).</p>
+              <small>— [M5 · Tratamento, 18:42]</small>
+            </div>
+            <div class="bubble bubble--ai bubble--typing">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </a>
+    <p class="gutai__mockup-cap">Clique para abrir a Gut AI em produção →</p>
+  </div>
+
+  <div class="container">
+    <ol class="gutai__steps">
+      <li class="gutai__step" data-reveal>
+        <span class="step__num">01</span>
+        <div class="step__body">
+          <h3>Sobe o PDF do teste respiratório</h3>
+          <p>Em 5 a 15 segundos, a IA lê valores basais, pontos minuto a minuto, identifica os gases e organiza tudo em uma tabela limpa.</p>
+        </div>
+      </li>
+      <li class="gutai__step" data-reveal>
+        <span class="step__num">02</span>
+        <div class="step__body">
+          <h3>Interpretação clínica em 10–30s</h3>
+          <p>Motor determinístico validado contra a aula M2 classifica subtipo (H₂, CH₄/IMO, combinado, suspeita H₂S, negativo), severidade e padrões atípicos.</p>
+        </div>
+      </li>
+      <li class="gutai__step" data-reveal>
+        <span class="step__num">03</span>
+        <div class="step__body">
+          <h3>Plano de conduta em 4 etapas</h3>
+          <p>Antimicrobiana · Dieta · Prevenção · Investigação dos fatores subjacentes. Tudo estruturado conforme o protocolo que ensino no curso.</p>
+        </div>
+      </li>
+      <li class="gutai__step" data-reveal>
+        <span class="step__num">04</span>
+        <div class="step__body">
+          <h3>Chat conversacional sobre o caso</h3>
+          <p>Você digita ou grava áudio, anexa PDF ou foto. A resposta vem em streaming, no meu tom, com citação da aula que sustenta a resposta (e timestamp).</p>
+        </div>
+      </li>
+      <li class="gutai__step" data-reveal>
+        <span class="step__num">05</span>
+        <div class="step__body">
+          <h3>Segurança e limites claros</h3>
+          <p>Ferramenta de apoio, decisão é sua. RLS por profissional, audit log LGPD, bucket privado. Cada nutri vê só os pacientes dela.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="gutai__seal" data-reveal>
+    <span class="seal__label">INCLUSO</span>
+    <span class="seal__big">6 MESES</span>
+    <span class="seal__sub">DE ACESSO À GUT AI · sibo.karinalassal.com.br</span>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 6 · Depoimentos
+     Arquetipo: Card Stack + Carousel 3D
+     ============================================================ -->
+<section class="depoimentos" id="depoimentos">
+  <div class="container container--wide">
+
+    <header class="depoimentos__head">
+      <span class="eyebrow eyebrow--center" data-reveal>PROVA SOCIAL · ALUNAS DO CURSO</span>
+      <h2 class="h2 h2--center" data-reveal>
+        Quem já está no meu <em>raciocínio clínico</em>.
+      </h2>
+    </header>
+
+    <div class="depoimentos__track" data-drag="horizontal">
+      <article class="dep-card" data-reveal>
+        <span class="dep-card__quote" aria-hidden="true">«</span>
+        <blockquote>Karina, o curso está ótimo. As aulas são maravilhosas e o grupo das nutris é muito enriquecedor. Mostra diversas facetas e todo mundo participa. Está sendo muito bom para todo mundo.</blockquote>
+        <footer>
+          <span class="dep-card__name">Pâmela</span>
+          <span class="dep-card__role">Nutricionista · aluna do curso</span>
+        </footer>
+      </article>
+
+      <article class="dep-card" data-reveal>
+        <span class="dep-card__quote" aria-hidden="true">«</span>
+        <blockquote>Tenho usado molibdênio que estava estudando sobre ele, ajuda a diminuir sulfeto de hidrogênio. Toda vez que eu uso o NAC com pacientes que têm essa tendência de sulfeto, eu já ponho molibdênio junto. Os resultados têm sido bem legais.</blockquote>
+        <footer>
+          <span class="dep-card__name">Fernanda</span>
+          <span class="dep-card__role">Nutricionista · aluna do curso</span>
+        </footer>
+      </article>
+
+      <article class="dep-card" data-reveal>
+        <span class="dep-card__quote" aria-hidden="true">«</span>
+        <blockquote>Tô bem melhor. Depois da nossa última aula, fui trocando ideias com colegas no grupo, foquei na proteína de frango e tirei alguns legumes. Agora estou conseguindo comer vagem, brócolis, bolinhos com aveia. Vou repetir o teste em seguida.</blockquote>
+        <footer>
+          <span class="dep-card__name">Mari</span>
+          <span class="dep-card__role">Tratou o próprio SIBO com o protocolo</span>
+        </footer>
+      </article>
+
+      <article class="dep-card" data-reveal>
+        <span class="dep-card__quote" aria-hidden="true">«</span>
+        <blockquote>É legal, quando a gente entendeu um jeito que vem o teste, daí vem um resultado diferente, daí bora estudar. Mudou completamente como a gente conduz esses casos.</blockquote>
+        <footer>
+          <span class="dep-card__name">Pâmela</span>
+          <span class="dep-card__role">Em encontro ao vivo do curso</span>
+        </footer>
+      </article>
+    </div>
+
+    <div class="depoimentos__dots" id="depDots" aria-hidden="true"></div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 7 · A Karina (bio curta)
+     Arquetipo: Editorial Short Bio + Single Focus
+     ============================================================ -->
+<section class="karina" id="karina">
+  <div class="container karina__grid">
+
+    <figure class="karina__photo" data-reveal>
+      <img
+        src="/.netlify/images?url=/curso/images/karina-cutout.png&w=640&q=85"
+        srcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=420&q=85 420w,
+                /.netlify/images?url=/curso/images/karina-cutout.png&w=640&q=85 640w"
+        sizes="(max-width: 768px) 280px, 360px"
+        alt="Karina Al Assal"
+        width="640"
+        height="853"
+        loading="lazy"
+      />
+    </figure>
+
+    <div class="karina__body">
+      <span class="eyebrow eyebrow--ink" data-reveal>SOBRE QUEM ESTÁ DO OUTRO LADO</span>
+      <h2 class="h2 h2--ink" data-reveal>
+        Você já me conheceu nas últimas 3 horas.<br/>
+        <em>Vou ser breve.</em>
+      </h2>
+
+      <p class="body body--ink" data-reveal>
+        Eu sou a Karina Al Assal. Nutricionista clínica e funcional, mestre pela <span class="cred">FMUSP</span>, especialização em cuidados integrativos pela <span class="cred">UNIFESP</span>, formação em FODMAP pela <span class="cred">Monash</span>.
+      </p>
+
+      <p class="body body--ink" data-reveal>
+        Conduzi o estudo de 2022 que apontou os <strong>70% de SIBO em pacientes com IBS</strong> que mencionei na imersão. Coordeno o curso há anos, formando centenas de nutris no Brasil. Apresento meus dados em congressos como o <span class="cred">DDW</span>.
+      </p>
+
+      <p class="body body--ink" data-reveal>
+        E é a mesma pessoa que esteve com você por 3 horas hoje que vai estar do outro lado das aulas, do grupo da comunidade, e dos updates da Gut AI nos próximos 6 meses.
+      </p>
+
+      <span class="karina__signature" data-reveal>Karina</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 8 · A oferta
+     Arquetipo: Pricing Editorial + Color Blocking + Moldura Dourada
+     ============================================================ -->
+<section class="oferta" id="oferta">
+  <div class="container">
+
+    <article class="oferta__card" data-reveal>
+      <span class="oferta__seal" aria-hidden="true">OFERTA IMERSÃO</span>
+
+      <header class="oferta__head">
+        <span class="eyebrow eyebrow--urgency">
+          <span class="dot-urgency"></span>
+          ENCERRA EM <span data-cd-mirror="full">23h 59min</span> · SÓ PARA QUEM ESTÁ NA IMERSÃO
+        </span>
+        <h2 class="oferta__price">
+          De <span class="price-old">R$ 2.997</span> por <br/>
+          <span class="price-new">R$ <span data-counter="1997" data-prefix="">0</span></span>
+        </h2>
+        <p class="oferta__parcel">
+          Em <b>12x de R$ 206,54</b> no cartão sem entrada<br/>
+          ou Pix à vista nos R$ 1.997 com aprovação imediata.
+        </p>
+      </header>
+
+      <div class="oferta__divider" aria-hidden="true"></div>
+
+      <div class="oferta__includes">
+        <span class="includes__label">O QUE VOCÊ LEVA</span>
+        <ul class="includes__list">
+          <li><span class="check" aria-hidden="true"></span>20 aulas gravadas dos 5 módulos (Fundamentos, Diagnóstico, Dieta, Eixo Cérebro-Intestino, Tratamento e Prevenção)</li>
+          <li><span class="check" aria-hidden="true"></span>2 aulas bônus (Síndrome Fúngica + Coloproctologia com Dra. Priscila Rebouças)</li>
+          <li><span class="check" aria-hidden="true"></span>Encontros ao vivo das turmas anteriores gravados</li>
+          <li><span class="check" aria-hidden="true"></span>Comunidade exclusiva de alunas no grupo</li>
+          <li><span class="check" aria-hidden="true"></span>Certificado digital de horas reconhecido para CRN</li>
+          <li class="is-highlight"><span class="check check--gold" aria-hidden="true"></span><strong>6 meses de acesso à Gut AI</strong> (interpretação de teste, chat com RAG das aulas, plano de conduta automático)</li>
+        </ul>
+      </div>
+
+      <div class="oferta__cta-wrap">
+        <a href="https://pay.hotmart.com/W98911884K?off=1dabjqu3&checkoutMode=10" target="_blank" rel="noopener" class="cta cta--mega" data-magnetic>
+          <span class="cta__label">Quero o curso completo por R$ 1.997</span>
+          <span class="cta__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <p class="cta__micro">12x de R$ 206,54 · Pix à vista · Pagamento Hotmart · 7 dias de garantia.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 9 · Garantia
+     Arquetipo: Isolated Element + White Space Hero
+     ============================================================ -->
+<section class="garantia" id="garantia">
+  <div class="container container--narrow">
+
+    <div class="garantia__seal" data-reveal aria-hidden="true">
+      <svg viewBox="0 0 200 200" class="garantia__svg" width="200" height="200">
+        <defs>
+          <path id="circlePath" d="M 100, 100 m -82, 0 a 82,82 0 1,1 164,0 a 82,82 0 1,1 -164,0" />
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="#c9a86e" stroke-width="1" opacity="0.4"/>
+        <circle cx="100" cy="100" r="82" fill="none" stroke="#c9a86e" stroke-width="2"/>
+        <text font-family="Geist Mono" font-size="9" fill="#c9a86e" letter-spacing="3" class="garantia__text">
+          <textPath xlink:href="#circlePath" startOffset="0">GARANTIA · 7 DIAS · INCONDICIONAL · GARANTIA · 7 DIAS · INCONDICIONAL · </textPath>
+        </text>
+        <!-- Shield center -->
+        <g transform="translate(100, 100)" fill="none" stroke="#c9a86e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 0,-30 L 22,-20 L 22,8 C 22,20 12,28 0,32 C -12,28 -22,20 -22,8 L -22,-20 Z"/>
+          <path d="M -10,2 L -3,9 L 12,-8" stroke-width="2.5"/>
+        </g>
+      </svg>
+    </div>
+
+    <span class="eyebrow eyebrow--ink eyebrow--center" data-reveal>GARANTIA INCONDICIONAL</span>
+    <h2 class="h2 h2--ink h2--center" data-reveal>
+      <em>7 dias</em> para se arrepender.
+    </h2>
+    <div class="garantia__body">
+      <p class="body body--ink" data-reveal>
+        Se em até 7 dias depois de comprar você sentir que esse curso não é para você, me manda uma mensagem e devolvemos 100%. Sem ginástica.
+      </p>
+      <p class="body body--ink" data-reveal>
+        Eu assumo o risco. Você só decide se quer aprofundar comigo nos próximos 6 meses.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 10 · FAQ
+     Arquetipo: Accordion + Container Narrow
+     ============================================================ -->
+<section class="faq" id="faq">
+  <div class="container container--narrow">
+
+    <header class="faq__head">
+      <span class="eyebrow eyebrow--center" data-reveal>PERGUNTAS FREQUENTES</span>
+      <h2 class="h2 h2--center" data-reveal>
+        Perguntas que vão aparecer <em>agora</em>.
+      </h2>
+    </header>
+
+    <ul class="faq__list">
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">01</span>
+          <span>Por que essa oferta é só para quem está na imersão?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Porque o link foi solto agora no chat do Zoom para a turma que está aqui hoje. Funciona assim por escolha minha: quem investiu 3 horas comigo ao vivo ganha a condição melhor. Daqui a 24 horas o preço volta para R$ 2.997 e a Gut AI sai do pacote.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">02</span>
+          <span>Como funciona o acesso ao curso depois que eu compro?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Você recebe um email do Hotmart com seu login para a área de membros. Lá ficam todas as gravações dos 5 módulos, os bônus, os encontros ao vivo das turmas anteriores, e o link para entrar na comunidade. O acesso é liberado em poucos minutos.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">03</span>
+          <span>E a Gut AI, como acesso?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Você recebe um segundo email com o login da Gut AI em <strong>sibo.karinalassal.com.br</strong>. O acesso é por 6 meses a partir da compra. Roda no navegador, sem instalar nada. Funciona em desktop e mobile.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">04</span>
+          <span>Quanto tempo tenho de acesso ao curso?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Acesso à plataforma de aulas por 12 meses. A Gut AI por 6 meses. Comunidade enquanto a turma estiver ativa.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">05</span>
+          <span>Tem encontros ao vivo novos com você?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Os encontros das turmas anteriores ficam gravados e disponíveis. Novos encontros ao vivo entram conforme o calendário da turma corrente. Quem entra hoje tem acesso ao que vier.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">06</span>
+          <span>Tem certificado?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Sim. Certificado digital de horas, reconhecido para uso em currículo e CRN.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">07</span>
+          <span>Posso parcelar?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Sim, em 12x de R$ 206,54 no cartão de crédito sem entrada. Pix à vista nos R$ 1.997 com aprovação imediata.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">08</span>
+          <span>A Gut AI substitui o meu raciocínio clínico?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Não. Ela acelera. Os critérios são determinísticos para não alucinar, mas a decisão é sua. Ela está ali como segunda opinião baseada nas minhas aulas, para você organizar o caso mais rápido e ganhar tempo de consulta.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">09</span>
+          <span>Tem alguma garantia se eu não gostar?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>7 dias incondicional. Manda mensagem e devolvemos 100%.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">10</span>
+          <span>Esse curso é para mim se eu não atendo SIBO ainda?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Sim, se você atende paciente com queixa digestiva crônica. O curso é para nutricionistas (e profissionais de saúde correlatos) que querem dominar o raciocínio clínico de SIBO e começar a conduzir esses casos com segurança. Se você não atende paciente, vai aproveitar menos.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">11</span>
+          <span>Funciona se eu for médica, biomédica, fonoaudióloga?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Sim. O conteúdo é técnico e usa jargão clínico (rifaximina, FODMAP, basal, hidrogênio, metano, sulfeto), então qualquer profissional de saúde que atende paciente com queixa digestiva aproveita.</p></div>
+      </li>
+      <li class="faq__item" data-reveal>
+        <button class="faq__q" aria-expanded="false">
+          <span class="faq__num">12</span>
+          <span>E se eu já fiz o curso antes?</span>
+          <span class="faq__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq__a"><p>Se você é aluna de turma anterior do curso, fala comigo direto pelo grupo ou pelo email. Tem condição específica para reentrada com a Gut AI inclusa.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SEÇÃO 11 · CTA Final
+     Arquetipo: Type Hero Closing + Particles
+     ============================================================ -->
+<section class="cta-final">
+  <div class="cta-final__atmosphere" aria-hidden="true">
+    <div class="cta-final__orb cta-final__orb--lilac"></div>
+    <div class="cta-final__orb cta-final__orb--gold"></div>
+  </div>
+
+  <div class="container container--narrow">
+    <span class="eyebrow eyebrow--center eyebrow--urgency-loud" data-reveal>
+      <span class="dot-urgency"></span>
+      O CONTADOR ESTÁ RODANDO · <span data-cd-mirror="full">23h 59min</span>
+    </span>
+
+    <h2 class="cta-final__h h2--center" data-reveal>
+      Em <em>24 horas</em>, esse link vira página de R$ 2.997<br/>
+      sem a Gut AI inclusa.
+    </h2>
+
+    <p class="lede lede--center" data-reveal>
+      Se a imersão fez sentido e você quer aprofundar, esse é o momento. Não vai ter segunda chamada nessa condição.
+    </p>
+
+    <div class="cta-final__body">
+      <p data-reveal>Você acabou de viver 3 horas comigo ao vivo. Sabe como eu trabalho, como eu falo, como eu organizo o raciocínio.</p>
+      <p data-reveal>O curso é a versão estendida do que você viu. A Gut AI é a ferramenta que pega o que eu te ensinei e coloca para rodar do seu lado, todo dia, no paciente real.</p>
+      <p data-reveal><strong>R$ 1.997. 12x de R$ 206,54. 6 meses de Gut AI. Acesso ao curso. Comunidade. 7 dias de garantia.</strong></p>
+      <p data-reveal>A decisão é sua. O contador está rodando.</p>
+    </div>
+
+    <div class="cta-final__cta-wrap" data-reveal>
+      <a href="https://pay.hotmart.com/W98911884K?off=1dabjqu3&checkoutMode=10" target="_blank" rel="noopener" class="cta cta--mega cta--mega-loud" data-magnetic>
+        <span class="cta__label">Quero o curso completo por R$ 1.997</span>
+        <span class="cta__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+      <p class="cta__micro">12x de R$ 206,54 ou Pix à vista · Pagamento Hotmart · 7 dias de garantia.</p>
+    </div>
+
+    <span class="cta-final__signature" data-reveal>Karina</span>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__col">
+      <p class="footer__copy">© 2026 Karina Al Assal · CRN 17275 · Todos os direitos reservados.</p>
+      <p class="footer__links">
+        <a href="#">Política de Privacidade</a> ·
+        <a href="#">Termos de Uso</a> ·
+        <a href="mailto:contato@karinaalassal.com.br">contato@karinaalassal.com.br</a>
+      </p>
+    </div>
+    <div class="footer__col footer__col--disclaimer">
+      <p>Esta página não está afiliada ao Facebook, Instagram, Google ou qualquer plataforma. Resultados clínicos variam de paciente para paciente.</p>
+      <p>O conteúdo do curso é educacional e voltado para profissionais de saúde. A Gut AI é uma ferramenta de apoio à decisão clínica e não substitui o julgamento profissional.</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Scripts -->
+<script src="/curso/script.js?v=7" defer></script>
+</body>
+</html>
