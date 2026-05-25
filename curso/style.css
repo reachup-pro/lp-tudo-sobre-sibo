@@ -37,6 +37,11 @@
   /* Rouge accent (compartilhado com imersão) */
   --rouge: #c9242f;
 
+  /* Green — sinaliza bônus/incluso/gratis (vibrante em fundo dark) */
+  --green: #4ade80;
+  --green-soft: rgba(74, 222, 128, 0.18);
+  --green-glow: rgba(74, 222, 128, 0.35);
+
   /* Tipografia */
   --font-display: "Fraunces", "Times New Roman", Georgia, serif;
   --font-body: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -542,6 +547,22 @@ a {
   letter-spacing: -0.005em;
 }
 
+/* Coluna de bônus em destaque verde */
+.meta__cols > div.is-bonus .meta__key { color: var(--green); }
+.meta__cols > div.is-bonus .meta__val {
+  color: var(--cream-0);
+  font-weight: 500;
+}
+.meta__cols > div.is-bonus .meta__val::before {
+  content: "★";
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--green);
+  filter: drop-shadow(0 0 6px var(--green-glow));
+  font-size: 0.85em;
+  vertical-align: 1px;
+}
+
 /* ---------- 5. SEÇÃO 2 · Confidencial / White Space Hero ---------- */
 .confidencial {
   position: relative;
@@ -870,6 +891,18 @@ a {
 .h2--ink { color: var(--ink-0); }
 .h2--center { text-align: center; }
 .h2--xlarge { font-size: clamp(48px, 6vw, 96px); }
+.h2--loose {
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  word-spacing: 0.04em;
+}
+.h2 .brand-gutai {
+  font-variation-settings: "opsz" 144, "wght" 700, "SOFT" 0;
+  color: var(--lilac-1);
+  font-weight: 700;
+  display: inline-block;
+  padding: 0 0.04em;
+}
 .h2 em {
   font-style: italic;
   font-variation-settings: "opsz" 144, "wght" 350, "SOFT" 80;
@@ -1267,11 +1300,55 @@ a {
   position: relative;
 }
 .modulos__head {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto var(--s-9);
   text-align: center;
 }
-.modulos__head .h2 { margin-bottom: var(--s-5); }
+.modulos__head .h2 { margin-bottom: var(--s-6); }
+
+.modulos__chips {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.modulos__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border: 1px solid var(--gold-soft);
+  background: rgba(201, 168, 110, 0.04);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream-0);
+  font-weight: 500;
+  transition: background 300ms var(--ease-out), border-color 300ms var(--ease-out);
+}
+.modulos__chip strong {
+  color: var(--gold-1);
+  font-weight: 600;
+  margin-right: 2px;
+}
+.modulos__chip:hover {
+  background: rgba(201, 168, 110, 0.10);
+  border-color: var(--gold-1);
+}
+.modulos__chip--green {
+  border-color: var(--green-soft);
+  background: rgba(74, 222, 128, 0.06);
+}
+.modulos__chip--green strong { color: var(--green); }
+.modulos__chip--green:hover {
+  background: rgba(74, 222, 128, 0.12);
+  border-color: var(--green);
+}
 
 .bento {
   display: grid;
@@ -1443,6 +1520,11 @@ a {
   color: var(--cream-0);
   letter-spacing: -0.015em;
   margin-bottom: 6px;
+}
+.ao-vivo__title em {
+  font-style: italic;
+  font-variation-settings: "opsz" 30, "wght" 500, "SOFT" 70;
+  color: var(--lilac-1);
 }
 .ao-vivo__text {
   font-family: var(--font-body);
@@ -1819,46 +1901,52 @@ a {
   line-height: 1.55;
 }
 
-/* Selo final */
+/* Selo final — destaque BÔNUS em verde vibrante */
 .gutai__seal {
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
-  padding: 28px 32px;
+  padding: 36px 40px;
   text-align: center;
-  border: 1px solid var(--gold-1);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(201, 168, 110, 0.08), rgba(201, 168, 110, 0.02));
+  border: 1.5px solid var(--green);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(74, 222, 128, 0.10), rgba(74, 222, 128, 0.02));
   position: relative;
   animation: seal-pulse 3s ease-out infinite;
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.1);
 }
 @keyframes seal-pulse {
-  0%, 100% { box-shadow: 0 0 0 rgba(201, 168, 110, 0); }
-  50% { box-shadow: 0 0 60px rgba(201, 168, 110, 0.3); }
+  0%, 100% { box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.1), 0 0 0 rgba(74, 222, 128, 0); }
+  50% { box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.15), 0 0 80px var(--green-glow); }
 }
 .seal__label {
-  display: block;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  background: var(--green-soft);
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--gold-1);
-  margin-bottom: 8px;
+  color: var(--green);
+  font-weight: 600;
+  margin-bottom: 14px;
 }
 .seal__big {
   display: block;
   font-family: var(--font-display);
-  font-variation-settings: "opsz" 144, "wght" 600, "SOFT" 0;
-  font-size: clamp(40px, 5vw, 56px);
-  color: var(--cream-0);
+  font-variation-settings: "opsz" 144, "wght" 700, "SOFT" 0;
+  font-size: clamp(44px, 5.4vw, 64px);
+  color: var(--green);
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  text-shadow: 0 0 30px rgba(74, 222, 128, 0.25);
 }
 .seal__sub {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cream-3);
+  color: var(--cream-2);
 }
 
 @media (max-width: 1099px) {
@@ -2002,10 +2090,38 @@ a {
   z-index: 1;
 }
 .karina__photo {
-  max-width: 360px;
-  filter: drop-shadow(0 30px 60px rgba(8, 6, 13, 0.2));
+  position: relative;
+  max-width: 380px;
+  filter: drop-shadow(0 50px 80px rgba(8, 6, 13, 0.32))
+          drop-shadow(0 0 30px rgba(157, 134, 193, 0.18));
 }
-.karina__photo img { width: 100%; height: auto; }
+.karina__photo::before {
+  content: "";
+  position: absolute;
+  top: 12%;
+  bottom: -2%;
+  left: 6%;
+  right: -10%;
+  background: linear-gradient(160deg, var(--lilac-medium) 0%, rgba(184, 164, 216, 0.08) 60%, transparent 100%);
+  border-radius: 12px 12px 0 0;
+  z-index: -1;
+}
+.karina__photo::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -2px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-1) 40%, var(--gold-1) 60%, transparent);
+  z-index: 0;
+}
+.karina__photo img {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
 .karina__body .h2 { margin-bottom: var(--s-6); }
 .karina__body .body { margin-bottom: var(--s-4); }
 
