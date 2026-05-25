@@ -1648,9 +1648,9 @@ a {
 
 .mockup__main { padding: 20px 24px; display: flex; flex-direction: column; gap: var(--s-5); }
 .mockup__patient-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; }
-.mockup__patient-head h4 {
+.mockup__patient-name {
   font-family: var(--font-display);
-  font-variation-settings: "opsz" 30, "wght" 450, "SOFT" 0;
+  font-variation-settings: "opsz" 30, "wght" 450;
   font-size: 18px;
   color: var(--cream-0);
 }
@@ -1719,9 +1719,9 @@ a {
   color: var(--cream-3);
   letter-spacing: 0.06em;
 }
-.mockup__card h5 {
+.mockup__card-title {
   font-family: var(--font-display);
-  font-variation-settings: "opsz" 30, "wght" 450, "SOFT" 0;
+  font-variation-settings: "opsz" 30, "wght" 450;
   font-size: 14px;
   color: var(--cream-0);
   margin-bottom: 10px;

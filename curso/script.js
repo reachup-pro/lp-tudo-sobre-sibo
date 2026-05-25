@@ -125,7 +125,9 @@
       const shouldShow = window.scrollY > showAt;
       if (shouldShow !== lastVisible) {
         stickyBar.classList.toggle('is-visible', shouldShow);
-        stickyBar.setAttribute('aria-hidden', !shouldShow);
+        stickyBar.setAttribute('aria-hidden', String(!shouldShow));
+        if (shouldShow) stickyBar.removeAttribute('inert');
+        else stickyBar.setAttribute('inert', '');
         lastVisible = shouldShow;
       }
     };

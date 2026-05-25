@@ -11,9 +11,19 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Outfit:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Outfit:wght@300..600&family=Geist+Mono:wght@500&display=swap" />
 
-<link rel="stylesheet" href="/curso/style.css?v=7" />
+<!-- Preload da hero image (LCP candidate desktop+mobile) -->
+<link rel="preload" as="image"
+      href="/.netlify/images?url=/curso/images/karina-cutout.png&w=600&q=85&fm=webp"
+      imagesrcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=420&q=85&fm=webp 420w,
+                   /.netlify/images?url=/curso/images/karina-cutout.png&w=600&q=85&fm=webp 600w,
+                   /.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85&fm=webp 900w,
+                   /.netlify/images?url=/curso/images/karina-cutout.png&w=1200&q=85&fm=webp 1200w"
+      imagesizes="(max-width: 900px) 80vw, 540px"
+      fetchpriority="high" />
+
+<link rel="stylesheet" href="/curso/style.css?v=8" />
 </head>
 <body>
 
@@ -26,8 +36,8 @@
 <!-- Scroll progress bar (global, top) -->
 <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div>
 
-<!-- Sticky countdown bar (aparece após scroll do hero) -->
-<div class="sticky-bar" id="stickyBar" aria-hidden="true">
+<!-- Sticky countdown bar (aparece após scroll do hero · inert quando hidden) -->
+<div class="sticky-bar" id="stickyBar" aria-hidden="true" inert>
   <div class="sticky-bar__inner">
     <span class="sticky-bar__marker">OFERTA IMERSÃO · R$1997</span>
     <div class="sticky-bar__countdown" aria-live="polite">
@@ -43,10 +53,12 @@
 </div>
 
 <!-- Custom cursor (apenas desktop fine-pointer) -->
-<div class="cursor" id="cursor" aria-hidden="true">
+<div class="cursor" id="cursor" aria-hidden="true" inert>
   <span class="cursor__dot"></span>
   <span class="cursor__label"></span>
 </div>
+
+<main id="main">
 
 <!-- ============================================================
      HERO · Editorial Type-Driven (3-row layout)
@@ -84,11 +96,12 @@
 
       <figure class="hero__photo">
         <img
-          src="/.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85"
-          srcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=600&q=85 600w,
-                  /.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85 900w,
-                  /.netlify/images?url=/curso/images/karina-cutout.png&w=1200&q=85 1200w"
-          sizes="(max-width: 900px) 70vw, 540px"
+          src="/.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85&fm=webp"
+          srcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=420&q=85&fm=webp 420w,
+                  /.netlify/images?url=/curso/images/karina-cutout.png&w=600&q=85&fm=webp 600w,
+                  /.netlify/images?url=/curso/images/karina-cutout.png&w=900&q=85&fm=webp 900w,
+                  /.netlify/images?url=/curso/images/karina-cutout.png&w=1200&q=85&fm=webp 1200w"
+          sizes="(max-width: 900px) 80vw, 540px"
           alt="Karina Al Assal"
           width="900"
           height="1200"
@@ -399,7 +412,7 @@
 
         <div class="mockup__main">
           <div class="mockup__patient-head">
-            <h4>Maria S. · 34a · Teste SIBO</h4>
+            <div class="mockup__patient-name">Maria S. · 34a · Teste SIBO</div>
             <span class="mockup__chip mockup__chip--purple">Lactulose 10g · 120min</span>
           </div>
 
@@ -438,7 +451,7 @@
             </article>
 
             <article class="mockup__card mockup__card--plan">
-              <h5>Plano de conduta</h5>
+              <div class="mockup__card-title">Plano de conduta</div>
               <ol class="mockup__plan">
                 <li><span>01</span> Antimicrobiana<small>Rifaximina 550mg 8/8h · 14 dias</small></li>
                 <li><span>02</span> Dieta<small>Low-FODMAP fase 1 + adaptação BR</small></li>
@@ -584,9 +597,9 @@
 
     <figure class="karina__photo" data-reveal>
       <img
-        src="/.netlify/images?url=/curso/images/karina-cutout.png&w=640&q=85"
-        srcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=420&q=85 420w,
-                /.netlify/images?url=/curso/images/karina-cutout.png&w=640&q=85 640w"
+        src="/.netlify/images?url=/curso/images/karina-cutout.png&w=640&q=85&fm=webp"
+        srcset="/.netlify/images?url=/curso/images/karina-cutout.png&w=420&q=85&fm=webp 420w,
+                /.netlify/images?url=/curso/images/karina-cutout.png&w=640&q=85&fm=webp 640w"
         sizes="(max-width: 768px) 280px, 360px"
         alt="Karina Al Assal"
         width="640"
@@ -879,6 +892,9 @@
 </section>
 
 
+</main>
+
+
 <!-- ============================================================
      FOOTER
      ============================================================ -->
@@ -901,6 +917,6 @@
 
 
 <!-- Scripts -->
-<script src="/curso/script.js?v=7" defer></script>
+<script src="/curso/script.js?v=8" defer></script>
 </body>
 </html>
