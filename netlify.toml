@@ -101,6 +101,19 @@
 # Redirects / SPA fallback (não há SPA, mas garante 200 nas rotas)
 # ----------------------------------------------------------------
 
+# Raiz → /curso/ (imersão encerrada, curso vira oferta principal)
+[[redirects]]
+  from = "/"
+  to = "/curso/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/index.html"
+  to = "/curso/"
+  status = 301
+  force = true
+
 # Dashboard Imersão (sem .html no URL público)
 [[redirects]]
   from = "/dashboard-imersao"
