@@ -6,6 +6,19 @@
 (() => {
   'use strict';
 
+  /* ---------- 0a. Defesa contra link fingerprinter (AC Diffuser) ----------
+     O diffuser.js da ActiveCampaign injeta ZWSP/ZWNJ no ?text= de links wa.me
+     pra fingerprint cross-domain. Isso vaza chars invisíveis pra mensagem do
+     WhatsApp. Reescrevemos o href no instante da interação. */
+  const CLEAN_WPP_HREF = 'https://wa.me/5511912779806?text=' + encodeURIComponent('Olá, gostaria de me inscrever no boleto/pix parcelado');
+  document.querySelectorAll('a[data-wpp-clean]').forEach((a) => {
+    const enforce = () => { if (a.getAttribute('href') !== CLEAN_WPP_HREF) a.setAttribute('href', CLEAN_WPP_HREF); };
+    enforce();
+    ['pointerdown', 'mousedown', 'touchstart', 'contextmenu', 'focus', 'mouseenter'].forEach((evt) => {
+      a.addEventListener(evt, enforce, true);
+    });
+  });
+
   /* ---------- 0. Dev fallback: Netlify Image CDN -> caminho direto ---------- */
   const isLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:';
   if (isLocal) {

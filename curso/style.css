@@ -1046,6 +1046,54 @@ html.countdown-pre .sb-pre { display: flex; }
               0 0 80px rgba(184, 164, 216, 0.3);
 }
 
+.cta--ghost {
+  background: transparent;
+  color: var(--cream-1);
+  border: 1px solid rgba(244, 237, 224, 0.22);
+  box-shadow: none;
+}
+.cta--ghost:hover {
+  background: rgba(74, 222, 128, 0.06);
+  border-color: var(--green-soft);
+  color: var(--cream-0);
+  box-shadow: 0 4px 18px rgba(74, 222, 128, 0.12),
+              0 0 0 1px rgba(74, 222, 128, 0.18);
+}
+.cta--ghost .cta__arrow {
+  background: rgba(74, 222, 128, 0.16);
+  color: var(--green);
+}
+.cta--ghost:hover .cta__arrow {
+  background: var(--green);
+  color: var(--ink-0);
+}
+.cta--ghost .cta__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+@media (hover: none) {
+  .cta--ghost:hover {
+    background: transparent;
+    border-color: rgba(244, 237, 224, 0.22);
+    color: var(--cream-1);
+    box-shadow: none;
+  }
+  .cta--ghost:hover .cta__arrow {
+    background: rgba(74, 222, 128, 0.16);
+    color: var(--green);
+  }
+}
+
+.oferta__cta-wrap .cta + .cta,
+.cta-final__cta-wrap .cta + .cta {
+  margin-top: var(--s-3);
+}
+
 .cta__micro {
   font-family: var(--font-mono);
   font-size: 11px;
