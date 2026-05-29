@@ -840,15 +840,11 @@ html.countdown-pre .sb-pre { display: flex; }
     max-width: 40px;
   }
 
-  .hero__countdown {
-    align-items: flex-start;
-    text-align: left;
-    border-top: 1px solid var(--lilac-soft);
-    padding-top: var(--s-4);
-  }
-
-  .countdown__clock {
-    font-size: clamp(36px, 11vw, 48px);
+  .hero__countdown,
+  .sticky-bar,
+  .eyebrow--urgency,
+  .eyebrow--urgency-loud {
+    display: none !important;
   }
 
   /* No mobile: empilhado, content (eyebrow + headline + CTA) primeiro, foto depois */
