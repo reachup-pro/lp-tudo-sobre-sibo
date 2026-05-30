@@ -2782,7 +2782,7 @@ html.countdown-pre .sb-pre { display: flex; }
 .float-cta {
   position: fixed;
   bottom: clamp(20px, 3vw, 32px);
-  right: clamp(20px, 3vw, 32px);
+  left: 50%;
   z-index: 90;
   display: inline-flex;
   align-items: center;
@@ -2801,7 +2801,7 @@ html.countdown-pre .sb-pre { display: flex; }
     0 0 0 1px rgba(244, 237, 224, 0.12),
     0 0 32px rgba(244, 237, 224, 0.15);
   opacity: 0;
-  transform: translateY(20px) scale(0.92);
+  transform: translate(-50%, 20px) scale(0.92);
   pointer-events: none;
   transition:
     opacity 0.45s var(--ease-out),
@@ -2813,7 +2813,7 @@ html.countdown-pre .sb-pre { display: flex; }
 
 .float-cta.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate(-50%, 0) scale(1);
   pointer-events: auto;
 }
 
