@@ -1,6 +1,6 @@
 /* ================================================================
    SIBO Curso · LP Oferta Imersão
-   Countdown 24h + reveal on scroll + magnetic CTA
+   Reveal on scroll + magnetic CTA
    ================================================================ */
 
 (() => {
@@ -42,65 +42,6 @@
     });
   }
 
-  /* ---------- 1. Countdown ----------
-     Encerra em 31/05/2026 às 23h59. Ativa em 28/05/2026 00h00 (BRT).
-     Antes da ativação: countdown oculto via classe `html.countdown-pre`
-     (definida no inline script do head). Ticks do JS pulam quando inativo.
-     Formato adaptativo:
-       - Quando faltam >= 24h → mostra "Xd : YYh : ZZmin" (sem segundos)
-       - Quando faltam  < 24h → mostra "YYh : ZZmin : SSs"
-  */
-  const END_ISO = '2026-05-31T23:59:59-03:00';
-  const endTs = new Date(END_ISO).getTime();
-  const countdownActive = document.documentElement.classList.contains('countdown-on');
-
-  const nodes = {
-    hours: document.querySelector('[data-cd="hours"]'),
-    minutes: document.querySelector('[data-cd="minutes"]'),
-    seconds: document.querySelector('[data-cd="seconds"]'),
-  };
-  const unitNodes = {
-    hours: document.querySelector('[data-cd-unit="0"]'),
-    minutes: document.querySelector('[data-cd-unit="1"]'),
-    seconds: document.querySelector('[data-cd-unit="2"]'),
-  };
-
-  const pad = (n) => String(Math.max(0, n)).padStart(2, '0');
-
-  function tickCountdown() {
-    const now = Date.now();
-    let diff = Math.max(0, endTs - now);
-
-    const days = Math.floor(diff / 86_400_000);
-    diff -= days * 86_400_000;
-    const hours = Math.floor(diff / 3_600_000);
-    diff -= hours * 3_600_000;
-    const minutes = Math.floor(diff / 60_000);
-    diff -= minutes * 60_000;
-    const seconds = Math.floor(diff / 1000);
-
-    if (days > 0) {
-      if (nodes.hours) nodes.hours.textContent = days;
-      if (nodes.minutes) nodes.minutes.textContent = pad(hours);
-      if (nodes.seconds) nodes.seconds.textContent = pad(minutes);
-      if (unitNodes.hours) unitNodes.hours.textContent = 'd';
-      if (unitNodes.minutes) unitNodes.minutes.textContent = 'h';
-      if (unitNodes.seconds) unitNodes.seconds.textContent = 'min';
-    } else {
-      if (nodes.hours) nodes.hours.textContent = pad(hours);
-      if (nodes.minutes) nodes.minutes.textContent = pad(minutes);
-      if (nodes.seconds) nodes.seconds.textContent = pad(seconds);
-      if (unitNodes.hours) unitNodes.hours.textContent = 'h';
-      if (unitNodes.minutes) unitNodes.minutes.textContent = 'min';
-      if (unitNodes.seconds) unitNodes.seconds.textContent = 's';
-    }
-  }
-
-  if (countdownActive) {
-    tickCountdown();
-    setInterval(tickCountdown, 1000);
-  }
-
   /* ---------- 2. Reveal: CSS-only (sem JS). Animation dispara no load com stagger. ---------- */
 
   /* ---------- 3. Magnetic CTA (desktop only) ---------- */
@@ -125,85 +66,6 @@
         el.style.transform = '';
       });
     });
-  }
-
-  /* ---------- 4. Sticky countdown bar + countdown mirror ---------- */
-  const stickyBar = document.getElementById('stickyBar');
-  const sbNodes = {
-    hours: document.querySelector('[data-sb="hours"]'),
-    minutes: document.querySelector('[data-sb="minutes"]'),
-    seconds: document.querySelector('[data-sb="seconds"]'),
-  };
-  const mirrorNodes = document.querySelectorAll('[data-cd-mirror="full"]');
-
-  function tickSticky() {
-    const now = Date.now();
-    let diff = Math.max(0, endTs - now);
-    const days = Math.floor(diff / 86_400_000);
-    diff -= days * 86_400_000;
-    const hours = Math.floor(diff / 3_600_000);
-    diff -= hours * 3_600_000;
-    const minutes = Math.floor(diff / 60_000);
-    diff -= minutes * 60_000;
-    const seconds = Math.floor(diff / 1000);
-
-    if (days > 0) {
-      // Sticky bar: troca os textos dos spans pra Xd YYh ZZmin
-      const parent = sbNodes.hours && sbNodes.hours.parentElement;
-      if (parent && !parent.dataset.daysMode) {
-        parent.dataset.daysMode = '1';
-        // Reescreve o conteúdo inteiro com unidades novas
-        parent.innerHTML = '<span data-sb="hours">'+days+'</span>d <span data-sb="minutes">'+pad(hours)+'</span>h <span data-sb="seconds">'+pad(minutes)+'</span>min';
-        sbNodes.hours = parent.querySelector('[data-sb="hours"]');
-        sbNodes.minutes = parent.querySelector('[data-sb="minutes"]');
-        sbNodes.seconds = parent.querySelector('[data-sb="seconds"]');
-      } else {
-        if (sbNodes.hours) sbNodes.hours.textContent = days;
-        if (sbNodes.minutes) sbNodes.minutes.textContent = pad(hours);
-        if (sbNodes.seconds) sbNodes.seconds.textContent = pad(minutes);
-      }
-      mirrorNodes.forEach((n) => {
-        n.textContent = days + 'd ' + pad(hours) + 'h';
-      });
-    } else {
-      const parent = sbNodes.hours && sbNodes.hours.parentElement;
-      if (parent && parent.dataset.daysMode) {
-        delete parent.dataset.daysMode;
-        parent.innerHTML = '<span data-sb="hours">'+pad(hours)+'</span>h <span data-sb="minutes">'+pad(minutes)+'</span>min <span data-sb="seconds">'+pad(seconds)+'</span>s';
-        sbNodes.hours = parent.querySelector('[data-sb="hours"]');
-        sbNodes.minutes = parent.querySelector('[data-sb="minutes"]');
-        sbNodes.seconds = parent.querySelector('[data-sb="seconds"]');
-      } else {
-        if (sbNodes.hours) sbNodes.hours.textContent = pad(hours);
-        if (sbNodes.minutes) sbNodes.minutes.textContent = pad(minutes);
-        if (sbNodes.seconds) sbNodes.seconds.textContent = pad(seconds);
-      }
-      mirrorNodes.forEach((n) => {
-        n.textContent = pad(hours) + 'h ' + pad(minutes) + 'min';
-      });
-    }
-  }
-  if (countdownActive) {
-    tickSticky();
-    setInterval(tickSticky, 1000);
-  }
-
-  if (stickyBar) {
-    const hero = document.querySelector('.hero');
-    const showAt = hero ? hero.offsetHeight * 0.85 : 800;
-    let lastVisible = false;
-    const handleScroll = () => {
-      const shouldShow = window.scrollY > showAt;
-      if (shouldShow !== lastVisible) {
-        stickyBar.classList.toggle('is-visible', shouldShow);
-        stickyBar.setAttribute('aria-hidden', String(!shouldShow));
-        if (shouldShow) stickyBar.removeAttribute('inert');
-        else stickyBar.setAttribute('inert', '');
-        lastVisible = shouldShow;
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
   }
 
   /* ---------- 5. Scroll progress bar ---------- */
