@@ -2769,3 +2769,104 @@ html.countdown-pre .sb-pre { display: flex; }
   }
   .gutai__orb, .cta-final__orb { animation: none !important; }
 }
+
+
+/* ================================================================
+   FLOATING CTA — botão flutuante "Quero o curso"
+   Aparece após o hero, esconde dentro de .oferta e .cta-final
+   Âncora #oferta agora vive em .oferta__head — scroll-margin pra
+   dar respiro visual no topo
+   ================================================================ */
+#oferta { scroll-margin-top: 32px; }
+
+.float-cta {
+  position: fixed;
+  bottom: clamp(20px, 3vw, 32px);
+  right: clamp(20px, 3vw, 32px);
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 14px 22px;
+  background: var(--cream-0);
+  color: var(--ink-0);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  border-radius: var(--r-pill);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(244, 237, 224, 0.12),
+    0 0 32px rgba(244, 237, 224, 0.15);
+  opacity: 0;
+  transform: translateY(20px) scale(0.92);
+  pointer-events: none;
+  transition:
+    opacity 0.45s var(--ease-out),
+    transform 0.45s var(--ease-spring),
+    background 0.3s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.float-cta.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.float-cta:hover {
+  background: var(--lilac-1);
+  box-shadow:
+    0 12px 36px rgba(201, 180, 232, 0.45),
+    0 0 0 1px rgba(201, 180, 232, 0.25),
+    0 0 60px rgba(184, 164, 216, 0.3);
+}
+
+.float-cta__label {
+  white-space: nowrap;
+}
+
+.float-cta__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--ink-0);
+  color: var(--cream-0);
+  transition: transform 0.4s var(--ease-spring);
+  flex-shrink: 0;
+}
+
+.float-cta:hover .float-cta__arrow {
+  transform: translateX(3px) rotate(-6deg);
+}
+
+@media (max-width: 480px) {
+  .float-cta {
+    padding: 12px 18px;
+    font-size: 14px;
+    gap: var(--s-2);
+  }
+  .float-cta__arrow {
+    width: 22px;
+    height: 22px;
+  }
+  .float-cta__arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (hover: none) {
+  .float-cta:hover {
+    background: var(--cream-0);
+  }
+  .float-cta:hover .float-cta__arrow {
+    transform: none;
+  }
+}

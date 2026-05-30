@@ -236,6 +236,38 @@
     });
   }
 
+  /* ---------- 12.5 Floating CTA — mostra após hero, esconde em oferta/cta-final ---------- */
+  const floatCta = document.getElementById('floatCta');
+  if (floatCta && 'IntersectionObserver' in window) {
+    let pastHero = false;
+    let inHideZone = false;
+
+    const updateFab = () => {
+      floatCta.classList.toggle('is-visible', pastHero && !inHideZone);
+    };
+
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      const heroIO = new IntersectionObserver((entries) => {
+        pastHero = !entries[0].isIntersecting;
+        updateFab();
+      }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
+      heroIO.observe(heroEl);
+    }
+
+    const hideZones = document.querySelectorAll('.oferta, .cta-final');
+    if (hideZones.length) {
+      const hideIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target._inView = entry.isIntersecting;
+        });
+        inHideZone = Array.from(hideZones).some((el) => el._inView);
+        updateFab();
+      }, { threshold: 0.15 });
+      hideZones.forEach((el) => hideIO.observe(el));
+    }
+  }
+
   /* ---------- 13. Gut AI particles (canvas leve, lazy) ---------- */
   const particlesCanvas = document.getElementById('gutaiParticles');
   if (particlesCanvas && 'IntersectionObserver' in window) {
