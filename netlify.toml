@@ -82,6 +82,39 @@
   status = 200
 
 # ----------------------------------------------------------------
+# Subpath /reset-intestinal (LP low-ticket B2C — Reset Intestinal R$47)
+# Globs raiz não casam subpath; precisa duplicar com prefixo /reset-intestinal/
+# ----------------------------------------------------------------
+
+[[headers]]
+  for = "/reset-intestinal/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/reset-intestinal/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/reset-intestinal/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/reset-intestinal/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/reset-intestinal/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ----------------------------------------------------------------
 # Dashboard Imersão (subpágina) — segurança apertada
 # - Referrer-Policy: no-referrer (S1: token em URL nunca vaza)
 # - CSP sem 'unsafe-inline' (S3)
@@ -124,4 +157,10 @@
 [[redirects]]
   from = "/politica-de-privacidade"
   to = "/politica-de-privacidade/index.html"
+  status = 200
+
+# Redirect /reset-intestinal (sem barra) → /reset-intestinal/index.html
+[[redirects]]
+  from = "/reset-intestinal"
+  to = "/reset-intestinal/index.html"
   status = 200
