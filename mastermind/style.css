@@ -1,0 +1,813 @@
+/* ============================================================
+   MASTERMIND MICROBIOTA — Lista de espera
+   Karina Al Assal
+
+   FONTES
+     - Unbounded (Google Fonts) ......... display / headlines
+     - Walkway Expand (self-host) ....... logo, eyebrows, microlabels
+       Fonte do logotipo do produto. GemFonts / Typotheticals,
+       freeware para uso pessoal e comercial. Subset latino em WOFF2.
+     - Instrument Sans (Google Fonts) ... corpo de texto e UI
+       Equivalente fiel a Neue Montreal, a sans real da marca (licenciada).
+
+   PALETA — híbrida: creme do site dela + índigo e teal do logo
+     #FCF8F3 creme   |  #190737 índigo (logo)  |  #2A8D80 teal (microbioma)
+   ============================================================ */
+
+/* ---------- Walkway Expand (self-hosted) ---------- */
+@font-face {
+  font-family: "Walkway Expand";
+  src: url("/mastermind/fonts/walkway-expand-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* A Walkway tem traço muito fino. Em corpo pequeno (botões, labels)
+   só os pesos altos sustentam a legibilidade sobre fundo escuro. */
+@font-face {
+  font-family: "Walkway Expand";
+  src: url("/mastermind/fonts/walkway-expand-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Walkway Expand";
+  src: url("/mastermind/fonts/walkway-expand-900.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --creme:       #FCF8F3;
+  --creme-deep:  #F1E9DF;
+  --indigo:      #190737;
+  --indigo-soft: #2C1A4D;
+  --teal:        #2A8D80;
+  --teal-ink:    #1C6459;   /* teal com contraste AA sobre creme */
+  --teal-light:  #6BB593;
+  --graphite:    #5C5563;
+
+  --hairline:    rgba(25, 7, 55, .16);
+  --hairline-lt: rgba(252, 248, 243, .20);
+
+  --font-display: "Unbounded", "Trebuchet MS", sans-serif;
+  --font-mark:    "Walkway Expand", "Century Gothic", sans-serif;
+  --font-sans:    "Instrument Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --maxw: 1560px;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--creme);
+  color: var(--indigo);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+::selection { background: var(--teal-light); color: var(--indigo); }
+
+:focus-visible {
+  outline: 2px solid var(--teal-ink);
+  outline-offset: 3px;
+}
+
+/* ---------- Grain ---------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: .18;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.36'/%3E%3C/svg%3E");
+}
+
+/* ---------- Masthead + lockup do logo ---------- */
+.masthead {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: clamp(.9rem, 2vw, 1.75rem);
+  padding: clamp(1.35rem, 2.4vw, 2.1rem) 0 clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .34em;
+  text-decoration: none;
+  color: var(--indigo);
+  flex-shrink: 0;
+  font-family: var(--font-mark);
+  /* área de toque >= 44px sem alterar o espaçamento visual do masthead */
+  padding-block: 6px;
+  margin-block: -6px;
+}
+
+.lockup__over {
+  font-size: clamp(.46rem, 1.4vw, .55rem);
+  font-weight: 600;
+  letter-spacing: .52em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  line-height: 1;
+  text-indent: .52em;
+}
+
+.lockup__main {
+  display: flex;
+  align-items: center;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-indent: .26em;
+}
+
+/* O "O" de MICROBIOTA vira o microbioma.
+   Placeholder ate o icone em alta resolucao entrar no lugar. */
+.lockup__orb {
+  display: inline-block;
+  width: .86em;
+  height: .86em;
+  /* o letter-spacing do lockup ja abre o vao depois do orb */
+  margin-inline: 0;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background:
+    radial-gradient(circle at 62% 38%, var(--teal-light) 0 9%, transparent 10%),
+    radial-gradient(circle at 34% 56%, var(--teal-light) 0 7%, transparent 8%),
+    radial-gradient(circle at 58% 68%, var(--teal) 0 11%, transparent 12%),
+    radial-gradient(circle at 40% 32%, var(--teal) 0 6%, transparent 7%),
+    radial-gradient(circle at 50% 50%, var(--indigo-soft) 0%, var(--indigo) 78%);
+}
+
+.masthead__rule { flex: 1; height: 1px; background: var(--hairline); }
+
+.masthead__tag {
+  flex-shrink: 0;
+  font-family: var(--font-mark);
+  font-weight: 700;
+  font-size: clamp(.55rem, 1.5vw, .62rem);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+/* ---------- Eyebrow ---------- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .7em;
+  margin: 0;
+  font-family: var(--font-mark);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.eyebrow__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+/* Sobre fundo escuro a Walkway some. Peso máximo e mais opacidade. */
+.eyebrow--light {
+  font-weight: 900;
+  color: rgba(252, 248, 243, .74);
+}
+
+/* ============================================================
+   HERO — Editorial + painel de cor full-height + cutout
+   Sem animação de entrada. Só o halo respira.
+   ============================================================ */
+.hero {
+  position: relative;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  gap: clamp(2.25rem, 5vw, 0);
+  overflow-x: clip;
+}
+
+/* Painel que preenche a coluna direita de cima a baixo.
+   Elimina o vazio que sobrava acima da foto. */
+.hero__panel {
+  display: none;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 56%;
+  right: -50vw;
+  background: var(--creme-deep);
+}
+
+.hero__halo {
+  position: absolute;
+  top: 12%;
+  left: 26%;
+  width: 34rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42, 141, 128, .20) 0%, rgba(42, 141, 128, 0) 68%);
+  animation: breathe 10s var(--ease) infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: .8; }
+  50%      { transform: scale(1.08); opacity: 1;  }
+}
+
+.hero__text {
+  position: relative;
+  z-index: 2;
+  max-width: 40rem;
+  padding-bottom: clamp(1rem, 3vw, 3rem);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.62rem, 6.4vw, 3.5rem);
+  line-height: 1.16;
+  letter-spacing: -0.032em;
+  margin: clamp(1.25rem, 2.4vw, 1.9rem) 0 0;
+}
+
+.hero__title em {
+  font-style: normal;
+  color: var(--teal-ink);
+}
+
+.hero__sub {
+  margin: clamp(1.15rem, 2.2vw, 1.7rem) 0 0;
+  max-width: 33rem;
+  font-size: clamp(.95rem, 3.85vw, 1.0625rem);
+  line-height: 1.62;
+  color: var(--graphite);
+  text-wrap: pretty;
+}
+
+.hero__sub strong { font-weight: 500; color: var(--indigo); }
+
+.hero__cta { margin-top: clamp(1.5rem, 2.6vw, 2.15rem); }
+
+.microcopy {
+  margin: .9rem 0 0;
+  max-width: 27rem;
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--graphite);
+}
+
+.microcopy--light { color: rgba(252, 248, 243, .58); }
+
+.hero__seal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: clamp(1.75rem, 3vw, 2.6rem) 0 0;
+  font-family: var(--font-mark);
+  font-weight: 700;
+  font-size: .62rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.hero__seal-line {
+  width: clamp(1.75rem, 4vw, 3.5rem);
+  height: 1px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+.hero__media {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  align-self: end;
+  justify-self: center;
+  width: min(100%, 23rem);
+}
+
+.hero__media img { width: 100%; height: auto; }
+
+/* ---------- Botões ---------- */
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.4rem;
+  padding: 0 clamp(1.5rem, 3vw, 2.35rem);
+  border: 1px solid var(--indigo);
+  border-radius: 2px;
+  background: var(--indigo);
+  color: var(--creme);
+  font-family: var(--font-mark);
+  font-size: .86rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color .45s var(--ease);
+}
+
+.btn span { position: relative; z-index: 2; }
+
+.btn::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .55s var(--ease);
+}
+
+.btn--solid::before { background: var(--teal); }
+.btn--solid:hover, .btn--solid:focus-visible { color: var(--creme); }
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--hairline-lt);
+  color: var(--creme);
+}
+.btn--ghost::before { background: var(--creme); }
+.btn--ghost:hover, .btn--ghost:focus-visible {
+  color: var(--indigo);
+  border-color: var(--creme);
+}
+
+.btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); }
+
+.btn--block { width: 100%; }
+
+/* ============================================================
+   AUTORIDADE — Split assimétrico + frame editorial
+   Mesmo padrão de retrato da LP dela (lp.karinaalassal.com.br):
+   foto em card claro sobre fundo escuro, com índice e legenda.
+   ============================================================ */
+.author {
+  position: relative;
+  margin-top: clamp(3.5rem, 7vw, 7rem);
+  color: var(--creme);
+  background: var(--indigo);
+  background-image: radial-gradient(115% 85% at 10% 0%, var(--indigo-soft) 0%, transparent 62%);
+  border-top: 1px solid rgba(107, 181, 147, .14);
+}
+
+.author__inner {
+  position: relative;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: clamp(3rem, 6vw, 6.5rem) var(--gutter) clamp(3.5rem, 6vw, 6.5rem);
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.author__media { margin: 0; }
+
+/* Frame da foto no mesmo padrão da LP dela (lp.karinaalassal.com.br):
+   retrato 4/5, canto inferior direito mais fechado, régua na borda esquerda,
+   índice no canto superior e legenda com credenciais embaixo. */
+.photo-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 12px 12px 4px 12px;
+  background: var(--creme-deep);
+  isolation: isolate;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  /* o retrato é de corpo inteiro; sem o zoom ela fica pequena no frame */
+  scale: 1.24;
+  transform-origin: 50% 24%;
+}
+
+.photo-frame__rule {
+  position: absolute;
+  left: 0;
+  top: 8%;
+  bottom: 8%;
+  width: 2px;
+  background: var(--teal);
+  z-index: 2;
+}
+
+.photo-frame__index {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mark);
+  font-weight: 900;
+  font-size: .58rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--creme);
+  background: rgba(25, 7, 55, .62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.photo-frame__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 1.15rem;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(107, 181, 147, .4);
+}
+
+.photo-frame__name {
+  font-family: var(--font-display);
+  font-size: .98rem;
+  letter-spacing: -0.02em;
+  color: var(--creme);
+}
+
+.photo-frame__cred {
+  font-family: var(--font-mark);
+  font-weight: 700;
+  font-size: .58rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(252, 248, 243, .58);
+}
+
+.author__body { max-width: 46rem; }
+
+.author__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 5vw, 2.9rem);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  margin: clamp(1.25rem, 2.2vw, 1.75rem) 0 0;
+}
+
+.author__title em {
+  font-style: normal;
+  color: var(--teal-light);
+}
+
+.author__lede {
+  margin: clamp(1rem, 2vw, 1.5rem) 0 0;
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  border-bottom: 1px solid var(--hairline-lt);
+  font-size: clamp(.95rem, 2.4vw, 1.075rem);
+  color: rgba(252, 248, 243, .78);
+}
+
+.author__prose { margin-top: clamp(1.75rem, 3vw, 2.5rem); }
+
+.author__prose p {
+  margin: 0 0 1.15rem;
+  font-size: .975rem;
+  line-height: 1.72;
+  color: rgba(252, 248, 243, .70);
+  text-wrap: pretty;
+}
+
+.author__kicker {
+  font-size: 1.02rem !important;
+  line-height: 1.6 !important;
+  color: var(--creme) !important;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--teal);
+}
+
+/* ---------- Credenciais ---------- */
+.creds { margin: clamp(2.25rem, 4vw, 3.25rem) 0 0; }
+
+.creds__row {
+  display: grid;
+  gap: .3rem .5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--hairline-lt);
+}
+
+.creds__row:last-child { border-bottom: 1px solid var(--hairline-lt); }
+
+.creds dt {
+  font-family: var(--font-mark);
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+}
+
+.creds dd {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: rgba(252, 248, 243, .74);
+}
+
+.author__cta { margin-top: clamp(2.25rem, 4vw, 3rem); }
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal {
+  width: min(29.5rem, calc(100vw - 2rem));
+  max-height: min(44rem, calc(100dvh - 2rem));
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  border: none;
+  border-radius: 3px;
+  background: var(--creme);
+  color: var(--indigo);
+  overflow-y: auto;
+}
+
+.modal::backdrop {
+  background: rgba(25, 7, 55, .74);
+  backdrop-filter: blur(3px);
+}
+
+.modal[open] { animation: modalIn .4s var(--ease); }
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal__close-form { position: absolute; top: .5rem; right: .75rem; margin: 0; }
+
+.modal__close {
+  border: none;
+  background: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--graphite);
+  cursor: pointer;
+  padding: .35rem .5rem;
+  transition: color .3s var(--ease);
+}
+.modal__close:hover { color: var(--indigo); }
+
+.modal__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 4.2vw, 1.42rem);
+  line-height: 1.32;
+  letter-spacing: -0.028em;
+  margin: 1rem 0 0;
+}
+
+.modal__title:focus { outline: none; }
+
+.modal__sub {
+  margin: .8rem 0 0;
+  font-size: .875rem;
+  line-height: 1.6;
+  color: var(--graphite);
+}
+
+.form { margin-top: 1.75rem; }
+
+.field { margin-bottom: 1.1rem; }
+
+.field label {
+  display: block;
+  margin-bottom: .45rem;
+  font-family: var(--font-mark);
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 3.1rem;
+  padding: 0 .95rem;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--indigo);
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  transition: border-color .3s var(--ease);
+}
+
+.field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--indigo) 50%),
+                    linear-gradient(135deg, var(--indigo) 50%, transparent 50%);
+  background-position: calc(100% - 1.15rem) 50%, calc(100% - .8rem) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.field input::placeholder { color: rgba(92, 85, 99, .5); }
+
+.field input:focus,
+.field select:focus { border-color: var(--teal-ink); outline: none; }
+
+.field input:user-invalid,
+.field select:user-invalid { border-color: #B5443B; }
+
+.form .btn { margin-top: .6rem; }
+.form .microcopy { margin-top: 1rem; max-width: none; }
+
+.btn[disabled] { opacity: .6; cursor: progress; }
+.btn[disabled]::before { transform: scaleX(0) !important; }
+
+.form__error {
+  margin: 0 0 .9rem;
+  padding: .7rem .9rem;
+  border-left: 2px solid #B5443B;
+  background: rgba(181, 68, 59, .07);
+  font-size: .82rem;
+  line-height: 1.45;
+  color: #8E322B;
+}
+
+.modal__success .btn { margin-top: 1.75rem; }
+.modal__success .btn--ghost { border-color: var(--hairline); color: var(--indigo); }
+.modal__success .btn--ghost::before { background: var(--indigo); }
+.modal__success .btn--ghost:hover { color: var(--creme); border-color: var(--indigo); }
+
+/* ============================================================
+   DESKTOP
+   ============================================================ */
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    grid-template-rows: auto 1fr;
+    align-items: end;
+    padding-right: 0;
+    min-height: 100svh;
+  }
+
+  .masthead {
+    grid-column: 1 / -1;
+    padding-right: var(--gutter);
+  }
+
+  .hero__panel { display: block; }
+
+  .hero__text {
+    grid-column: 1;
+    align-self: center;
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    padding-right: clamp(1.5rem, 3vw, 3.25rem);
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 3.15vw, 3.05rem);
+    line-height: 1.14;
+  }
+
+  .hero__media {
+    grid-column: 2;
+    width: 100%;
+    justify-self: end;
+    height: min(72svh, 40rem);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .hero__media img {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+
+  .author__inner {
+    grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+    align-items: start;
+  }
+
+  .author__media { position: sticky; top: clamp(2rem, 5vh, 4rem); }
+
+  .author__prose p { font-size: 1rem; }
+}
+
+/* ============================================================
+   MOBILE — CTA do hero garantido na primeira dobra (375x667)
+   ============================================================ */
+@media (max-width: 899px) {
+  .hero { padding-top: 0; gap: 2.5rem; }
+
+  .masthead { padding-bottom: 1.75rem; }
+
+  /* A Walkway é larga: a tag não cabe ao lado do lockup em telas pequenas */
+  .masthead__rule, .masthead__tag { display: none; }
+
+  .eyebrow { font-size: .58rem; letter-spacing: .22em; }
+
+  .hero__title {
+    margin-top: 1.05rem;
+    line-height: 1.2;
+  }
+
+  .hero__sub {
+    margin-top: .9rem;
+    font-size: .92rem;
+    line-height: 1.55;
+  }
+
+  .hero__cta { margin-top: 1.3rem; }
+
+  .btn {
+    min-height: 3.25rem;
+    width: 100%;
+    padding-inline: .75rem;
+    font-size: .7rem;
+    letter-spacing: .07em;
+  }
+
+  .microcopy { margin-top: .75rem; font-size: .74rem; }
+
+  .hero__seal {
+    margin-top: 1.5rem;
+    font-size: .56rem;
+    letter-spacing: .16em;
+  }
+
+  /* Halo acompanha a foto no mobile */
+  .hero__media::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    bottom: 8%;
+    width: 116%;
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42, 141, 128, .18) 0%, rgba(42, 141, 128, 0) 66%);
+  }
+
+  .author__media { max-width: 26rem; }
+
+  /* "DDW" caía sozinho na segunda linha */
+  .photo-frame__cred { letter-spacing: .1em; }
+}
+
+@media (max-width: 380px) {
+  .hero { padding-top: 1.2rem; }
+  .hero__title { font-size: 1.52rem; }
+  .hero__sub { font-size: .885rem; }
+}
+
+/* ============================================================
+   MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  [data-aos] { opacity: 1 !important; transform: none !important; }
+}

@@ -115,6 +115,45 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # ----------------------------------------------------------------
+# Subpath /mastermind (LP lista de espera — Mastermind Microbiota)
+# Globs raiz não casam subpath; precisa duplicar com prefixo /mastermind/
+# ----------------------------------------------------------------
+
+[[headers]]
+  for = "/mastermind/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/mastermind/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/mastermind/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/mastermind/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/mastermind/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Fontes self-hosted (nomes fixos, sem hash — mas nunca mudam de conteúdo)
+[[headers]]
+  for = "/mastermind/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ----------------------------------------------------------------
 # Dashboard Imersão (subpágina) — segurança apertada
 # - Referrer-Policy: no-referrer (S1: token em URL nunca vaza)
 # - CSP sem 'unsafe-inline' (S3)
@@ -163,4 +202,10 @@
 [[redirects]]
   from = "/reset-intestinal"
   to = "/reset-intestinal/index.html"
+  status = 200
+
+# Redirect /mastermind (sem barra) → /mastermind/index.html
+[[redirects]]
+  from = "/mastermind"
+  to = "/mastermind/index.html"
   status = 200
