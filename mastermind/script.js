@@ -60,13 +60,49 @@
     }
   };
 
-  // Webhook n8n que grava na Data Table mastermind_waitlist
+  // Webhook n8n → grava na utm_tracking (Supabase) da Karina, atribuído por UTM
   var WAITLIST_ENDPOINT = 'https://n8n.reachup.pro/webhook/mastermind-waitlist';
 
   var submitBtn = form.querySelector('[data-submit]');
   var submitLabel = form.querySelector('[data-submit-label]');
   var errorBox = document.getElementById('form-error');
   var enviando = false;
+
+  // ---- Captura de tracking (só no momento do cadastro, sem sessão persistida) ----
+  function qp(name) {
+    try { return new URLSearchParams(location.search).get(name) || ''; }
+    catch (e) { return ''; }
+  }
+
+  function deviceType() {
+    return /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+  }
+
+  // Um id leve pra este cadastro (não registramos utm_sessions; serve de rastro/dedupe)
+  function sessionId() {
+    try {
+      var k = 'mm_sid', v = localStorage.getItem(k);
+      if (!v) {
+        v = 's_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem(k, v);
+      }
+      return v;
+    } catch (e) {
+      return 's_' + Date.now().toString(36);
+    }
+  }
+
+  // URL completa de cadastro: a página (que já qualifica o público) + UTMs + profissão/nome
+  function cadastroUrl(nome, profissao) {
+    try {
+      var u = new URL(location.href);
+      u.searchParams.set('lead_profissao', profissao);
+      if (nome) u.searchParams.set('lead_nome', nome);
+      return u.toString();
+    } catch (e) {
+      return location.href;
+    }
+  }
 
   function mostrarSucesso(profissao) {
     var texto = COPY[profissao] || COPY.padrao;
@@ -83,12 +119,29 @@
     if (!form.reportValidity()) return;
 
     var profissao = document.getElementById('profissao').value;
+    var nome = document.getElementById('nome').value.trim();
     var payload = {
-      nome: document.getElementById('nome').value.trim(),
+      // dados do formulário
+      nome: nome,
       email: document.getElementById('email').value.trim(),
       telefone: tel.value.trim(),
       profissao: profissao,
-      origem: 'lp-mastermind'
+      origem: 'lp-mastermind',
+      // tracking p/ atribuição (n8n deriva ad_id/adset_id/campaign_id/platform)
+      landing_url: cadastroUrl(nome, profissao),
+      page_path: location.pathname,
+      referrer: document.referrer || '',
+      user_agent: navigator.userAgent,
+      device_type: deviceType(),
+      session_id: sessionId(),
+      utm_source: qp('utm_source'),
+      utm_medium: qp('utm_medium'),
+      utm_campaign: qp('utm_campaign'),
+      utm_term: qp('utm_term'),
+      utm_content: qp('utm_content'),
+      fbclid: qp('fbclid'),
+      gclid: qp('gclid'),
+      ctwa_clid: qp('ctwa_clid')
     };
 
     enviando = true;
