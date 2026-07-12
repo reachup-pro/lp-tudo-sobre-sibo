@@ -571,17 +571,28 @@ async function loadHeatmap() {
   renderHeatmap();
 }
 async function loadFeedInicial() {
-  state.feed = await from('vendas_realtime', {
-    select: 'id, nome_publico, ddd, transaction_value, attribution_source, created_at, status, produto, produto_label',
-    order: 'created_at', asc: false, limit: 25
-  });
+  // vendas_realtime é global — filtrar só o Reset Intestinal (produto + eventuais orderbumps)
+  const { data, error } = await sb.from('vendas_realtime')
+    .select('id, nome_publico, ddd, transaction_value, attribution_source, created_at, status, produto, produto_label')
+    .ilike('produto', '%reset intestinal%')
+    .order('created_at', { ascending: false })
+    .limit(25);
+  if (error) throw new Error('vendas_realtime: ' + error.message);
+  state.feed = data || [];
   renderFeed();
 }
 
 // =========================================================
 // 4. REALTIME
 // =========================================================
+// vendas_realtime é uma tabela GLOBAL (vários produtos e clientes) —
+// só reagir a vendas do Reset Intestinal.
+function isResetSale(row) {
+  return String(row?.produto || '').toLowerCase().includes('reset intestinal');
+}
+
 function onNovaVenda(row) {
+  if (!isResetSale(row)) return;
   if (!state.feed.find(v => v.id === row.id)) {
     state.feed.unshift(row);
     if (state.feed.length > 25) state.feed.pop();
@@ -591,6 +602,7 @@ function onNovaVenda(row) {
   loadOrderbumps().catch(() => {});
 }
 function onUpdateVenda(row) {
+  if (!isResetSale(row)) return;
   const i = state.feed.findIndex(v => v.id === row.id);
   if (i !== -1) { state.feed[i] = row; renderFeed(); }
   loadKPIs().catch(() => {});
