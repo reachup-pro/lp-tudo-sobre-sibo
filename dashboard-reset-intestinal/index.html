@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard · Reset Intestinal · Karina Al Assal</title>
+  <meta name="description" content="Painel real-time de vendas e Meta Ads do produto Reset Intestinal.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/style.css?v=37">
+  <link rel="stylesheet" href="/dashboard-reset-intestinal/dashboard.css?v=1">
+</head>
+<body>
+
+<header class="dash-header">
+  <div class="dash-header__inner">
+    <div class="dash-header__title">
+      <span data-evt-nome>Reset Intestinal</span>
+      <small>Karina Al Assal · painel real-time</small>
+    </div>
+    <div class="dash-header__status">
+      <span data-clock>—</span>
+      <span class="dash-header__live" data-live>ao vivo</span>
+    </div>
+  </div>
+</header>
+
+<main class="dash">
+
+  <!-- =================== 1. HERO =================== -->
+  <section class="dash-section hero">
+    <div>
+      <span class="hero__big">
+        <span class="hero__big-num skeleton" data-hero-vendas>—</span>
+        <span class="hero__big-label">vendas no total</span>
+      </span>
+      <div class="hero__receita">
+        <small>receita total (produto + orderbumps)</small>
+        <span class="skeleton" data-hero-receita>R$ —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 1.5 SELETOR DE PERÍODO =================== -->
+  <section class="dash-section dash-periodo">
+    <div class="periodo">
+      <span class="periodo__label">Período de mídia</span>
+      <div class="periodo__chips" role="tablist" aria-label="Período de análise">
+        <button type="button" class="periodo__chip" data-periodo="1"   role="tab">Hoje</button>
+        <button type="button" class="periodo__chip" data-periodo="2"   role="tab">Ontem+Hoje</button>
+        <button type="button" class="periodo__chip" data-periodo="7"   role="tab">7d</button>
+        <button type="button" class="periodo__chip is-active" data-periodo="30"  role="tab" aria-selected="true">30d</button>
+        <button type="button" class="periodo__chip" data-periodo="90"  role="tab">90d</button>
+        <button type="button" class="periodo__chip" data-periodo="365" role="tab">Tudo</button>
+        <button type="button" class="periodo__chip periodo__chip--custom" data-periodo="custom" role="tab">📅 Custom</button>
+      </div>
+      <div class="periodo__custom" data-periodo-custom hidden>
+        <label>De <input type="date" data-periodo-de></label>
+        <label>Até <input type="date" data-periodo-ate></label>
+        <button type="button" class="periodo__apply" data-periodo-apply>Aplicar</button>
+      </div>
+      <span class="periodo__resumo" data-periodo-resumo>últimos 30 dias</span>
+    </div>
+  </section>
+
+  <!-- =================== 2. PERFORMANCE DE MÍDIA (ads-only) =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">
+      Performance de mídia
+      <small>vendas atribuídas (UTM) + fallback gerenciador</small>
+      <span class="badge-fonte" data-fonte-ads-hoje hidden>fonte hoje: <em>—</em></span>
+    </h2>
+    <div class="kpis">
+
+      <div class="kpi" data-kpi-receita-card>
+        <div class="kpi__label">Receita Ads</div>
+        <div class="kpi__value skeleton" data-kpi-receita-val>R$ —</div>
+        <div class="kpi__delta" data-kpi-receita-delta data-neutral>—</div>
+        <div class="kpi__sub" data-kpi-receita-sub>geral —</div>
+      </div>
+
+      <div class="kpi" data-kpi-spend-card>
+        <div class="kpi__label">Investimento (30d)</div>
+        <div class="kpi__value skeleton" data-kpi-spend-val>R$ —</div>
+        <div class="kpi__sub" data-kpi-spend-sub>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-vendas-card>
+        <div class="kpi__label">Vendas Ads</div>
+        <div class="kpi__value skeleton" data-kpi-vendas-val>—</div>
+        <div class="kpi__delta" data-kpi-vendas-delta data-neutral>—</div>
+        <div class="kpi__sub" data-kpi-vendas-sub>geral —</div>
+      </div>
+
+      <div class="kpi" data-kpi-cpa-card>
+        <div class="kpi__label">CPA</div>
+        <div class="kpi__value skeleton" data-kpi-cpa-val>R$ —</div>
+        <div class="kpi__sub" data-kpi-cpa-sub>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-roas-card>
+        <div class="kpi__label">ROAS</div>
+        <div class="kpi__value skeleton" data-kpi-roas-val>—</div>
+        <div class="kpi__sub" data-kpi-roas-sub>—</div>
+      </div>
+
+      <div class="kpi" data-kpi-aov-card>
+        <div class="kpi__label">AOV Ads</div>
+        <div class="kpi__value skeleton" data-kpi-aov-val>R$ —</div>
+        <div class="kpi__sub" data-kpi-aov-sub>geral —</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================== 3. TIMELINE DIÁRIA =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">
+      Vendas / dia
+      <small>diário · vendas × investimento</small>
+    </h2>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap">
+        <canvas data-chart-timeline></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 4. ORDERBUMPS =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Orderbumps <small>taxa de attach (% sobre vendas)</small></h2>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th class="tbl__num">Qtd</th>
+            <th class="tbl__num">Receita</th>
+            <th class="tbl__num">Attach</th>
+            <th class="tbl__num">Ticket médio</th>
+          </tr>
+        </thead>
+        <tbody data-orderbumps-body>
+          <tr><td colspan="5" class="tbl-empty">Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 5. TOP META ADS =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Top 10 anúncios <small>clique no cabeçalho pra ordenar</small></h2>
+    <div class="tbl-wrap">
+      <table class="tbl" data-table="topAds">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="tbl__sortable" data-sort-key="ad_name">Anúncio / Conjunto</th>
+            <th class="tbl__num tbl__sortable tbl__sort-active tbl__sort-desc" data-sort-key="spend_brl">Spend</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="impressions">Impressões</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="ctr">CTR</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="vendas_efetivo">Vendas</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="receita_efetiva_brl">Receita</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="roas">ROAS</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="cpa_brl">CPA</th>
+          </tr>
+        </thead>
+        <tbody data-topads-body>
+          <tr><td colspan="9" class="tbl-empty">Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 6. TOP AUDIENCES =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Top 10 públicos (conjuntos) <small>clique no cabeçalho pra ordenar</small></h2>
+    <div class="tbl-wrap">
+      <table class="tbl" data-table="topAudiences">
+        <thead>
+          <tr>
+            <th class="tbl__sortable" data-sort-key="adset_name">Conjunto / Campanha</th>
+            <th class="tbl__num tbl__sortable tbl__sort-active tbl__sort-desc" data-sort-key="spend_brl">Spend</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="impressions">Impressões</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="ctr">CTR</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="cpm_brl">CPM</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="vendas_efetivo">Vendas</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="roas">ROAS</th>
+            <th class="tbl__num tbl__sortable" data-sort-key="cpa_brl">CPA</th>
+          </tr>
+        </thead>
+        <tbody data-topaudiences-body>
+          <tr><td colspan="8" class="tbl-empty">Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 6.5 HEATMAP HORÁRIOS =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">
+      Heatmap de vendas por horário
+      <small>cor = volume · clique pra ver detalhe · base no período</small>
+    </h2>
+    <div class="heatmap-wrap">
+      <div class="heatmap" data-heatmap>
+        <div class="heatmap__corner"></div>
+        <div class="heatmap__hours" data-heatmap-hours></div>
+        <div class="heatmap__days" data-heatmap-days></div>
+        <div class="heatmap__grid" data-heatmap-grid></div>
+      </div>
+      <div class="heatmap__legend">
+        <span>menos</span>
+        <span class="heatmap__legend-bar"></span>
+        <span>mais</span>
+        <span class="heatmap__top" data-heatmap-top>—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 7. FUNIL =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Funil <small>impressões → cliques → landing → vendas · 30 dias</small></h2>
+    <div class="funil">
+      <div class="funil__row" data-funil-impr>
+        <span class="funil__label">Impressões</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct"></span>
+      </div>
+      <div class="funil__row" data-funil-clicks>
+        <span class="funil__label">Cliques</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct">—</span>
+      </div>
+      <div class="funil__row" data-funil-landing>
+        <span class="funil__label">Landing views</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct">—</span>
+      </div>
+      <div class="funil__row" data-funil-vendas>
+        <span class="funil__label">Vendas</span>
+        <div class="funil__bar"><div class="funil__bar-fill" style="width:0%"></div></div>
+        <span class="funil__num skeleton">—</span>
+        <span class="funil__pct">—</span>
+      </div>
+
+      <!-- métricas extras -->
+      <div class="funil-stats">
+        <div><small>CTR</small><b data-funil-ctr>—</b></div>
+        <div><small>CPM</small><b data-funil-cpm>—</b></div>
+        <div><small>CPC</small><b data-funil-cpc>—</b></div>
+        <div><small>Conversão página</small><b data-funil-conv-pagina>—</b></div>
+      </div>
+
+      <div class="cascata">
+        <span class="badge" data-src="REAL" data-cascata-real>0 (0%)</span>
+        <span class="badge" data-src="UTM"  data-cascata-utm>0 (0%)</span>
+        <span class="badge" data-src="MGR"  data-cascata-mgr>0 (0%)</span>
+        <small style="font-family:var(--font-mono); font-size:10px; color:var(--cream-3); margin-left:auto; align-self:center;">
+          atribuição: REAL=ad_id match · UTM=campanha Reset Intestinal · MGR=fallback
+        </small>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 8. FEED REAL-TIME =================== -->
+  <section class="dash-section">
+    <h2 class="dash-section__title">Feed real-time <small>últimas 25 vendas (produto + orderbumps, anonimizadas)</small></h2>
+    <div class="feed" data-feed>
+      <div class="feed-empty">Carregando…</div>
+    </div>
+  </section>
+
+  <footer class="dash-footer">
+    <span data-updated>atualizado há —s</span>
+    <span data-health-meta>Meta Ads: —</span>
+    <span data-health-vendas>Vendas: —</span>
+    <span>v1.0 · Reach Up</span>
+  </footer>
+
+</main>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
+
+<script type="module" src="/dashboard-reset-intestinal/dashboard.js?v=1"></script>
+
+</body>
+</html>

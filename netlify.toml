@@ -170,6 +170,21 @@
     Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; connect-src 'self' https://viflrlxwvziimdbbcgtf.supabase.co wss://viflrlxwvziimdbbcgtf.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-ancestors 'none'"
 
 # ----------------------------------------------------------------
+# Dashboard Reset Intestinal (subpágina) — mesma segurança apertada
+# - Referrer-Policy: no-referrer (token em URL nunca vaza)
+# - CSP sem 'unsafe-inline' em script · sem GTM nessa rota
+# ----------------------------------------------------------------
+
+[[headers]]
+  for = "/dashboard-reset-intestinal/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; connect-src 'self' https://viflrlxwvziimdbbcgtf.supabase.co wss://viflrlxwvziimdbbcgtf.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-ancestors 'none'"
+
+# ----------------------------------------------------------------
 # Redirects / SPA fallback (não há SPA, mas garante 200 nas rotas)
 # ----------------------------------------------------------------
 
@@ -190,6 +205,12 @@
 [[redirects]]
   from = "/dashboard-imersao"
   to = "/dashboard-imersao/index.html"
+  status = 200
+
+# Dashboard Reset Intestinal (sem .html no URL público)
+[[redirects]]
+  from = "/dashboard-reset-intestinal"
+  to = "/dashboard-reset-intestinal/index.html"
   status = 200
 
 # Política de privacidade (subpágina, se vier a existir)
