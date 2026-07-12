@@ -661,17 +661,11 @@ async function boot() {
   bindPeriodoChips();
   bindSortableTables();
 
-  await Promise.allSettled([
-    loadKPIs(),
-    loadFunil(),
-    loadTopAds(),
-    loadTopAudiences(),
-    loadOrderbumps(),
-    loadHealth(),
-    loadTimeline(),
-    loadHeatmap(),
-    loadFeedInicial()
-  ]);
+  // Carga inicial em 2 ondas pra não estourar o statement_timeout do Supabase sob concorrência
+  // Onda 1 — essencial (hero, pulso, feed)
+  await Promise.allSettled([ loadKPIs(), loadHealth(), loadTimeline(), loadFeedInicial() ]);
+  // Onda 2 — pesadas (tabelas de ads, funil, heatmap)
+  await Promise.allSettled([ loadFunil(), loadTopAds(), loadTopAudiences(), loadOrderbumps(), loadHeatmap() ]);
 
   subscribeVendas(
     onNovaVenda,
@@ -680,14 +674,15 @@ async function boot() {
     () => setLiveStatus(false)
   );
 
-  startPolling(loadKPIs,         12_000, 'kpis');
-  startPolling(loadHealth,       30_000, 'health');
-  startPolling(loadTopAds,       60_000, 'topads');
-  startPolling(loadTopAudiences, 60_000, 'topaud');
-  startPolling(loadOrderbumps,   30_000, 'orderbumps');
-  startPolling(loadFunil,        60_000, 'funil');
-  startPolling(loadTimeline,     90_000, 'timeline');
-  startPolling(loadHeatmap,     120_000, 'heatmap');
+  // Polling com intervalos moderados; immediate=false porque a carga inicial já foi feita (evita disparo duplicado)
+  startPolling(loadKPIs,         15_000, 'kpis',       false);
+  startPolling(loadHealth,       45_000, 'health',     false);
+  startPolling(loadOrderbumps,   45_000, 'orderbumps', false);
+  startPolling(loadTopAds,      120_000, 'topads',     false);
+  startPolling(loadTopAudiences,120_000, 'topaud',     false);
+  startPolling(loadFunil,       120_000, 'funil',      false);
+  startPolling(loadTimeline,    150_000, 'timeline',   false);
+  startPolling(loadHeatmap,     240_000, 'heatmap',    false);
 
   setInterval(() => {
     setText('[data-clock]', timeBRT(new Date().toISOString()));

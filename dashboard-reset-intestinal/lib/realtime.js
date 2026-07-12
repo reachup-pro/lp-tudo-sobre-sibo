@@ -42,7 +42,7 @@ export function subscribeVendas(onInsert, onUpdate, onConnect, onDisconnect) {
 }
 
 // Polling com pausa quando aba some, retomada com refresh forçado quando volta
-export function startPolling(fn, intervalMs, label = 'poll') {
+export function startPolling(fn, intervalMs, label = 'poll', immediate = true) {
   let id = null;
   let lastRun = 0;
 
@@ -52,14 +52,14 @@ export function startPolling(fn, intervalMs, label = 'poll') {
     try { await fn(); } catch (e) { console.warn(`[${label}]`, e.message); }
   };
 
-  const start = () => { if (!id) { run(); id = setInterval(run, intervalMs); } };
+  const start = (runNow) => { if (!id) { if (runNow) run(); id = setInterval(run, intervalMs); } };
   const stop  = () => { if (id) { clearInterval(id); id = null; } };
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stop();
-    else { run(); start(); }   // refresh imediato + retoma intervalo
+    else { run(); start(false); }   // refresh imediato + retoma intervalo
   });
 
-  start();
+  start(immediate);
   return { stop, runNow: run };
 }
