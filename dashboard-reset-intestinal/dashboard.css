@@ -499,6 +499,7 @@ body {
   border: 1px solid var(--lilac-soft-15);
   border-radius: var(--r-md);
   padding: var(--s-4);
+  overflow-x: auto; /* heatmap (aspect-ratio fixo) rola no proprio card em telas estreitas */
 }
 .heatmap {
   display: grid;
