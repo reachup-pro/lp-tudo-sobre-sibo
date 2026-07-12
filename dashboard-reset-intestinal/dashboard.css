@@ -1262,3 +1262,71 @@ body {
   .value-updated { animation: none; }
   .dash-header__live::before { animation: none; }
 }
+
+/* ---------- Hero · painel "Pulso em tempo real" ---------- */
+.hero__pulse {
+  background: linear-gradient(180deg, rgba(184,164,216,0.07), rgba(20,14,30,0.45));
+  border: 1px solid var(--lilac-soft-15);
+  border-radius: var(--r-md);
+  padding: var(--s-4) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 20px 50px -30px rgba(0,0,0,0.8);
+}
+.pulse__spark-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cream-3);
+}
+.pulse__trend { font-weight: 600; color: var(--cream-2); }
+.pulse__trend[data-dir="up"]   { color: var(--lote-1); }
+.pulse__trend[data-dir="down"] { color: var(--lote-4); }
+.pulse__spark { width: 100%; height: 46px; display: block; overflow: visible; }
+.pulse__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3) var(--s-4);
+}
+.pulse__stat { display: flex; flex-direction: column; gap: 3px; }
+.pulse__stat small {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cream-3);
+}
+.pulse__stat b {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cream-1);
+  letter-spacing: -0.01em;
+}
+.pulse__last {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cream-2);
+  border-top: 1px solid var(--lilac-soft-15);
+  padding-top: var(--s-3);
+}
+.pulse__last b { color: var(--cream-1); }
+.pulse__last-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lote-1); box-shadow: 0 0 8px var(--lote-1);
+  animation: pulseDot 1.6s ease-in-out infinite;
+}
+@media (max-width: 719px) {
+  .hero__pulse { padding: var(--s-3) var(--s-4); }
+  .pulse__stat b { font-size: 15px; }
+}

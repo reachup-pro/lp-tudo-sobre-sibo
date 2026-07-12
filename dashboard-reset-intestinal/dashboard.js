@@ -18,6 +18,7 @@ const state = {
   health: null,
   feed: [],
   heatmap: [],
+  timelineRows: [],
   charts: { timeline: null },
   lastUpdate: Date.now(),
   // Período selecionado pra métricas de mídia (KPIs ads, funil, top ads/audiences)
@@ -132,6 +133,49 @@ function renderHero() {
   setText('[data-hero-receita]', brl(k.receita_total_brl, { cents: false }));
 }
 
+// Painel "Pulso em tempo real" (lado direito do hero): sparkline + stats + última venda
+function renderPulse() {
+  const k = state.kpis;
+  if (k) {
+    setText('[data-pulse-hoje]',   `${k.vendas_hoje ?? 0} · ${brl(k.receita_hoje_brl, { cents: false })}`);
+    setText('[data-pulse-ontem]',  `${k.vendas_ontem ?? 0} · ${brl(k.receita_ontem_brl, { cents: false })}`);
+    setText('[data-pulse-roas]',   k.roas_ads != null ? Number(k.roas_ads).toFixed(2) + 'x' : '—');
+    setText('[data-pulse-ticket]', k.aov_brl != null ? brl(k.aov_brl, { cents: false }) : '—');
+    const dh = (Number(k.vendas_hoje) || 0) - (Number(k.vendas_ontem) || 0);
+    const trendEl = document.querySelector('[data-pulse-trend]');
+    if (trendEl) {
+      trendEl.textContent = dh > 0 ? `▲ +${dh} vs ontem` : dh < 0 ? `▼ ${dh} vs ontem` : '● estável';
+      trendEl.setAttribute('data-dir', dh > 0 ? 'up' : dh < 0 ? 'down' : 'flat');
+    }
+  }
+  if (state.feed && state.feed.length) {
+    setText('[data-pulse-last]', ago(state.feed[0].created_at));
+  }
+  drawSparkline();
+}
+
+function drawSparkline() {
+  const svg = document.querySelector('[data-pulse-sparkline]');
+  if (!svg) return;
+  const vals = (state.timelineRows || []).map(r => Number(r.vendas) || 0);
+  if (vals.length < 2) { svg.innerHTML = ''; return; }
+  const W = 100, H = 32, pad = 3;
+  const max = Math.max(1, ...vals);
+  const n = vals.length;
+  const pts = vals.map((v, i) => [ (i / (n - 1)) * W, H - pad - (v / max) * (H - pad * 2) ]);
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const area = line + ` L ${W} ${H} L 0 ${H} Z`;
+  const last = pts[pts.length - 1];
+  svg.innerHTML =
+    '<defs><linearGradient id="pulseSpark" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="rgba(184,164,216,0.55)"/>' +
+      '<stop offset="1" stop-color="rgba(184,164,216,0)"/>' +
+    '</linearGradient></defs>' +
+    `<path d="${area}" fill="url(#pulseSpark)"/>` +
+    `<path d="${line}" fill="none" stroke="rgb(184,164,216)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>` +
+    `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2" fill="#F6F0E4"/>`;
+}
+
 function setMetaBadge(card, value, target, lessIsBetter = false) {
   if (!card) return;
   card.removeAttribute('data-meta-ok');
@@ -215,6 +259,8 @@ function renderKPIs() {
 }
 
 function renderTimeline(rows) {
+  state.timelineRows = rows || [];
+  renderPulse();
   if (!rows || !rows.length) return;
   // rows = [{ data, vendas, receita_brl, spend_brl }] ordenado por data
   const TZ = 'America/Sao_Paulo';
@@ -448,6 +494,7 @@ function renderFeed() {
       <span class="feed__time">${ago(v.created_at)}</span>
     </div>
   `).join('');
+  renderPulse();
 }
 
 function renderHealth() {
@@ -476,7 +523,7 @@ async function loadKPIs() {
     p_dias: state.periodo.dias
   });
   state.lastUpdate = Date.now();
-  renderHero(); renderKPIs(); renderHeader();
+  renderHero(); renderKPIs(); renderHeader(); renderPulse();
 }
 async function loadFunil() {
   state.funil = await rpc('dashboard_funil', {

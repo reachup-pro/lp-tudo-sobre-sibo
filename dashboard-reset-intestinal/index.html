@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/style.css?v=37">
-  <link rel="stylesheet" href="/dashboard-reset-intestinal/dashboard.css?v=3">
+  <link rel="stylesheet" href="/dashboard-reset-intestinal/dashboard.css?v=4">
 </head>
 <body>
 
@@ -43,6 +43,23 @@
         <span class="skeleton" data-hero-receita>R$ —</span>
       </div>
     </div>
+
+    <aside class="hero__pulse" aria-label="Pulso em tempo real">
+      <div class="pulse__spark-wrap">
+        <div class="pulse__spark-head">
+          <span>vendas · no período</span>
+          <span class="pulse__trend" data-pulse-trend data-dir="flat">—</span>
+        </div>
+        <svg class="pulse__spark" data-pulse-sparkline viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="pulse__grid">
+        <div class="pulse__stat"><small>hoje</small><b data-pulse-hoje>—</b></div>
+        <div class="pulse__stat"><small>ontem</small><b data-pulse-ontem>—</b></div>
+        <div class="pulse__stat"><small>ROAS ads</small><b data-pulse-roas>—</b></div>
+        <div class="pulse__stat"><small>ticket médio</small><b data-pulse-ticket>—</b></div>
+      </div>
+      <div class="pulse__last"><span class="pulse__last-dot"></span> última venda <b data-pulse-last>—</b></div>
+    </aside>
   </section>
 
   <!-- =================== 1.5 SELETOR DE PERÍODO =================== -->
@@ -292,7 +309,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
 
 <script type="module" src="/dashboard-reset-intestinal/lib/background.js?v=1"></script>
-<script type="module" src="/dashboard-reset-intestinal/dashboard.js?v=3"></script>
+<script type="module" src="/dashboard-reset-intestinal/dashboard.js?v=4"></script>
 
 </body>
 </html>
