@@ -99,7 +99,17 @@ function redirectGate() {
 // =========================================================
 function setText(sel, value) {
   const el = document.querySelector(sel);
-  if (el) { el.textContent = value; el.classList.remove('skeleton'); }
+  if (!el) return;
+  const prev = el.textContent;
+  const next = String(value);
+  el.textContent = value;
+  el.classList.remove('skeleton');
+  // flash sutil quando um valor real muda (ignora a 1ª pintura vinda do placeholder "—")
+  if (prev && !prev.includes('—') && prev !== next) {
+    el.classList.remove('value-updated');
+    void el.offsetWidth;
+    el.classList.add('value-updated');
+  }
 }
 function escapeHtml(s) {
   if (s == null) return '';
@@ -623,14 +633,14 @@ async function boot() {
     () => setLiveStatus(false)
   );
 
-  startPolling(loadKPIs,         30_000, 'kpis');
-  startPolling(loadHealth,       60_000, 'health');
-  startPolling(loadTopAds,      300_000, 'topads');
-  startPolling(loadTopAudiences,300_000, 'topaud');
-  startPolling(loadOrderbumps,   60_000, 'orderbumps');
-  startPolling(loadFunil,       300_000, 'funil');
-  startPolling(loadTimeline,    300_000, 'timeline');
-  startPolling(loadHeatmap,     300_000, 'heatmap');
+  startPolling(loadKPIs,         12_000, 'kpis');
+  startPolling(loadHealth,       30_000, 'health');
+  startPolling(loadTopAds,       60_000, 'topads');
+  startPolling(loadTopAudiences, 60_000, 'topaud');
+  startPolling(loadOrderbumps,   30_000, 'orderbumps');
+  startPolling(loadFunil,        60_000, 'funil');
+  startPolling(loadTimeline,     90_000, 'timeline');
+  startPolling(loadHeatmap,     120_000, 'heatmap');
 
   setInterval(() => {
     setText('[data-clock]', timeBRT(new Date().toISOString()));

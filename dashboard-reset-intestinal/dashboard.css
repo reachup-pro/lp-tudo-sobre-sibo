@@ -1194,3 +1194,71 @@ body {
   /* ===== Footer ===== */
   .dash-footer__inner { flex-direction: column; gap: 4px; font-size: 9px; padding: var(--s-3); }
 }
+
+/* ================================================================
+   Enhancements visuais — fundo interativo + header chamativo + motion
+   (só do dashboard do Reset Intestinal)
+   ================================================================ */
+
+/* Fundo interativo (canvas) atrás de tudo; conteúdo por cima */
+.bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.dash,
+.dash-header { position: relative; z-index: 1; }
+.dash-header { z-index: 50; }
+.dash-section, .hero, .kpi, .tbl-wrap, .chart-card, .heatmap-wrap, .funil, .feed {
+  position: relative; z-index: 1;
+}
+
+/* Header mais chamativo */
+.dash-header {
+  padding: var(--s-4) 0;
+  background: linear-gradient(180deg, rgba(22,15,34,0.90), rgba(8,6,13,0.80));
+}
+.dash-header::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,164,216,0.55), rgba(214,120,132,0.45), transparent);
+}
+.dash-header__title [data-evt-nome] {
+  display: inline-block;
+  font-size: 22px; line-height: 1.04; letter-spacing: -0.02em; font-weight: 700;
+  background: linear-gradient(96deg, #F6F0E4 0%, rgb(184,164,216) 55%, rgb(214,120,132) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+@media (min-width: 720px) { .dash-header__title [data-evt-nome] { font-size: 26px; } }
+.dash-header__title small { font-size: 11px; margin-top: 4px; color: var(--cream-2); }
+
+/* Pill "ao vivo" com brilho */
+.dash-header__live {
+  background: rgba(184,164,216,0.10);
+  box-shadow: 0 0 0 1px rgba(184,164,216,0.18), 0 0 20px -6px rgba(184,164,216,0.65);
+}
+.dash-header__live::before { width: 7px; height: 7px; }
+
+/* Hero com brilho sutil */
+.hero__big-num { text-shadow: 0 0 42px rgba(184,164,216,0.28); }
+
+/* KPIs interativos no hover */
+.kpi { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.kpi:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px -14px rgba(0,0,0,0.7), 0 0 0 1px rgba(184,164,216,0.28);
+}
+
+/* Linhas de tabela com realce no hover */
+.tbl tbody tr { transition: background .15s ease; }
+.tbl tbody tr:hover { background: rgba(184,164,216,0.06); }
+
+/* Flash quando um valor atualiza (classe adicionada via JS) */
+@keyframes valueFlash {
+  0%   { color: rgb(214,190,240); text-shadow: 0 0 18px rgba(184,164,216,0.75); }
+  100% { text-shadow: 0 0 0 rgba(184,164,216,0); }
+}
+.value-updated { animation: valueFlash 0.9s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi:hover { transform: none; }
+  .value-updated { animation: none; }
+  .dash-header__live::before { animation: none; }
+}
