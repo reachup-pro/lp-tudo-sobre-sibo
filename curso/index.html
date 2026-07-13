@@ -27,8 +27,8 @@ document.documentElement.classList.replace('no-js','js');
 
 <style>:root{--ink-0:#08060d;--ink-1:#100b1a;--ink-2:#1b1428;--ink-3:#261c36;--lilac-1:#c9b4e8;--lilac-2:#b8a4d8;--lilac-3:#9d86c1;--lilac-soft:rgba(184,164,216,0.10);--lilac-medium:rgba(184,164,216,0.28);--cream-0:#f4ede0;--cream-1:#e8e0cf;--cream-2:#b8b0a4;--cream-3:#6f6a62;--cream-soft:rgba(244,237,224,0.08);--gold-1:#c9a86e;--gold-2:#a88a52;--gold-soft:rgba(201,168,110,0.18);--rouge:#c9242f;--green:#4ade80;--green-soft:rgba(74,222,128,0.18);--green-glow:rgba(74,222,128,0.35);--font-display:"Fraunces","Times New Roman",Georgia,serif;--font-body:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;--font-mono:"Geist Mono","JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;--s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--s-8:64px;--s-9:96px;--s-10:128px;--s-11:160px;--container:1320px;--gutter:clamp(20px,4vw,56px);--r-sm:4px;--r-md:10px;--r-pill:999px;--ease-out:cubic-bezier(0.16,1,0.3,1);--ease-spring:cubic-bezier(0.34,1.56,0.64,1);--ease-smooth:cubic-bezier(0.65,0,0.35,1)}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}body{background:var(--ink-0);color:var(--cream-1);font-family:var(--font-body);font-size:16px;font-weight:400;line-height:1.55;letter-spacing:-0.005em;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"kern" 1,"liga" 1,"calt" 1}img,svg,video{display:block;max-width:100%;height:auto}a{color:inherit;text-decoration:none}::selection{background:var(--lilac-medium);color:var(--cream-0)}[data-countdown-pre]{display:none}html.countdown-pre [data-countdown-on]{display:none !important}html.countdown-pre [data-countdown-pre]{display:revert}html.countdown-pre .prelaunch-badge{display:flex}html.countdown-pre .sb-pre{display:flex}.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 110% 80% at 50% 40%,transparent 35%,rgba(8,6,13,0.45) 80%,rgba(8,6,13,0.85) 100%)}.hero{position:relative;z-index:2;padding:clamp(24px,3.5vw,44px) var(--gutter) clamp(40px,5vw,72px);display:block;overflow:hidden;isolation:isolate}.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 50% at 85% 15%,rgba(184,164,216,0.18),transparent 60%),radial-gradient(ellipse 70% 60% at 10% 85%,rgba(184,164,216,0.10),transparent 65%),linear-gradient(180deg,var(--ink-0) 0%,var(--ink-1) 100%)}.hero::after{content:"";position:absolute;top:5%;left:35%;width:30vw;height:30vw;z-index:-1;background:radial-gradient(circle,rgba(201,168,110,0.10),transparent 70%);filter:blur(60px);pointer-events:none}.hero__container{width:100%;max-width:var(--container);margin:0 auto;display:flex;flex-direction:column;gap:clamp(28px,3.5vw,56px)}.hero__header{display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--s-6)}.hero__marker{display:flex;align-items:center;gap:var(--s-4);font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-2)}.marker__id{color:var(--gold-1);font-weight:500}.marker__rule{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}.marker__edition{color:var(--cream-2)}.hero__countdown{display:flex;flex-direction:column;align-items:flex-end;gap:var(--s-2);text-align:right}.countdown__label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream-3)}.countdown__clock{display:flex;align-items:baseline;gap:6px;font-family:var(--font-display);font-variation-settings:"opsz" 30,"wght" 400,"SOFT" 0;font-size:clamp(32px,3.4vw,44px);color:var(--cream-0);line-height:1;font-feature-settings:"tnum" 1}.cd__group{display:inline-flex;align-items:baseline;gap:2px}.cd__num{display:inline-block;min-width:1.4ch;text-align:center;font-variation-settings:"opsz" 30,"wght" 450,"SOFT" 30}.cd__unit{font-family:var(--font-mono);font-size:0.32em;font-weight:400;color:var(--cream-3);letter-spacing:0.05em;margin-left:2px}.cd__sep{color:var(--lilac-2);font-weight:200;opacity:0.5;font-size:0.7em;align-self:center;animation:blink 1s ease-in-out infinite}@keyframes blink{0%,100%{opacity:0.5}50%{opacity:1}}.countdown__hint{font-family:var(--font-mono);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-1);margin-top:var(--s-1)}.prelaunch-badge{flex-direction:column;align-items:flex-end;gap:var(--s-2);text-align:right;max-width:340px}.prelaunch-badge__eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--green);font-weight:600}.prelaunch-badge__core{display:flex;align-items:center;gap:var(--s-3);padding:14px 20px;background:rgba(74,222,128,0.07);border:1px solid var(--green-soft);border-radius:14px;box-shadow:0 0 0 1px rgba(74,222,128,0.08);animation:prelaunch-pulse 3s ease-in-out infinite}@keyframes prelaunch-pulse{0%,100%{box-shadow:0 0 0 1px rgba(74,222,128,0.08),0 0 0 rgba(74,222,128,0)}50%{box-shadow:0 0 0 1px rgba(74,222,128,0.18),0 0 32px rgba(74,222,128,0.25)}}.prelaunch-badge__star{font-size:28px;color:var(--green);filter:drop-shadow(0 0 12px var(--green-glow));line-height:1}.prelaunch-badge__body{display:flex;flex-direction:column;gap:2px;text-align:left}.prelaunch-badge__title{font-family:var(--font-display);font-variation-settings:"opsz" 30,"wght" 500,"SOFT" 0;font-size:clamp(18px,1.6vw,22px);color:var(--cream-0);letter-spacing:-0.015em;line-height:1.1}.prelaunch-badge__sub{font-family:var(--font-body);font-size:12px;color:var(--cream-2);font-weight:400;letter-spacing:-0.005em}.prelaunch-badge__hint{font-family:var(--font-display);font-variation-settings:"opsz" 30,"wght" 400,"SOFT" 80;font-style:italic;font-size:13px;color:var(--lilac-1);letter-spacing:-0.005em}@media (max-width:768px){.prelaunch-badge{align-items:flex-start;text-align:left;max-width:100%;border-top:1px solid var(--lilac-soft);padding-top:var(--s-4)}}.hero__content{display:flex;flex-direction:column;gap:clamp(24px,2.5vw,36px);min-width:0}.eyebrow{display:block;font-family:var(--font-display);font-variation-settings:"opsz" 30,"wght" 400,"SOFT" 50;font-style:italic;font-size:clamp(17px,1.5vw,22px);color:var(--lilac-1);letter-spacing:-0.01em}.display{font-family:var(--font-display);font-variation-settings:"opsz" 144,"wght" 320,"SOFT" 0;font-size:clamp(48px,6.4vw,108px);line-height:0.94;letter-spacing:-0.035em;color:var(--cream-0);font-weight:400}.display__line{display:block}.display__line--accent{color:var(--cream-0);font-variation-settings:"opsz" 144,"wght" 600,"SOFT" 0;padding-left:clamp(24px,3.5vw,60px)}.display__italic{font-style:italic;font-variation-settings:"opsz" 144,"wght" 320,"SOFT" 100;color:var(--lilac-1)}.hero__main{display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:clamp(32px,4vw,72px);align-items:center;min-height:clamp(520px,70vh,720px)}.hero__cta{display:flex;flex-direction:column;gap:var(--s-4);max-width:540px;margin-top:var(--s-2)}.hero__lede{font-family:var(--font-body);font-size:clamp(16px,1.3vw,18px);line-height:1.6;color:var(--cream-1);font-weight:350;letter-spacing:-0.005em}.hero__lede em{font-family:var(--font-display);font-style:italic;font-variation-settings:"opsz" 30,"wght" 400,"SOFT" 50;color:var(--lilac-1);font-size:1.1em}.hero__lede strong{font-weight:600;color:var(--cream-0);letter-spacing:0}.hero__price{font-family:var(--font-display);font-variation-settings:"opsz" 30,"wght" 500,"SOFT" 0;color:var(--gold-1);font-size:1.15em;white-space:nowrap}.cta{position:relative;display:inline-flex;align-items:center;justify-content:space-between;gap:var(--s-4);padding:20px 26px;background:var(--cream-0);color:var(--ink-0);font-family:var(--font-body);font-weight:500;font-size:16px;letter-spacing:-0.005em;border-radius:var(--r-md);border:1px solid var(--cream-0);cursor:pointer;transition:transform 0.4s var(--ease-out),background 0.3s var(--ease-out),box-shadow 0.4s var(--ease-out);will-change:transform;box-shadow:0 4px 20px rgba(244,237,224,0.12),0 0 0 1px rgba(244,237,224,0.04)}.cta:hover{background:var(--lilac-1);border-color:var(--lilac-1);box-shadow:0 8px 32px rgba(201,180,232,0.35),0 0 0 1px rgba(201,180,232,0.2)}.cta__label{flex:1;text-align:left}.cta__arrow{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--ink-0);color:var(--cream-0);transition:transform 0.4s var(--ease-spring)}.cta:hover .cta__arrow{transform:translateX(4px) rotate(-8deg)}.hero__micro{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cream-3);line-height:1.6}.hero__photo{position:relative;align-self:stretch;margin-left:calc(var(--gutter) * -1);margin-bottom:calc(clamp(40px,5vw,72px) * -1);margin-top:calc(clamp(24px,3.5vw,44px) * -1);display:flex;align-items:flex-end;justify-content:center;width:100%;overflow:visible}.hero__photo img{width:100%;height:auto;max-height:calc(100vh+40px);object-fit:contain;object-position:bottom center;filter:drop-shadow(0 40px 80px rgba(0,0,0,0.55)) drop-shadow(0 0 100px rgba(184,164,216,0.18))}.photo__credit{position:absolute;bottom:clamp(56px,7vw,96px);left:clamp(40px,5vw,80px);display:flex;flex-direction:column;gap:4px;padding:12px 16px;max-width:min(320px,calc(100% - clamp(80px,10vw,160px)));background:rgba(8,6,13,0.68);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-left:1px solid var(--gold-1);border-radius:0 var(--r-sm) var(--r-sm) 0}.credit__name{font-family:var(--font-display);font-style:italic;font-variation-settings:"opsz" 14,"wght" 500,"SOFT" 50;font-size:16px;color:var(--cream-0)}.credit__role{font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--cream-2);line-height:1.5}.hero__meta{padding-top:var(--s-4)}.meta__rule{display:block;height:1px;background:linear-gradient(90deg,transparent,var(--lilac-medium),transparent);margin-bottom:var(--s-5)}.meta__cols{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-6)}.meta__cols>div{display:flex;flex-direction:column;gap:4px}.meta__key{font-family:var(--font-mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-1);font-weight:500}.meta__val{font-family:var(--font-body);font-size:14px;color:var(--cream-1);font-weight:350;letter-spacing:-0.005em}.meta__cols>div.is-bonus .meta__key{color:var(--green)}.meta__cols>div.is-bonus .meta__val{color:var(--cream-0);font-weight:500}.meta__cols>div.is-bonus .meta__val::before{content:"★";display:inline-block;margin-right:6px;color:var(--green);filter:drop-shadow(0 0 6px var(--green-glow));font-size:0.85em;vertical-align:1px}.confidencial{position:relative;z-index:2;background:var(--cream-0);color:var(--ink-0);padding:clamp(80px,12vw,180px) var(--gutter);isolation:isolate;overflow:hidden}.confidencial::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,110,0.08),transparent 60%),radial-gradient(ellipse 90% 70% at 100% 100%,rgba(184,164,216,0.06),transparent 65%)}.confidencial__inner{max-width:720px;margin:0 auto;text-align:left}.confidencial__tag{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid rgba(201,168,110,0.4);background:rgba(201,168,110,0.08);border-radius:var(--r-pill);font-family:var(--font-mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-2);margin-bottom:var(--s-7)}.tag__dot{width:6px;height:6px;border-radius:50%;background:var(--gold-1);box-shadow:0 0 8px var(--gold-1);animation:pulse-dot 2s ease-in-out infinite}@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}.confidencial__h2{font-family:var(--font-display);font-variation-settings:"opsz" 144,"wght" 350,"SOFT" 0;font-size:clamp(40px,7vw,88px);line-height:1.02;letter-spacing:-0.035em;color:var(--ink-0);margin-bottom:var(--s-8);max-width:600px}.confidencial__body{display:flex;flex-direction:column;gap:var(--s-5);max-width:580px}.confidencial__body p{font-family:var(--font-body);font-size:clamp(17px,1.6vw,19px);line-height:1.7;color:var(--ink-1);font-weight:350;letter-spacing:-0.005em}.confidencial__body p strong{font-weight:600;color:var(--ink-0);background:linear-gradient(180deg,transparent 65%,var(--gold-soft) 65%);padding:0 2px}.strike{text-decoration:line-through;text-decoration-color:var(--gold-2);text-decoration-thickness:2px;color:var(--cream-3);font-feature-settings:"tnum" 1}.confidencial__cta{display:inline-flex;align-items:center;gap:var(--s-3);margin-top:var(--s-8);font-family:var(--font-mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-0);font-weight:500;position:relative;padding-bottom:8px}.confidencial__cta__rule{width:60px;height:1px;background:var(--ink-0);transition:width 0.4s var(--ease-out)}.confidencial__cta:hover .confidencial__cta__rule{width:100px;background:var(--gold-1)}@keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}[data-reveal]{animation:fade-up 0.9s var(--ease-out) both}[data-reveal]:nth-child(1){animation-delay:0.05s}[data-reveal]:nth-child(2){animation-delay:0.15s}[data-reveal]:nth-child(3){animation-delay:0.25s}[data-reveal]:nth-child(4){animation-delay:0.35s}[data-reveal]:nth-child(5){animation-delay:0.45s}[data-reveal]:nth-child(6){animation-delay:0.55s}[data-reveal]:nth-child(7){animation-delay:0.65s}[data-reveal]:nth-child(8){animation-delay:0.75s}@media (max-width:1100px){.hero__main{grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,48px);min-height:clamp(480px,60vh,640px)}.display{font-size:clamp(48px,7.5vw,92px)}}@media (max-width:768px){.hero{padding:24px 20px 40px}.hero__container{gap:var(--s-6)}.hero__header{grid-template-columns:1fr;gap:var(--s-4)}.marker__rule{max-width:40px}.hero__countdown{align-items:flex-start;text-align:left;border-top:1px solid var(--lilac-soft);padding-top:var(--s-4)}.countdown__clock{font-size:clamp(36px,11vw,48px)}.hero__main{grid-template-columns:1fr;gap:var(--s-7);align-items:start;min-height:auto}.hero__content{order:1;gap:var(--s-5)}.hero__photo{order:2;max-width:320px;margin:0 auto -32px;align-self:center}.hero__photo img{max-height:480px}.display{font-size:clamp(44px,12vw,72px);line-height:0.96}.display__line--accent{padding-left:clamp(20px,5vw,40px)}.hero__cta{max-width:100%}.hero__lede{font-size:15px}.cta{width:100%;padding:18px 22px}.photo__credit{position:static;margin-top:var(--s-3);padding:8px 12px;border-radius:var(--r-sm);background:rgba(8,6,13,0.4);align-self:flex-start}.meta__cols{grid-template-columns:1fr;gap:var(--s-4)}.meta__cols>div{flex-direction:row;align-items:baseline;gap:var(--s-3)}.meta__key{min-width:70px}.confidencial{padding:72px 20px}.confidencial__h2{font-size:clamp(36px,9vw,56px)}}@media (hover:none){.cta:hover{background:var(--cream-0);border-color:var(--cream-0)}.cta:hover .cta__arrow{transform:none}}.container{width:100%;max-width:var(--container);margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}.container--narrow{max-width:880px}.container--wide{max-width:1480px}.eyebrow--ink{color:var(--gold-2)}.eyebrow--center{display:block;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-1);margin-bottom:var(--s-5)}.eyebrow--gold{color:var(--gold-1)}.h2{font-family:var(--font-display);font-variation-settings:"opsz" 144,"wght" 350,"SOFT" 0;font-size:clamp(40px,5.5vw,88px);line-height:1.02;letter-spacing:-0.035em;color:var(--cream-0);font-weight:400}.h2--ink{color:var(--ink-0)}.h2--center{text-align:center}.h2--xlarge{font-size:clamp(48px,6vw,96px)}.h2--loose{letter-spacing:-0.015em;line-height:1.08;word-spacing:0.04em}.h2 .brand-gutai{font-variation-settings:"opsz" 144,"wght" 700,"SOFT" 0;color:var(--lilac-1);font-weight:700;display:inline-block;padding:0 0.04em}.h2 em{font-style:italic;font-variation-settings:"opsz" 144,"wght" 350,"SOFT" 80;color:var(--lilac-2)}.h2--ink em{color:var(--lilac-3)}.lede{font-family:var(--font-body);font-size:clamp(16px,1.3vw,19px);line-height:1.6;color:var(--cream-1);font-weight:350;letter-spacing:-0.005em}.lede--ink{color:var(--ink-1)}.lede--center{text-align:center;margin:0 auto;max-width:720px}.body{font-family:var(--font-body);font-size:17px;line-height:1.7;font-weight:400;color:var(--cream-1);margin-bottom:var(--s-4)}.body--ink{color:var(--ink-1)}.body strong{font-weight:600;color:var(--cream-0)}.body--ink strong{color:var(--ink-0)}.cta--mega{width:100%;padding:24px 32px;font-size:clamp(16px,1.4vw,18px);background:var(--cream-0);color:var(--ink-0);border-radius:12px}.cta--mega:hover{background:var(--lilac-1)}.cta--mega-loud{box-shadow:0 8px 40px rgba(244,237,224,0.16),0 0 0 1px rgba(244,237,224,0.08)}.cta--mega-loud:hover{box-shadow:0 12px 60px rgba(201,180,232,0.5),0 0 0 1px rgba(201,180,232,0.3),0 0 80px rgba(184,164,216,0.3)}.cta__micro{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cream-3);text-align:center;margin-top:var(--s-4);line-height:1.6}.dot-urgency{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rouge);margin-right:8px;vertical-align:middle;box-shadow:0 0 12px var(--rouge);animation:pulse-rouge 1.4s ease-in-out infinite}@keyframes pulse-rouge{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.45;transform:scale(0.85)}}.eyebrow--urgency,.eyebrow--urgency-loud{display:inline-flex;align-items:center;gap:4px;padding:8px 16px;border:1px solid rgba(201,36,47,0.45);background:rgba(201,36,47,0.08);border-radius:var(--r-pill);font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--rouge)}.eyebrow--urgency-loud{font-size:12px;letter-spacing:0.22em;padding:10px 22px;margin-bottom:var(--s-7)}.eyebrow--green-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:1px solid var(--green-soft);background:rgba(74,222,128,0.07);border-radius:var(--r-pill);font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);font-weight:600;animation:prelaunch-pulse 3s ease-in-out infinite}.eyebrow--green-pill.eyebrow--center{font-size:12px;letter-spacing:0.24em;padding:10px 24px;margin-bottom:var(--s-7);text-align:left}.dot-green{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green-glow);animation:pulse-green 1.6s ease-in-out infinite}@keyframes pulse-green{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}</style>
 
-<link rel="stylesheet" href="/curso/style.css?v=17" media="print" onload="this.media=&apos;all&apos;;this.onload=null" />
-<noscript><link rel="stylesheet" href="/curso/style.css?v=17" /></noscript>
+<link rel="stylesheet" href="/curso/style.css?v=18" media="print" onload="this.media=&apos;all&apos;;this.onload=null" />
+<noscript><link rel="stylesheet" href="/curso/style.css?v=18" /></noscript>
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -116,20 +116,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="hero__cta">
           <p class="hero__lede">
-            Curso <em>SIBO na Prática Clínica</em> completo, com a <strong>Gut&nbsp;AI</strong> (a IA que interpreta o teste respiratório do seu paciente em segundos) inclusa. <strong>Acesso liberado em poucos minutos.</strong>
+            Curso <em>SIBO na Prática Clínica</em> completo, com a <strong>Gut&nbsp;AI</strong> (a IA que interpreta o teste respiratório do seu paciente em segundos) inclusa. <strong>A próxima turma abre por vagas limitadas.</strong> Entre na lista e seja avisada antes da abertura.
           </p>
 
-          <a href="#oferta" class="cta" data-magnetic>
-            <span class="cta__label">Quero o curso completo</span>
+          <button type="button" class="cta" data-magnetic data-open-modal>
+            <span class="cta__label">Entrar na lista de espera</span>
             <span class="cta__arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
-          </a>
+          </button>
 
           <p class="hero__micro">
-            Pagamento via Hotmart. <span aria-hidden="true">·</span>
-            7 dias de garantia. <span aria-hidden="true">·</span>
-            Pix ou cartão.
+            Vagas limitadas por turma. <span aria-hidden="true">·</span>
+            Você é avisada antes da abertura. <span aria-hidden="true">·</span>
+            Sem compromisso.
           </p>
         </div>
       </div>
@@ -638,20 +638,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="container">
 
     <article class="oferta__card" data-reveal>
-      <span class="oferta__seal" aria-hidden="true">OFERTA DE LANÇAMENTO</span>
+      <span class="oferta__seal" aria-hidden="true">PRÓXIMA TURMA</span>
 
       <header class="oferta__head" id="oferta">
         <span class="eyebrow eyebrow--green-pill">
           <span class="dot-green"></span>
-          OFERTA DE LANÇAMENTO · INCLUI GUT AI · 6 MESES DE ACESSO
+          LISTA DE ESPERA · INCLUI GUT AI · TURMA COM ENCONTROS AO VIVO
         </span>
         <h2 class="oferta__price">
-          De <span class="price-old">R$ 2.997</span> por <br/>
-          <span class="price-new">R$ <span data-counter="1997" data-prefix="">0</span></span>
+          A próxima turma do<br/>
+          <span class="price-new">SIBO na Prática Clínica</span>
         </h2>
         <p class="oferta__parcel">
-          Em <b>12x de R$ 206,54</b> no cartão sem entrada<br/>
-          ou Pix à vista nos R$ 1.997 com aprovação imediata.
+          As vagas abrem por turma, em quantidade limitada.<br/>
+          Quem está na lista é avisada antes da abertura, com condição especial.
         </p>
       </header>
 
@@ -670,22 +670,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <div class="oferta__cta-wrap">
-        <a href="https://pay.hotmart.com/W98911884K?off=azctciwq&checkoutMode=10" target="_blank" rel="noopener" class="cta cta--mega" data-magnetic>
-          <span class="cta__label">Quero o curso completo por R$ 1.997</span>
+        <button type="button" class="cta cta--mega" data-magnetic data-open-modal>
+          <span class="cta__label">Entrar na lista de espera</span>
           <span class="cta__arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </span>
-        </a>
-        <a href="https://wa.me/5511912779806?text=Ol%C3%A1%2C%20gostaria%20de%20me%20inscrever%20no%20boleto%2Fpix%20parcelado" target="_blank" rel="noopener" class="cta cta--mega cta--ghost" data-wpp-clean>
-          <span class="cta__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          </span>
-          <span class="cta__label">Quero boleto/pix parcelado</span>
-          <span class="cta__arrow" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </span>
-        </a>
-        <p class="cta__micro">12x de R$ 206,54 · Pix à vista · Pagamento Hotmart · 7 dias de garantia.</p>
+        </button>
+        <p class="cta__micro">Leva menos de um minuto e não compromete você com nada.</p>
       </div>
     </article>
 
@@ -697,7 +688,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      SEÇÃO 9 · Garantia
      Arquetipo: Isolated Element + White Space Hero
      ============================================================ -->
-<section class="garantia" id="garantia">
+<!-- Garantia de 7 dias: só se aplica à compra. Oculta enquanto a página é lista de espera. -->
+<section class="garantia" id="garantia" hidden>
   <div class="container container--narrow">
 
     <div class="garantia__seal" data-reveal aria-hidden="true">
@@ -750,7 +742,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </header>
 
     <ul class="faq__list">
-      <li class="faq__item" data-reveal>
+      <li class="faq__item" data-reveal hidden>
         <button class="faq__q" aria-expanded="false">
           <span class="faq__num">01</span>
           <span>Por que R$ 1.997 é por tempo limitado?</span>
@@ -758,7 +750,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </button>
         <div class="faq__a"><p>Esse é o preço de lançamento da nova turma do curso com a Gut AI inclusa. R$ 1.997 é a condição que ofereço pra essa turma inicial, que vai me ajudar a calibrar a ferramenta e a estrutura dos encontros. <strong>Depois que essa oferta de lançamento encerrar</strong>, o preço volta pra R$ 2.997 e a Gut AI sai do pacote do curso (vai passar a ser produto avulso).</p></div>
       </li>
-      <li class="faq__item" data-reveal>
+      <li class="faq__item" data-reveal hidden>
         <button class="faq__q" aria-expanded="false">
           <span class="faq__num">02</span>
           <span>Como funciona o acesso ao curso depois que eu compro?</span>
@@ -768,7 +760,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">03</span>
+          <span class="faq__num">01</span>
           <span>E a Gut AI, como acesso?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
@@ -776,7 +768,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">04</span>
+          <span class="faq__num">02</span>
           <span>Quanto tempo tenho de acesso ao curso?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
@@ -784,7 +776,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">05</span>
+          <span class="faq__num">03</span>
           <span>Tem encontros ao vivo novos com você?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
@@ -792,13 +784,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">06</span>
+          <span class="faq__num">04</span>
           <span>Tem certificado?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
         <div class="faq__a"><p>Sim. Certificado digital de horas, reconhecido para uso em currículo e CRN.</p></div>
       </li>
-      <li class="faq__item" data-reveal>
+      <li class="faq__item" data-reveal hidden>
         <button class="faq__q" aria-expanded="false">
           <span class="faq__num">07</span>
           <span>Posso parcelar?</span>
@@ -808,13 +800,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">08</span>
+          <span class="faq__num">05</span>
           <span>A Gut AI substitui o meu raciocínio clínico?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
         <div class="faq__a"><p>Não. Ela acelera. Os critérios são determinísticos para não alucinar, mas a decisão é sua. Ela está ali como segunda opinião baseada nas minhas aulas, para você organizar o caso mais rápido e ganhar tempo de consulta.</p></div>
       </li>
-      <li class="faq__item" data-reveal>
+      <li class="faq__item" data-reveal hidden>
         <button class="faq__q" aria-expanded="false">
           <span class="faq__num">09</span>
           <span>Tem alguma garantia se eu não gostar?</span>
@@ -824,7 +816,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">10</span>
+          <span class="faq__num">06</span>
           <span>Esse curso é para mim se eu não atendo SIBO ainda?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
@@ -832,7 +824,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">11</span>
+          <span class="faq__num">07</span>
           <span>Funciona se eu for médica, biomédica, fonoaudióloga?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
@@ -840,7 +832,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
       <li class="faq__item" data-reveal>
         <button class="faq__q" aria-expanded="false">
-          <span class="faq__num">12</span>
+          <span class="faq__num">08</span>
           <span>E se eu já fiz o curso antes?</span>
           <span class="faq__icon" aria-hidden="true">+</span>
         </button>
@@ -864,42 +856,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="container container--narrow">
     <span class="eyebrow eyebrow--center eyebrow--green-pill" data-reveal>
       <span class="dot-green"></span>
-      OFERTA DE LANÇAMENTO · INCLUI GUT AI · 6 MESES DE ACESSO
+      LISTA DE ESPERA · PRÓXIMA TURMA · INCLUI GUT AI
     </span>
 
     <h2 class="cta-final__h h2--center" data-reveal>
-      Depois que essa oferta de lançamento encerrar, o valor sobe pra R$ 2.997<br/>
-      <em>sem a Gut AI inclusa.</em>
+      A próxima turma abre por vagas limitadas.<br/>
+      <em>Quem está na lista entra primeiro.</em>
     </h2>
 
     <p class="lede lede--center" data-reveal>
-      Se você atende paciente com queixa digestiva crônica e quer dominar o raciocínio clínico de SIBO, esse é o momento. Não vai ter segunda chamada nessa condição.
+      Se você atende paciente com queixa digestiva crônica e quer dominar o raciocínio clínico de SIBO, essa é a turma. Deixa seu contato e eu te aviso antes da abertura.
     </p>
 
     <div class="cta-final__body">
       <p data-reveal>São anos atendendo paciente travado de SIBO na clínica. Centenas de nutris que já passaram pelo meu raciocínio. E uma ferramenta clínica que eu construí pra acelerar exatamente isso no seu consultório.</p>
       <p data-reveal>O curso é a versão estendida do que você viu. A Gut AI é a ferramenta que pega o que eu te ensinei e coloca para rodar do seu lado, todo dia, no paciente real.</p>
-      <p data-reveal><strong>R$ 1.997. 12x de R$ 206,54. 6 meses de Gut AI. Acesso ao curso. Comunidade. 7 dias de garantia.</strong></p>
-      <p data-reveal>A decisão é sua. Essa condição de lançamento não vai durar.</p>
+      <p data-reveal><strong>Curso completo, encontros ao vivo, Gut AI inclusa e comunidade. As condições da próxima turma vão pra lista de espera primeiro.</strong></p>
+      <p data-reveal>Deixa seu contato agora. As vagas são limitadas por turma.</p>
     </div>
 
     <div class="cta-final__cta-wrap" data-reveal>
-      <a href="https://pay.hotmart.com/W98911884K?off=azctciwq&checkoutMode=10" target="_blank" rel="noopener" class="cta cta--mega cta--mega-loud" data-magnetic>
-        <span class="cta__label">Quero o curso completo por R$ 1.997</span>
+      <button type="button" class="cta cta--mega cta--mega-loud" data-magnetic data-open-modal>
+        <span class="cta__label">Entrar na lista de espera</span>
         <span class="cta__arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </span>
-      </a>
-      <a href="https://wa.me/5511912779806?text=Ol%C3%A1%2C%20gostaria%20de%20me%20inscrever%20no%20boleto%2Fpix%20parcelado" target="_blank" rel="noopener" class="cta cta--mega cta--ghost" data-wpp-clean>
-        <span class="cta__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </span>
-        <span class="cta__label">Quero boleto/pix parcelado</span>
-        <span class="cta__arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </span>
-      </a>
-      <p class="cta__micro">12x de R$ 206,54 ou Pix à vista · Pagamento Hotmart · 7 dias de garantia.</p>
+      </button>
+      <p class="cta__micro">Você é avisada por e-mail e WhatsApp antes da abertura. Sem compromisso.</p>
     </div>
 
     <span class="cta-final__signature" data-reveal>Karina</span>
@@ -911,12 +894,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <!-- Floating CTA — aparece após o hero, esconde dentro da oferta/cta-final -->
-<a href="#oferta" class="float-cta" id="floatCta" aria-label="Ver a oferta de lançamento">
-  <span class="float-cta__label">Quero o curso</span>
+<button type="button" class="float-cta" id="floatCta" data-open-modal aria-label="Entrar na lista de espera">
+  <span class="float-cta__label">Lista de espera</span>
   <span class="float-cta__arrow" aria-hidden="true">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
   </span>
-</a>
+</button>
 
 
 <!-- ============================================================
@@ -940,7 +923,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 
+<!-- ============ MODAL LISTA DE ESPERA ============ -->
+<dialog class="wl-modal" id="waitlist" aria-labelledby="waitlist-title">
+  <form method="dialog" class="wl-modal__close-form">
+    <button class="wl-modal__close" aria-label="Fechar">&times;</button>
+  </form>
+
+  <div class="wl-modal__head">
+    <span class="wl-eyebrow"><span class="dot-green" aria-hidden="true"></span>SIBO na Prática Clínica</span>
+    <h2 class="wl-modal__title" id="waitlist-title" tabindex="-1">Lista de espera da próxima turma</h2>
+    <p class="wl-modal__sub">
+      Deixa seu contato. Quando a próxima turma abrir, você é avisada antes de todo mundo.
+    </p>
+  </div>
+
+  <form class="wl-form" id="waitlist-form" novalidate>
+    <div class="wl-field">
+      <label for="nome">Nome completo</label>
+      <input type="text" id="nome" name="nome" placeholder="Como você quer ser chamada" autocomplete="name" required>
+    </div>
+
+    <div class="wl-field">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+    </div>
+
+    <div class="wl-field">
+      <label for="telefone">WhatsApp</label>
+      <input type="tel" id="telefone" name="telefone" placeholder="(11) 90000-0000" autocomplete="tel" required>
+    </div>
+
+    <div class="wl-field">
+      <label for="profissao">Sua profissão</label>
+      <select id="profissao" name="profissao" required>
+        <option value="" disabled selected>Selecione</option>
+        <option value="medica">Médica / Médico</option>
+        <option value="nutricionista">Nutricionista</option>
+        <option value="outra-saude">Outra área da saúde</option>
+        <option value="fora-saude">Não sou da área da saúde</option>
+      </select>
+    </div>
+
+    <p class="wl-error" id="form-error" role="alert" hidden>
+      Não consegui enviar agora. Tenta de novo em alguns segundos.
+    </p>
+
+    <button type="submit" class="wl-submit" data-submit>
+      <span data-submit-label>Entrar na lista de espera</span>
+    </button>
+
+    <p class="wl-micro">
+      Seus dados ficam comigo. Uso só pra avisar sobre a abertura da turma e conteúdos da área clínica.
+    </p>
+  </form>
+
+  <div class="wl-modal__success" id="waitlist-success" hidden>
+    <h2 class="wl-modal__title" data-success-title>Pronto, você está na lista.</h2>
+    <p class="wl-modal__sub" data-success-body>
+      Quando a próxima turma abrir, eu te aviso por e-mail e WhatsApp antes da divulgação pública.
+      Até lá, se quiser acompanhar como eu penso os casos, me segue no Instagram.
+    </p>
+    <form method="dialog"><button class="wl-submit wl-submit--ghost"><span>Fechar</span></button></form>
+  </div>
+</dialog>
+
 <!-- Scripts -->
-<script src="/curso/script.js?v=16" defer></script>
+<script src="/curso/script.js?v=17" defer></script>
 </body>
 </html>

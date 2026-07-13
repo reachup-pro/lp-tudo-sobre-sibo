@@ -2870,3 +2870,103 @@ html.countdown-pre .sb-pre { display: flex; }
     transform: none;
   }
 }
+
+/* ================================================================
+   Lista de espera — modal (paleta SIBO Black)
+   ================================================================ */
+.wl-modal {
+  /* o reset global `* { margin: 0 }` mata o margin:auto que centraliza o dialog nativo */
+  margin: auto;
+  width: min(30rem, calc(100vw - 2rem));
+  max-height: min(44rem, calc(100dvh - 2rem));
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--lilac-medium);
+  border-radius: 16px;
+  background: var(--ink-1);
+  color: var(--cream-1);
+  overflow-y: auto;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--lilac-soft);
+}
+.wl-modal::backdrop { background: rgba(8, 6, 13, 0.78); backdrop-filter: blur(4px); }
+.wl-modal[open] { animation: wlIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes wlIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+.wl-modal__close-form { position: absolute; top: 8px; right: 12px; margin: 0; }
+.wl-modal__close {
+  border: none; background: none; font-size: 28px; line-height: 1;
+  color: var(--cream-3); cursor: pointer; padding: 6px 8px; transition: color 0.3s;
+}
+.wl-modal__close:hover { color: var(--cream-0); }
+
+.wl-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--green); font-weight: 500;
+}
+.wl-modal__title {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 40, "wght" 380, "SOFT" 0;
+  font-size: clamp(24px, 5vw, 30px); line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--cream-0); margin: 14px 0 0;
+}
+.wl-modal__title:focus { outline: none; }
+.wl-modal__sub {
+  margin: 12px 0 0; font-family: var(--font-body); font-size: 15px;
+  line-height: 1.6; color: var(--cream-2);
+}
+
+.wl-form { margin-top: 28px; }
+.wl-field { margin-bottom: 16px; }
+.wl-field label {
+  display: block; margin-bottom: 8px; font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-3);
+}
+.wl-field input, .wl-field select {
+  width: 100%; min-height: 50px; padding: 0 16px;
+  border: 1px solid var(--lilac-soft); border-radius: var(--r-md);
+  background: var(--ink-0); color: var(--cream-0);
+  font-family: var(--font-body); font-size: 15px; transition: border-color 0.3s;
+}
+.wl-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--lilac-2) 50%),
+                    linear-gradient(135deg, var(--lilac-2) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%;
+  background-size: 6px 6px, 6px 6px; background-repeat: no-repeat;
+}
+.wl-field input::placeholder { color: var(--cream-3); }
+.wl-field input:focus, .wl-field select:focus { border-color: var(--lilac-2); outline: none; }
+.wl-field input:user-invalid, .wl-field select:user-invalid { border-color: var(--rouge); }
+
+.wl-error {
+  margin: 0 0 16px; padding: 12px 14px; border-left: 2px solid var(--rouge);
+  background: rgba(201, 36, 47, 0.10); border-radius: var(--r-sm);
+  font-size: 13px; line-height: 1.45; color: #f0a9ac;
+}
+
+.wl-submit {
+  position: relative; width: 100%; min-height: 54px; margin-top: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 24px; border: 1px solid var(--cream-0); border-radius: var(--r-md);
+  background: var(--cream-0); color: var(--ink-0);
+  font-family: var(--font-body); font-weight: 500; font-size: 16px; letter-spacing: -0.005em;
+  cursor: pointer; overflow: hidden;
+  transition: background 0.3s, box-shadow 0.4s, color 0.3s;
+  box-shadow: 0 4px 20px rgba(244, 237, 224, 0.12);
+}
+.wl-submit:hover { background: var(--lilac-1); border-color: var(--lilac-1); box-shadow: 0 8px 32px rgba(201, 180, 232, 0.35); }
+.wl-submit[disabled] { opacity: 0.6; cursor: progress; }
+.wl-submit--ghost {
+  background: transparent; color: var(--cream-1); border-color: var(--lilac-soft); box-shadow: none;
+}
+.wl-submit--ghost:hover { background: var(--lilac-soft); border-color: var(--lilac-2); color: var(--cream-0); }
+
+.wl-micro {
+  margin: 16px 0 0; font-family: var(--font-mono); font-size: 11px;
+  line-height: 1.6; color: var(--cream-3);
+}
+.wl-modal__success .wl-submit { margin-top: 28px; }
+
+@media (hover: none) {
+  .wl-submit:hover { background: var(--cream-0); border-color: var(--cream-0); box-shadow: 0 4px 20px rgba(244, 237, 224, 0.12); }
+}
