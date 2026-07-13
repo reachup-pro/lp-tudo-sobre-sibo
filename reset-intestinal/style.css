@@ -115,6 +115,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   font-size:10px;letter-spacing:.28em;text-transform:uppercase;
   color:var(--lilac-2);font-weight:600;
 }
+/* Logo de produto (marca Reset Intestinal — nova identidade) */
+.brand__logo{height:clamp(30px,4.6vw,38px);width:auto;display:block}
+.footer__logo{height:clamp(40px,6vw,50px);width:auto;display:block}
+.footer__by{
+  margin-top:9px;display:block;font-size:10px;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--lilac-2);font-weight:600;
+}
 .topbar__cta{
   display:inline-flex;align-items:center;gap:var(--s-3);
   padding:9px 16px;border:1px solid var(--lilac-line);border-radius:var(--r-pill);
