@@ -5,6 +5,13 @@
   command = ""
 
 # ----------------------------------------------------------------
+# Netlify Image CDN — permite servir thumbnails de anúncios (Meta/fbcdn)
+# pelo próprio domínio (/.netlify/images?url=...), driblando bloqueadores.
+# ----------------------------------------------------------------
+[images]
+  remote_images = ['https://.*\.fbcdn\.net/.*', 'https://.*\.cdninstagram\.com/.*']
+
+# ----------------------------------------------------------------
 # Headers
 # ----------------------------------------------------------------
 

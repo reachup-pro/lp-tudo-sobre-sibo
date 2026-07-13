@@ -387,8 +387,9 @@ function renderTopAds() {
     // AOV por linha = receita/vendas do próprio ad (cascata UTM > pixel)
     const aovLinha = vendasEfetivo > 0 ? Number(receitaEfetiva) / Number(vendasEfetivo) : null;
     const cCls = cpaClass(a.cpa_brl, aovLinha);
+    // Serve o thumbnail pelo Netlify Image CDN (mesmo domínio) — evita bloqueio de fbcdn e padroniza tamanho
     const thumb = a.thumbnail_url
-      ? `<img src="${a.thumbnail_url}" class="tbl__thumb" loading="lazy" alt="">`
+      ? `<img src="/.netlify/images?url=${encodeURIComponent(a.thumbnail_url)}&w=96&h=96&fit=cover&q=80" class="tbl__thumb" loading="lazy" alt="">`
       : `<div class="tbl__thumb"></div>`;
     const fonteEmoji = a.fonte_atribuicao === 'utm' ? '✓' : (a.fonte_atribuicao === 'pixel_fallback' ? '◇' : '·');
     const nameHtml = a.instagram_permalink_url
