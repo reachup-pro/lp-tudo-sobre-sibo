@@ -122,6 +122,34 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # ----------------------------------------------------------------
+# Subpágina /reset-intestinal/obrigado (página de obrigado pós-compra)
+# Globs de /reset-intestinal/*.html não descem pra subpasta; duplicar prefixo
+# ----------------------------------------------------------------
+
+[[headers]]
+  for = "/reset-intestinal/obrigado/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/reset-intestinal/obrigado/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/reset-intestinal/obrigado/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/reset-intestinal/obrigado/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ----------------------------------------------------------------
 # Subpath /mastermind (LP lista de espera — Mastermind Microbiota)
 # Globs raiz não casam subpath; precisa duplicar com prefixo /mastermind/
 # ----------------------------------------------------------------
@@ -230,6 +258,12 @@
 [[redirects]]
   from = "/reset-intestinal"
   to = "/reset-intestinal/index.html"
+  status = 200
+
+# Redirect /reset-intestinal/obrigado (sem barra) → index.html da página de obrigado
+[[redirects]]
+  from = "/reset-intestinal/obrigado"
+  to = "/reset-intestinal/obrigado/index.html"
   status = 200
 
 # Redirect /mastermind (sem barra) → /mastermind/index.html

@@ -1,0 +1,203 @@
+/* =========================================================================
+   Reset Intestinal — Página de OBRIGADO (pós-compra)
+   Reaproveita o design system "Ametista Clínico" da LP (tokens + componentes
+   vêm de /reset-intestinal/style.css, linkado antes deste arquivo).
+   Aqui ficam só as seções próprias da página de obrigado (prefixo .ty-).
+   Conceito: o "anel de reset" do logo vira um anel de CHECK (confirmação).
+   ========================================================================= */
+
+/* Selo de confirmação verde discreto na topbar (no lugar do CTA de preço) */
+.ty-topflag{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:8px 15px;border-radius:var(--r-pill);
+  border:1px solid var(--jade-soft);background:rgba(104,230,180,.08);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--jade);font-weight:600;
+}
+.ty-topflag::before{
+  content:"";width:7px;height:7px;border-radius:50%;
+  background:var(--jade);box-shadow:0 0 0 4px rgba(104,230,180,.16);
+}
+@media(max-width:520px){.ty-topflag{display:none}}
+
+/* =============================== HERO =============================== */
+.ty-hero{
+  position:relative;z-index:3;
+  max-width:var(--container);margin:0 auto;
+  padding:clamp(20px,4vw,52px) var(--gutter) clamp(44px,7vw,88px);
+  display:grid;grid-template-columns:1.08fr .92fr;
+  gap:clamp(28px,5vw,72px);align-items:center;
+}
+.ty-hero__content{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-5)}
+
+.ty-hero__headline{
+  font-family:var(--font-display);
+  font-weight:500;color:var(--cream-0);
+  font-size:clamp(34px,5.4vw,62px);line-height:1.04;letter-spacing:-.01em;
+}
+.ty-hero__headline em{
+  font-style:italic;font-weight:500;
+  color:var(--champagne);
+}
+.ty-hero__lede{
+  font-size:clamp(17px,1.5vw,21px);line-height:1.5;color:var(--cream-2);
+  max-width:46ch;
+}
+.ty-hero__note{
+  font-size:15px;line-height:1.55;color:var(--cream-3);max-width:44ch;
+}
+.ty-hero__cta-wrap{display:flex;flex-direction:column;gap:12px;margin-top:var(--s-2);width:100%;max-width:480px}
+.ty-hero__micro{
+  font-size:13px;color:var(--cream-3);letter-spacing:.01em;
+  display:flex;align-items:center;gap:8px;
+}
+.ty-hero__micro svg{width:15px;height:15px;color:var(--jade);flex:none}
+
+/* Selo circular (anel de reset -> anel de check) */
+.ty-seal{
+  position:relative;justify-self:center;
+  width:min(340px,72vw);aspect-ratio:1;
+  display:grid;place-items:center;
+}
+.ty-seal__halo{
+  position:absolute;inset:-8%;border-radius:50%;
+  background:radial-gradient(circle at 50% 45%,var(--jade-soft),transparent 62%);
+  filter:blur(2px);
+}
+.ty-seal__svg{position:relative;width:100%;height:100%;overflow:visible}
+.ty-seal__ring{fill:none;stroke:var(--lilac-line);stroke-width:1.4}
+.ty-seal__dash{
+  fill:none;stroke:var(--champagne);stroke-width:1.4;
+  stroke-dasharray:2 12;stroke-linecap:round;opacity:.55;
+  transform-origin:60px 60px;animation:ty-spin 44s linear infinite;
+}
+.ty-seal__arc{
+  fill:none;stroke:var(--jade);stroke-width:3.4;stroke-linecap:round;
+  filter:drop-shadow(0 2px 10px var(--jade-glow));
+}
+.ty-seal__check{
+  fill:none;stroke:var(--jade);stroke-width:4.2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.ty-seal__pip{fill:var(--champagne)}
+@keyframes ty-spin{to{transform:rotate(360deg)}}
+
+/* =========================== SEÇÃO — PRÓXIMO PASSO =========================== */
+.ty-next{position:relative;z-index:3;background:var(--plum-900)}
+.ty-next::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(60% 50% at 12% 0%,var(--amethyst-soft),transparent 60%),
+    radial-gradient(50% 40% at 100% 100%,var(--jade-soft),transparent 60%);
+  opacity:.5;
+}
+.ty-next__inner{
+  position:relative;max-width:var(--container);margin:0 auto;
+  padding:clamp(48px,7vw,104px) var(--gutter);
+}
+.ty-next__top{
+  display:grid;grid-template-columns:.82fr 1.18fr;
+  gap:clamp(28px,4vw,60px);align-items:center;
+}
+
+/* Retrato da Karina (autoridade) */
+.ty-portrait{position:relative;max-width:420px}
+.ty-portrait__frame{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;
+  border:1px solid var(--lilac-line);
+  box-shadow:0 30px 80px rgba(11,6,24,.5);
+}
+.ty-portrait__frame img{width:100%;height:auto;display:block}
+.ty-portrait__tag{
+  position:absolute;left:16px;bottom:16px;
+  display:inline-flex;flex-direction:column;gap:2px;
+  padding:10px 16px;border-radius:var(--r-md);
+  background:rgba(21,11,40,.72);backdrop-filter:blur(8px);
+  border:1px solid var(--lilac-line);
+}
+.ty-portrait__name{font-family:var(--font-display);font-weight:600;color:var(--cream-0);font-size:16px}
+.ty-portrait__role{font-size:11px;letter-spacing:.06em;color:var(--cream-3)}
+
+.ty-next__headline{
+  font-family:var(--font-display);font-weight:500;color:var(--cream-0);
+  font-size:clamp(28px,3.6vw,46px);line-height:1.08;letter-spacing:-.01em;
+  margin:var(--s-4) 0 var(--s-4);
+}
+.ty-next__headline em{font-style:italic;color:var(--champagne);font-weight:500}
+.ty-next__p{font-size:clamp(16px,1.35vw,18px);line-height:1.62;color:var(--cream-2);max-width:52ch;margin-bottom:var(--s-4)}
+.ty-next__p:last-child{margin-bottom:0}
+.ty-next__p strong{color:var(--cream-0);font-weight:600}
+.ty-signature{
+  font-family:var(--font-display);font-style:italic;font-size:19px;
+  color:var(--champagne);margin-top:var(--s-3);
+}
+
+/* Como funciona — 3 passos */
+.ty-steps{
+  margin-top:clamp(40px,5vw,68px);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,24px);
+  counter-reset:tystep;
+}
+.ty-step{
+  position:relative;padding:clamp(22px,2.4vw,30px);
+  border-radius:var(--r-lg);
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  border:1px solid var(--lilac-line);
+}
+.ty-step__num{
+  counter-increment:tystep;
+  font-family:var(--font-display);font-size:34px;font-weight:600;
+  color:var(--champagne);line-height:1;
+  display:flex;align-items:center;gap:12px;margin-bottom:var(--s-4);
+}
+.ty-step__num::before{content:"0" counter(tystep)}
+.ty-step__num::after{content:"";flex:1;height:1px;background:var(--lilac-soft)}
+.ty-step__title{font-family:var(--font-body);font-weight:700;color:var(--cream-0);font-size:17px;margin-bottom:8px;letter-spacing:-.005em}
+.ty-step__text{font-size:15px;line-height:1.55;color:var(--cream-3)}
+
+/* =========================== SEÇÃO — CTA FINAL =========================== */
+.ty-final{
+  position:relative;z-index:3;overflow:hidden;
+  background:var(--plum-950);text-align:center;
+  border-top:1px solid var(--lilac-line);
+}
+.ty-final__echo{
+  position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
+  width:min(760px,110%);aspect-ratio:1;pointer-events:none;
+  background:radial-gradient(circle,var(--jade-soft),transparent 62%);
+  opacity:.7;
+}
+.ty-final__inner{
+  position:relative;max-width:800px;margin:0 auto;
+  padding:clamp(56px,8vw,112px) var(--gutter);
+  display:flex;flex-direction:column;align-items:center;gap:var(--s-5);
+}
+.ty-final__h2{
+  font-family:var(--font-display);font-weight:500;color:var(--cream-0);
+  font-size:clamp(30px,4.4vw,54px);line-height:1.06;letter-spacing:-.01em;
+}
+.ty-final__h2 em{font-style:italic;color:var(--champagne);font-weight:500}
+.ty-final__sub{
+  font-size:clamp(17px,1.5vw,20px);color:var(--cream-2);
+  line-height:1.5;max-width:42ch;
+}
+.ty-final__cta-wrap{width:100%;max-width:480px;display:flex;flex-direction:column;gap:12px;margin-top:var(--s-2)}
+.ty-final__micro{font-size:14px;color:var(--cream-3);line-height:1.55;max-width:48ch}
+
+/* =============================== RESPONSIVO =============================== */
+@media(max-width:900px){
+  .ty-hero{grid-template-columns:1fr;gap:clamp(24px,6vw,40px)}
+  .ty-seal{order:2;width:min(240px,58vw)}
+  .ty-next__top{grid-template-columns:1fr;gap:clamp(24px,6vw,36px)}
+  .ty-portrait{order:2;max-width:340px;margin:0 auto}
+  .ty-steps{grid-template-columns:1fr;gap:14px}
+}
+@media(max-width:520px){
+  .ty-hero{padding-top:12px}
+  .ty-hero__cta-wrap{max-width:none}
+}
+
+/* Respeita quem pede menos movimento */
+@media (prefers-reduced-motion:reduce){
+  .ty-seal__dash{animation:none}
+}
