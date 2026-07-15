@@ -35,8 +35,8 @@
       <small>Karina al Assal · painel real-time</small>
     </div>
     <div class="dash-countdown">
-      <small>até o evento</small>
-      <span data-countdown>—d 00h 00m 00s</span>
+      <small>evento 25/05/2026</small>
+      <span data-countdown>ENCERRADO ✓</span>
     </div>
     <div class="dash-header__status">
       <span data-clock>—</span>
@@ -77,9 +77,9 @@
         <button type="button" class="periodo__chip" data-periodo="1"   role="tab">Hoje</button>
         <button type="button" class="periodo__chip" data-periodo="2"   role="tab">Ontem+Hoje</button>
         <button type="button" class="periodo__chip" data-periodo="7"   role="tab">7d</button>
-        <button type="button" class="periodo__chip is-active" data-periodo="30"  role="tab" aria-selected="true">30d</button>
+        <button type="button" class="periodo__chip" data-periodo="30"  role="tab">30d</button>
         <button type="button" class="periodo__chip" data-periodo="90"  role="tab">90d</button>
-        <button type="button" class="periodo__chip" data-periodo="365" role="tab">Tudo</button>
+        <button type="button" class="periodo__chip is-active" data-periodo="3650" role="tab" aria-selected="true">Tudo</button>
         <button type="button" class="periodo__chip periodo__chip--custom" data-periodo="custom" role="tab">📅 Custom</button>
       </div>
       <div class="periodo__custom" data-periodo-custom hidden>
@@ -87,7 +87,7 @@
         <label>Até <input type="date" data-periodo-ate></label>
         <button type="button" class="periodo__apply" data-periodo-apply>Aplicar</button>
       </div>
-      <span class="periodo__resumo" data-periodo-resumo>últimos 30 dias</span>
+      <span class="periodo__resumo" data-periodo-resumo>evento completo</span>
     </div>
   </section>
 
@@ -108,7 +108,7 @@
       </div>
 
       <div class="kpi" data-kpi-spend-card>
-        <div class="kpi__label">Investimento (30d)</div>
+        <div class="kpi__label">Investimento</div>
         <div class="kpi__value skeleton" data-kpi-spend-val>R$ —</div>
         <div class="kpi__sub" data-kpi-spend-sub>—</div>
       </div>
@@ -257,7 +257,7 @@
 
   <!-- =================== 8. FUNIL =================== -->
   <section class="dash-section">
-    <h2 class="dash-section__title">Funil <small>impressões → cliques → landing → vendas · 30 dias</small></h2>
+    <h2 class="dash-section__title">Funil <small>impressões → cliques → landing → vendas · período selecionado</small></h2>
     <div class="funil">
       <div class="funil__row" data-funil-impr>
         <span class="funil__label">Impressões</span>
@@ -324,7 +324,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
 
-<script type="module" src="/dashboard-imersao/dashboard.js?v=2"></script>
+<script type="module" src="/dashboard-imersao/dashboard.js?v=3"></script>
 
 </body>
 </html>

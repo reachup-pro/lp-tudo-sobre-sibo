@@ -22,7 +22,7 @@ const state = {
   lastUpdate: Date.now(),
   // Período selecionado pra métricas de mídia (KPIs ads, funil, top ads/audiences)
   // Hero (vagas/receita acumulada) e Distribuição por lote NÃO seguem o período
-  periodo: { dias: 30, label: 'últimos 30 dias' },
+  periodo: { dias: 3650, label: 'evento completo' },
   // Ordenação client-side das tabelas
   sort: {
     topAds:       { key: 'spend_brl', dir: 'desc' },
@@ -137,7 +137,7 @@ function renderHero() {
 function renderCountdown() {
   if (!state.kpis?.data_evento) return;
   const c = countdown(state.kpis.data_evento);
-  if (c.ended) { setText('[data-countdown]', 'EVENTO INICIADO'); return; }
+  if (c.ended) { setText('[data-countdown]', 'ENCERRADO ✓'); return; }
   setText('[data-countdown]',
     `${c.d}d ${String(c.h).padStart(2,'0')}h ${String(c.m).padStart(2,'0')}m ${String(c.s).padStart(2,'0')}s`);
 }
@@ -263,7 +263,7 @@ function renderTimeline(rows) {
 
   // Sub-header com meta visível
   setText('[data-meta-data-evento]', dataEvento ? dataEvento.toLocaleDateString('pt-BR', { timeZone: TZ, day:'2-digit', month:'2-digit' }) : '—');
-  if (meta != null) {
+  if (meta != null && meta > 0) {
     setText('[data-meta-diaria]', String(meta));
     setText('[data-meta-faltam]', String(Math.max(0, metaCap - acumuladas)));
     setText('[data-meta-dias]', String(diasFaltam));
@@ -649,7 +649,7 @@ function bindPeriodoChips() {
       }
       if (customWrap) customWrap.hidden = true;
       const labels = { 1: 'hoje', 2: 'ontem + hoje', 7: 'últimos 7 dias', 30: 'últimos 30 dias',
-                       90: 'últimos 90 dias', 365: 'desde o início' };
+                       90: 'últimos 90 dias', 365: 'desde o início', 3650: 'evento completo' };
       setPeriodo(v, labels[v] || `últimos ${v} dias`);
     });
   });
