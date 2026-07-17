@@ -687,15 +687,17 @@ async function boot() {
     () => setLiveStatus(false)
   );
 
-  // Polling com intervalos moderados; immediate=false porque a carga inicial já foi feita (evita disparo duplicado)
-  startPolling(loadKPIs,         15_000, 'kpis',       false);
-  startPolling(loadHealth,       45_000, 'health',     false);
-  startPolling(loadOrderbumps,   45_000, 'orderbumps', false);
-  startPolling(loadTopAds,      120_000, 'topads',     false);
-  startPolling(loadTopAudiences,120_000, 'topaud',     false);
-  startPolling(loadFunil,       120_000, 'funil',      false);
-  startPolling(loadTimeline,    150_000, 'timeline',   false);
-  startPolling(loadHeatmap,     240_000, 'heatmap',    false);
+  // Polling ágil; immediate=false porque a carga inicial já foi feita (evita disparo duplicado).
+  // Intervalos DISTINTOS entre si de propósito: as RPCs são baratas (30–350ms) mas queremos
+  // evitar que disparem todas no mesmo tick (foi o burst simultâneo que dava statement_timeout no boot).
+  startPolling(loadKPIs,         10_000, 'kpis',       false);
+  startPolling(loadHealth,       30_000, 'health',     false);
+  startPolling(loadOrderbumps,   35_000, 'orderbumps', false);
+  startPolling(loadTimeline,     40_000, 'timeline',   false);
+  startPolling(loadTopAds,       45_000, 'topads',     false);
+  startPolling(loadFunil,        50_000, 'funil',      false);
+  startPolling(loadTopAudiences, 60_000, 'topaud',     false);
+  startPolling(loadHeatmap,      90_000, 'heatmap',    false);
 
   setInterval(() => {
     setText('[data-clock]', timeBRT(new Date().toISOString()));
