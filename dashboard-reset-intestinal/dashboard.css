@@ -1339,3 +1339,10 @@ body {
   .hero__pulse { padding: var(--s-3) var(--s-4); }
   .pulse__stat b { font-size: 15px; }
 }
+
+/* ---------- Ranking rolavel (todos os itens, nao so o top 10) ---------- */
+/* O teto de altura e proposital: mantem o resto da pagina alcancavel e ainda assim deixa
+   o usuario rolar ate o fim da lista para ver o que esta dando prejuizo. */
+.tbl-wrap--rank { max-height: 60vh; overflow-y: auto; overscroll-behavior: contain; }
+.tbl-wrap--rank .tbl thead th { top: 0; z-index: 2; }
+@media (max-width: 640px) { .tbl-wrap--rank { max-height: 68vh; } }

@@ -548,7 +548,7 @@ async function loadTopAds() {
   state.topAds = await rpc('dashboard_top_ads', {
     p_evento_slug: EVENTO_SLUG,
     p_dias: state.periodo.dias,
-    p_limit: 10
+    p_limit: 500
   });
   renderTopAds();
 }
@@ -556,7 +556,7 @@ async function loadTopAudiences() {
   state.topAudiences = await rpc('dashboard_top_audiences', {
     p_evento_slug: EVENTO_SLUG,
     p_dias: state.periodo.dias,
-    p_limit: 10
+    p_limit: 500
   });
   renderTopAudiences();
 }
