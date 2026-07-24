@@ -221,6 +221,25 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Página de parabéns (pós-inscrição) — noindex, sem JS próprio
+[[headers]]
+  for = "/imersao-intestino-irritavel/obrigado/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/obrigado/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/obrigado/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 # ----------------------------------------------------------------
 # Dashboard Imersão (subpágina) — segurança apertada
 # - Referrer-Policy: no-referrer (S1: token em URL nunca vaza)
@@ -297,6 +316,12 @@
 [[redirects]]
   from = "/imersao-intestino-irritavel"
   to = "/imersao-intestino-irritavel/index.html"
+  status = 200
+
+# Redirect /imersao-intestino-irritavel/obrigado (sem barra) → index.html
+[[redirects]]
+  from = "/imersao-intestino-irritavel/obrigado"
+  to = "/imersao-intestino-irritavel/obrigado/index.html"
   status = 200
 
 # Redirect /reset-intestinal/obrigado (sem barra) → index.html da página de obrigado
