@@ -37,16 +37,16 @@
   }
 
   /** URLs Hotmart por lote — Hotmart não suporta URL única que detecta lote.
-   *  Atualizado dinamicamente nos a[data-cta] conforme lote ativo do Supabase.
-   *  Esgotado mantém Lote 4 (Hotmart valida server-side se vagas reais esgotarem).
-   *  TODO(cliente): criar o produto + 4 offers no Hotmart e substituir os 4
-   *  placeholders abaixo (e os hrefs estáticos no index.html). O `data.product.name`
-   *  do Hotmart precisa bater com o filtro `produto` da RPC do lote. */
+   *  Produto M106868374A ("Imersão Intestino Irritável Na Prática"), 1 offer por lote.
+   *  Trocadas automaticamente nos a[data-cta] conforme o lote ativo que vem do
+   *  Supabase (virada em 50 / 150 / 250 vendas acumuladas). Os hrefs estáticos do
+   *  index.html apontam pro Lote 1 e servem de fallback se o fetch falhar.
+   *  Lote 4 é o último: nunca vira "esgotado" na página (ver bloco data.esgotado). */
   const HOTMART_URLS = {
-    1: "https://pay.hotmart.com/REPLACE_ME?off=LOTE1&checkoutMode=10",
-    2: "https://pay.hotmart.com/REPLACE_ME?off=LOTE2&checkoutMode=10",
-    3: "https://pay.hotmart.com/REPLACE_ME?off=LOTE3&checkoutMode=10",
-    4: "https://pay.hotmart.com/REPLACE_ME?off=LOTE4&checkoutMode=10",
+    1: "https://pay.hotmart.com/M106868374A?off=x99yf7zv&checkoutMode=10",
+    2: "https://pay.hotmart.com/M106868374A?off=9wjoqicp&checkoutMode=10",
+    3: "https://pay.hotmart.com/M106868374A?off=t1vseyll&checkoutMode=10",
+    4: "https://pay.hotmart.com/M106868374A?off=4mix64vj&checkoutMode=10",
   };
 
   /** Piso visual da barra: enquanto vendas reais ≤ 50%, exibe 50% e oculta vagas restantes.
@@ -91,10 +91,10 @@
       .forEach((el) => el.classList.remove("lote-erro"));
 
     if (data.esgotado) {
-      /* Override pós-350: mantém venda aberta no Lote 4 mesmo após bater a
-       * capacidade total. NÃO renderiza "Esgotado". Trava em 99% + 10 vagas
-       * restantes (escassez máxima). A Hotmart continua aceitando compras no
-       * link do Lote 4 (validação server-side de quantidade ali). */
+      /* Lote 4 = "sem limite". A RPC devolve esgotado:true quando as vendas passam
+       * da capacidade nominal somada (50+100+100+100 = 350), mas a venda NÃO fecha:
+       * este override mantém o checkout do Lote 4 ativo e trava a barra em 99% +
+       * 10 vagas restantes (escassez máxima). NÃO renderiza "Esgotado". */
       const corLote4 = "#ef4444";
       const PERCENT_TRAVADO = 99;
       const VAGAS_RESTANTES_TRAVADO = 10;

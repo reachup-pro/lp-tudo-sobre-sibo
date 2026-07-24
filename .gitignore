@@ -74,3 +74,4 @@ preview-*.jpg
 node_modules/
 dist/
 build/
+OPERACAO-LOTES.md
