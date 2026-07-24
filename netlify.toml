@@ -189,6 +189,39 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # ----------------------------------------------------------------
+# Imersão Intestino Irritável na Prática (SII) — subpath
+# Globs raiz não casam subpath; duplicar com prefixo /imersao-intestino-irritavel/
+# ----------------------------------------------------------------
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/imersao-intestino-irritavel/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ----------------------------------------------------------------
 # Dashboard Imersão (subpágina) — segurança apertada
 # - Referrer-Policy: no-referrer (S1: token em URL nunca vaza)
 # - CSP sem 'unsafe-inline' (S3)
@@ -258,6 +291,12 @@
 [[redirects]]
   from = "/reset-intestinal"
   to = "/reset-intestinal/index.html"
+  status = 200
+
+# Redirect /imersao-intestino-irritavel (sem barra) → index.html
+[[redirects]]
+  from = "/imersao-intestino-irritavel"
+  to = "/imersao-intestino-irritavel/index.html"
   status = 200
 
 # Redirect /reset-intestinal/obrigado (sem barra) → index.html da página de obrigado
