@@ -68,12 +68,19 @@
       const res = await fetch(LOTE_ENDPOINT, { cache: "no-store" });
       if (!res.ok) throw new Error("http " + res.status);
       const data = await res.json();
-      /* Evento ainda não configurado no backend (sem linha em `evento_lotes`):
-       * a Edge Function responde 200 com { erro: "evento nao encontrado" }.
-       * Nesse caso mantemos o fallback estático do HTML (R$27 / 50% / verde),
-       * sem marcar erro visual. Quando o evento for criado, o real assume. */
-      if (!data || data.erro || data.lote_preco == null) {
+      /* Evento não configurado / pausado no backend (sem linha ativa em
+       * `evento_lotes`): a Edge Function responde 200 com { erro: "evento nao
+       * encontrado" }. Nesse caso mantemos o fallback estático do HTML
+       * (R$27 / 50% / verde), sem marcar erro visual.
+       * Atenção: quando `esgotado` é true o payload legitimamente NÃO traz
+       * `lote_preco` — esse caso precisa passar para aplicarLoteNaPagina(),
+       * que é quem mantém a venda aberta no Lote 4. */
+      if (!data || data.erro) {
         console.info("[lote] evento não configurado ainda; usando fallback estático.");
+        return;
+      }
+      if (!data.esgotado && data.lote_preco == null) {
+        console.info("[lote] payload sem lote ativo; usando fallback estático.");
         return;
       }
       aplicarLoteNaPagina(data);
