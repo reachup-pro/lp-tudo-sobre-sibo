@@ -12,6 +12,72 @@
   "use strict";
 
   /* ========================================================
+     0. Parâmetros de URL — preservação obrigatória nos checkouts
+     ========================================================
+     O href dos CTAs é reescrito a cada polling do lote. Sem isto, a reescrita
+     apagaria utm/src/sck e a venda chegaria na Hotmart sem origem.
+     NÃO depende do GTM: a página guarda os params da entrada e re-decora
+     sempre — no rewrite e de novo no clique (rede de segurança contra
+     qualquer terceiro que mexa no href depois). Mesma convenção da tag do GTM
+     (src = utm_source, sck = chave|valor|...), então os dois juntos são
+     idempotentes. */
+  const URL_PARAMS = (function () {
+    const out = {};
+    if (!window.URLSearchParams) return out;
+    let search;
+    try {
+      search = new URLSearchParams(window.location.search);
+    } catch (e) {
+      return out;
+    }
+    const sckParts = [];
+    search.forEach(function (value, key) {
+      out[key] = value;
+      const k = key.toLowerCase();
+      if (k !== "src" && k !== "sck") {
+        sckParts.push(key);
+        sckParts.push(value);
+      }
+    });
+    if (out.utm_source) out.src = out.utm_source;
+    if (sckParts.length) out.sck = sckParts.join("|");
+    return out;
+  })();
+
+  const URL_PARAM_KEYS = Object.keys(URL_PARAMS);
+
+  /** Devolve a URL com os parâmetros da visita reaplicados. Idempotente. */
+  function comParams(url) {
+    if (!URL_PARAM_KEYS.length || !url) return url;
+    const s = String(url);
+    if (s.charAt(0) === "#" || s.indexOf("javascript:") === 0) return url;
+    try {
+      const u = new URL(s, window.location.origin);
+      URL_PARAM_KEYS.forEach(function (k) {
+        u.searchParams.set(k, URL_PARAMS[k]);
+      });
+      return u.toString();
+    } catch (e) {
+      return url;
+    }
+  }
+
+  /** Última linha de defesa: re-decora o href no momento do clique. */
+  function setupCtaParamGuard() {
+    if (!URL_PARAM_KEYS.length) return;
+    const guard = function (ev) {
+      const alvo = ev.target;
+      const link = alvo && alvo.closest ? alvo.closest("a[data-cta]") : null;
+      if (!link) return;
+      const href = link.getAttribute("href");
+      if (!href || href.charAt(0) === "#") return;
+      link.setAttribute("href", comParams(href));
+    };
+    document.addEventListener("click", guard, true);
+    document.addEventListener("auxclick", guard, true);
+  }
+
+  /* ========================================================
      1. Supabase lote
      ======================================================== */
   const LOTE_ENDPOINT =
@@ -185,7 +251,7 @@
    *  apontar ao checkout Hotmart do lote ativo. Defensiva: cai pro Lote 1 se inválido. */
   function aplicarUrlCTAs(loteNumero) {
     const num = Number(loteNumero) || 1;
-    const url = HOTMART_URLS[num] || HOTMART_URLS[1];
+    const url = comParams(HOTMART_URLS[num] || HOTMART_URLS[1]);
     document.querySelectorAll("a[data-cta]").forEach((el) => {
       el.href = url;
     });
@@ -428,6 +494,14 @@
      7. Lifecycle
      ======================================================== */
   document.addEventListener("DOMContentLoaded", () => {
+    /* Decora os hrefs estáticos antes do primeiro fetch do lote e arma a
+       proteção de clique — a página nunca fica sem os params. */
+    document.querySelectorAll("a[data-cta]").forEach((el) => {
+      const href = el.getAttribute("href");
+      if (href && href.charAt(0) !== "#") el.href = comParams(href);
+    });
+    setupCtaParamGuard();
+
     setupReveal();
     setupCounters();
     setupAlgoritmoProgress();
