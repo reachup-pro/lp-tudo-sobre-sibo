@@ -1,10 +1,10 @@
-// dashboard.js — orchestrator do dashboard real-time Karina/SIBO
+// dashboard.js — orchestrator do dashboard real-time Karina / Imersão Intestino Irritável (evento por lotes)
 import { sb, rpc, from, SUPABASE_URL } from '/dashboard-imersao/lib/supabase.js';
 import { brl, num, pct, ago, dateBRT, timeBRT, freshness, countdown, delta, roasClass, cpaClass, applyThresholdAttr, applyThresholdCard } from '/dashboard-imersao/lib/format.js';
 import { makeTimelineChart, COLORS } from '/dashboard-imersao/lib/charts.js';
 import { subscribeVendas, startPolling } from '/dashboard-imersao/lib/realtime.js';
 
-const EVENTO_SLUG = 'tudo-sobre-sibo';
+const EVENTO_SLUG = 'imersao-intestino-irritavel';
 
 // State
 const state = {
@@ -22,7 +22,7 @@ const state = {
   lastUpdate: Date.now(),
   // Período selecionado pra métricas de mídia (KPIs ads, funil, top ads/audiences)
   // Hero (vagas/receita acumulada) e Distribuição por lote NÃO seguem o período
-  periodo: { dias: 3650, label: 'evento completo' },
+  periodo: { dias: 30, label: 'últimos 30 dias' },
   // Ordenação client-side das tabelas
   sort: {
     topAds:       { key: 'spend_brl', dir: 'desc' },
@@ -109,7 +109,7 @@ function escapeHtml(s) {
 }
 
 function renderHeader() {
-  setText('[data-evt-nome]', state.kpis?.produto_nome || 'Tudo Sobre SIBO');
+  setText('[data-evt-nome]', state.kpis?.produto_nome || 'Imersão Intestino Irritável');
   setText('[data-updated]', `atualizado ${ago(state.lastUpdate)}`);
   setText('[data-clock]', timeBRT(new Date().toISOString()));
 }
@@ -118,7 +118,7 @@ function renderHero() {
   const k = state.kpis;
   if (!k) return;
   const lote = k.lote || {};
-  setText('[data-hero-vendas]', `${k.vendas_count || 0}/${k.meta_capacidade || 300}`);
+  setText('[data-hero-vendas]', `${k.vendas_count || 0}/${k.meta_capacidade || 350}`);
   setText('[data-hero-receita]', brl(k.receita_total_brl, { cents: false }));
 
   setText('[data-lote-pill]',
@@ -137,7 +137,7 @@ function renderHero() {
 function renderCountdown() {
   if (!state.kpis?.data_evento) return;
   const c = countdown(state.kpis.data_evento);
-  if (c.ended) { setText('[data-countdown]', 'ENCERRADO ✓'); return; }
+  if (c.ended) { setText('[data-countdown]', 'EVENTO INICIADO'); return; }
   setText('[data-countdown]',
     `${c.d}d ${String(c.h).padStart(2,'0')}h ${String(c.m).padStart(2,'0')}m ${String(c.s).padStart(2,'0')}s`);
 }
@@ -238,7 +238,7 @@ function renderTimeline(rows) {
 
   // Calcular meta diária dinâmica
   const k = state.kpis || {};
-  const metaCap = Number(k.meta_capacidade) || 300;
+  const metaCap = Number(k.meta_capacidade) || 350;
   const acumuladas = Number(k.vendas_count) || 0;
   const dataEvento = k.data_evento ? new Date(k.data_evento) : null;
   const hoje = new Date(new Date().toLocaleString('en-US', { timeZone: TZ }));
@@ -330,10 +330,10 @@ function renderDistribuicaoLotes() {
   if (!state.distrib?.por_preco) return;
   const map = new Map(state.distrib.por_preco.map(r => [Number(r.preco), Number(r.qtd)]));
   const lotes = [
-    { num: 1, preco: 27,  cap: 50,  cor: '#22c55e' },
-    { num: 2, preco: 47,  cap: 100, cor: '#eab308' },
-    { num: 3, preco: 97,  cap: 150, cor: '#f97316' },
-    { num: 4, preco: 147, cap: 50,  cor: '#ef4444' }
+    { num: 1, preco: 27, cap: 50,  cor: '#22c55e' },
+    { num: 2, preco: 47, cap: 100, cor: '#eab308' },
+    { num: 3, preco: 67, cap: 100, cor: '#f97316' },
+    { num: 4, preco: 97, cap: 100, cor: '#ef4444' }
   ];
   const container = document.querySelector('[data-lotes-grid]');
   if (!container) return;
@@ -501,7 +501,7 @@ function renderFeed() {
   container.innerHTML = state.feed.slice(0, 25).map(v => `
     <div class="feed__item">
       <span class="feed__nome">${escapeHtml(v.nome_publico || 'Anônimo')}${v.ddd ? `<small>(DDD ${v.ddd})</small>` : ''}</span>
-      <span class="feed__produto" title="${escapeHtml(v.produto || '')}">${escapeHtml(v.produto_label || (v.produto === 'Tudo Sobre SIBO' ? 'Ingresso' : '—'))}</span>
+      <span class="feed__produto" title="${escapeHtml(v.produto || '')}">${escapeHtml(v.produto_label || (isImersaoSale(v) ? 'Ingresso' : '—'))}</span>
       <span class="badge" data-src="${v.attribution_source}">${v.attribution_source}</span>
       <span class="feed__valor">${brl(v.transaction_value, { cents: false })}</span>
       <span class="feed__time">${ago(v.created_at)}</span>
@@ -587,17 +587,27 @@ async function loadHeatmap() {
   renderHeatmap();
 }
 async function loadFeedInicial() {
-  state.feed = await from('vendas_realtime', {
-    select: 'id, nome_publico, ddd, transaction_value, attribution_source, created_at, status, produto, produto_label',
-    order: 'created_at', asc: false, limit: 25
-  });
+  // vendas_realtime é global (vários produtos e clientes) — filtrar só a Imersão
+  const { data, error } = await sb.from('vendas_realtime')
+    .select('id, nome_publico, ddd, transaction_value, attribution_source, created_at, status, produto, produto_label')
+    .ilike('produto', '%intestino irrit%')
+    .order('created_at', { ascending: false })
+    .limit(25);
+  if (error) throw new Error('vendas_realtime: ' + error.message);
+  state.feed = data || [];
   renderFeed();
 }
 
 // =========================================================
 // 4. REALTIME
 // =========================================================
+// vendas_realtime é uma tabela GLOBAL — só reagir a vendas da Imersão.
+function isImersaoSale(row) {
+  return String(row?.produto || '').toLowerCase().includes('intestino irrit');
+}
+
 function onNovaVenda(row) {
+  if (!isImersaoSale(row)) return;
   if (!state.feed.find(v => v.id === row.id)) {
     state.feed.unshift(row);
     if (state.feed.length > 25) state.feed.pop();
@@ -608,6 +618,7 @@ function onNovaVenda(row) {
   loadOrderbumps().catch(() => {});
 }
 function onUpdateVenda(row) {
+  if (!isImersaoSale(row)) return;
   const i = state.feed.findIndex(v => v.id === row.id);
   if (i !== -1) { state.feed[i] = row; renderFeed(); }
   loadKPIs().catch(() => {});

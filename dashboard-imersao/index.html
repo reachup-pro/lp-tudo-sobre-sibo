@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Dashboard · Tudo Sobre SIBO · Karina al Assal</title>
-  <meta name="description" content="Painel real-time de vendas e Meta Ads do evento Tudo Sobre SIBO.">
+  <title>Dashboard · Imersão Intestino Irritável · Karina al Assal</title>
+  <meta name="description" content="Painel real-time de vendas e Meta Ads do evento Imersão Intestino Irritável na Prática.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,12 +31,12 @@
 <header class="dash-header">
   <div class="dash-header__inner">
     <div class="dash-header__title">
-      <span data-evt-nome>Tudo Sobre SIBO</span>
+      <span data-evt-nome>Imersão Intestino Irritável</span>
       <small>Karina al Assal · painel real-time</small>
     </div>
     <div class="dash-countdown">
-      <small>evento 25/05/2026</small>
-      <span data-countdown>ENCERRADO ✓</span>
+      <small>até o evento · 08/08/2026</small>
+      <span data-countdown>—d 00h 00m 00s</span>
     </div>
     <div class="dash-header__status">
       <span data-clock>—</span>
@@ -51,7 +51,7 @@
   <section class="dash-section hero">
     <div>
       <span class="hero__big">
-        <span class="hero__big-num skeleton" data-hero-vendas>—/300</span>
+        <span class="hero__big-num skeleton" data-hero-vendas>—/350</span>
         <span class="hero__big-label">ingressos vendidos</span>
       </span>
       <div class="hero__receita">
@@ -77,9 +77,9 @@
         <button type="button" class="periodo__chip" data-periodo="1"   role="tab">Hoje</button>
         <button type="button" class="periodo__chip" data-periodo="2"   role="tab">Ontem+Hoje</button>
         <button type="button" class="periodo__chip" data-periodo="7"   role="tab">7d</button>
-        <button type="button" class="periodo__chip" data-periodo="30"  role="tab">30d</button>
+        <button type="button" class="periodo__chip is-active" data-periodo="30"  role="tab" aria-selected="true">30d</button>
         <button type="button" class="periodo__chip" data-periodo="90"  role="tab">90d</button>
-        <button type="button" class="periodo__chip is-active" data-periodo="3650" role="tab" aria-selected="true">Tudo</button>
+        <button type="button" class="periodo__chip" data-periodo="3650" role="tab">Tudo</button>
         <button type="button" class="periodo__chip periodo__chip--custom" data-periodo="custom" role="tab">📅 Custom</button>
       </div>
       <div class="periodo__custom" data-periodo-custom hidden>
@@ -87,7 +87,7 @@
         <label>Até <input type="date" data-periodo-ate></label>
         <button type="button" class="periodo__apply" data-periodo-apply>Aplicar</button>
       </div>
-      <span class="periodo__resumo" data-periodo-resumo>evento completo</span>
+      <span class="periodo__resumo" data-periodo-resumo>últimos 30 dias</span>
     </div>
   </section>
 
@@ -297,7 +297,7 @@
         <span class="badge" data-src="UTM"  data-cascata-utm>0 (0%)</span>
         <span class="badge" data-src="MGR"  data-cascata-mgr>0 (0%)</span>
         <small style="font-family:var(--font-mono); font-size:10px; color:var(--cream-3); margin-left:auto; align-self:center;">
-          atribuição: REAL=ad_id match · UTM=campanha SIBO · MGR=fallback
+          atribuição: REAL=ad_id match · UTM=campanha do evento · MGR=fallback
         </small>
       </div>
     </div>
@@ -324,7 +324,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
 
-<script type="module" src="/dashboard-imersao/dashboard.js?v=3"></script>
+<script type="module" src="/dashboard-imersao/dashboard.js?v=4"></script>
 
 </body>
 </html>
