@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/walkway" rel="stylesheet">
 
-  <link rel="stylesheet" href="/imersao-intestino-irritavel/style.css?v=2">
+  <link rel="stylesheet" href="/imersao-intestino-irritavel/style.css?v=3">
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -654,10 +654,10 @@
         <header class="section-head section-head--center" data-reveal>
           <p class="eyebrow">A oferta</p>
           <h2 id="oferta-title" class="section-title">
-            <em>R$27 hoje</em>, R$97 quando o último lote abrir.
+            <em><span data-lote-preco>R$27</span> hoje.</em> Quando este lote fechar, o próximo vem mais caro.
           </h2>
           <p class="section-sub">
-            São 4 lotes que sobem de preço conforme as vagas saem. O lote atual é o que você está vendo agora. Quando ele fecha, o próximo abre automaticamente com preço maior.
+            São 4 lotes que sobem de preço conforme as vagas saem. O único preço garantido é o do lote atual — o valor dos próximos você só descobre quando eles abrirem.
           </p>
         </header>
 
@@ -672,17 +672,17 @@
             </div>
             <div class="lote-cell" data-lote-cell="2">
               <span class="lote-cell__num">Lote 2</span>
-              <span class="lote-cell__price">R$47</span>
+              <span class="lote-cell__price lote-cell__price--oculto" aria-hidden="true">R$••</span>
               <span class="lote-cell__capacity">100 vagas</span>
             </div>
             <div class="lote-cell" data-lote-cell="3">
               <span class="lote-cell__num">Lote 3</span>
-              <span class="lote-cell__price">R$67</span>
+              <span class="lote-cell__price lote-cell__price--oculto" aria-hidden="true">R$••</span>
               <span class="lote-cell__capacity">100 vagas</span>
             </div>
             <div class="lote-cell" data-lote-cell="4">
               <span class="lote-cell__num">Lote 4</span>
-              <span class="lote-cell__price">R$97</span>
+              <span class="lote-cell__price lote-cell__price--oculto" aria-hidden="true">R$••</span>
               <span class="lote-cell__capacity">últimas vagas</span>
             </div>
           </div>
@@ -1014,6 +1014,6 @@
     </span>
   </a>
 
-  <script src="/imersao-intestino-irritavel/script.js?v=5" defer></script>
+  <script src="/imersao-intestino-irritavel/script.js?v=6" defer></script>
 </body>
 </html>

@@ -117,6 +117,13 @@
     4: "https://pay.hotmart.com/M106868374A?off=4mix64vj&checkoutMode=10",
   };
 
+  /** Preços por lote (espelho de `evento_lotes`). Na tabela da seção 8, o preço
+   *  de um lote futuro fica mascarado (R$••) no HTML — só é revelado aqui quando
+   *  o lote vira ativo (ou já passou). Manter em sincronia com o backend e com
+   *  as offers Hotmart acima. */
+  const LOTE_PRECOS = { 1: "R$27", 2: "R$47", 3: "R$67", 4: "R$97" };
+  const PRECO_MASCARA = "R$••";
+
   /** Piso visual da barra: enquanto vendas reais ≤ 50%, exibe 50% e oculta vagas restantes.
    *  Acima de 50%, exibe valor real e mostra vagas restantes. */
   const PISO_VISUAL = 50;
@@ -322,6 +329,19 @@
       cell.classList.toggle("lote-cell--ativo", ativo);
       /* Esmaece os passados E os futuros */
       cell.style.opacity = ativo ? "1" : (num < loteNumero ? "0.25" : "0.4");
+
+      /* Revela o preço do lote ativo e dos passados; futuros seguem mascarados */
+      const priceEl = cell.querySelector(".lote-cell__price");
+      if (priceEl) {
+        const revelado = num <= loteNumero;
+        priceEl.textContent = revelado ? (LOTE_PRECOS[num] || PRECO_MASCARA) : PRECO_MASCARA;
+        priceEl.classList.toggle("lote-cell__price--oculto", !revelado);
+        if (revelado) {
+          priceEl.removeAttribute("aria-hidden");
+        } else {
+          priceEl.setAttribute("aria-hidden", "true");
+        }
+      }
 
       let badge = cell.querySelector(".lote-cell__badge");
       if (ativo && !badge) {

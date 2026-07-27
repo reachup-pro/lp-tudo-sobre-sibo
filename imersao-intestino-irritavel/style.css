@@ -2161,6 +2161,13 @@ main,
   color: var(--cream-1);
 }
 
+/* Preço de lote futuro: borrado de propósito — só o indício de que sobe */
+.lote-cell__price--oculto {
+  filter: blur(4px);
+  opacity: 0.55;
+  user-select: none;
+}
+
 .lote-cell__capacity {
   font-family: var(--font-mono);
   font-size: 10px;
