@@ -24,17 +24,18 @@ const state = {
   // Hero (vagas/receita acumulada) e Distribuição por lote NÃO seguem o período
   periodo: { dias: 30, label: 'últimos 30 dias' },
   // Ordenação client-side das tabelas
+  // Regra padrão: vendas primeiro; empate (ex.: tudo zerado) decide por leads — nunca por gasto
   sort: {
-    topAds:       { key: 'spend_brl', dir: 'desc' },
-    topAudiences: { key: 'spend_brl', dir: 'desc' }
+    topAds:       { key: 'vendas_efetivo', dir: 'desc' },
+    topAudiences: { key: 'vendas_efetivo', dir: 'desc' }
   }
 };
 
+const SORT_TIE = { vendas_efetivo: ['leads_meta'] };
 function applySort(rows, key, dir) {
   if (!rows || !rows.length || !key) return rows;
   const m = dir === 'asc' ? 1 : -1;
-  return [...rows].sort((a, b) => {
-    const va = a[key], vb = b[key];
+  const cmp = (va, vb) => {
     // Strings — case-insensitive
     if (typeof va === 'string' || typeof vb === 'string') {
       const sa = (va ?? '').toString().toLowerCase();
@@ -45,6 +46,12 @@ function applySort(rows, key, dir) {
     const na = va == null ? Infinity*m : Number(va);
     const nb = vb == null ? Infinity*m : Number(vb);
     return na < nb ? -1*m : na > nb ? 1*m : 0;
+  };
+  const ties = SORT_TIE[key] || [];
+  return [...rows].sort((a, b) => {
+    let r = cmp(a[key], b[key]);
+    for (const t of ties) { if (r !== 0) break; r = cmp(a[t], b[t]); }
+    return r;
   });
 }
 
@@ -71,6 +78,8 @@ function bindSortableTables() {
         if (which === 'topAudiences') renderTopAudiences();
       });
     });
+    const cur = state.sort[which];
+    if (cur) setSortIndicator(table, cur.key, cur.dir);
   });
 }
 
