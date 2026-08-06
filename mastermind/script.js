@@ -111,15 +111,23 @@
   var isLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ||
                 location.protocol === 'file:';
   if (isLocal) {
-    document.querySelectorAll('img').forEach(function (img) {
-      var src = img.getAttribute('src');
-      if (!src) return;
-      var m = src.match(/\/\.netlify\/images\?(.+)$/);
-      if (!m) return;
+    var direto = function (parte) {
+      var m = parte.trim().match(/\/\.netlify\/images\?([^\s]+)/);
+      if (!m) return parte.trim();
       try {
         var url = new URLSearchParams(m[1]).get('url');
-        if (url) img.setAttribute('src', url);
-      } catch (e) { /* mantém o src original */ }
+        if (!url) return parte.trim();
+        var desc = parte.trim().split(/\s+/).slice(1).join(' ');
+        return desc ? url + ' ' + desc : url;
+      } catch (e) { return parte.trim(); }
+    };
+    document.querySelectorAll('img').forEach(function (img) {
+      // srcset junto com src: reescrever só o src deixa os dois em
+      // desacordo e o browser pisca entre uma origem e outra.
+      var ss = img.getAttribute('srcset');
+      if (ss) img.setAttribute('srcset', ss.split(',').map(direto).join(', '));
+      var src = img.getAttribute('src');
+      if (src) img.setAttribute('src', direto(src));
     });
   }
 

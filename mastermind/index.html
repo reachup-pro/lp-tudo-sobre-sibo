@@ -17,13 +17,13 @@
 <meta property="og:title" content="Mastermind Microbiota | Turma de agosto">
 <meta property="og:description" content="Um ano comigo, com encontro ao vivo todo mês, discutindo os casos que não fecham em nenhum protocolo. Para nutricionistas e médicos que já atendem.">
 <meta property="og:url" content="https://lp.karinaalassal.com.br/mastermind/">
-<meta property="og:image" content="https://lp.karinaalassal.com.br/.netlify/images?url=/mastermind/images/karina-bio.jpg&w=1200&h=630&fit=cover&position=top">
+<meta property="og:image" content="https://lp.karinaalassal.com.br/.netlify/images?url=/mastermind/images/karina-bio-bw.jpg&w=1200&h=630&fit=cover&position=top">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mastermind Microbiota | Turma de agosto">
 <meta name="twitter:description" content="Um ano comigo, com encontro ao vivo todo mês, discutindo os casos que não fecham em nenhum protocolo.">
-<meta name="twitter:image" content="https://lp.karinaalassal.com.br/.netlify/images?url=/mastermind/images/karina-bio.jpg&w=1200&h=630&fit=cover&position=top">
+<meta name="twitter:image" content="https://lp.karinaalassal.com.br/.netlify/images?url=/mastermind/images/karina-bio-bw.jpg&w=1200&h=630&fit=cover&position=top">
 
 <!-- Fontes self-hosted. O CSS do Google Fonts bloqueava a renderização por
      885ms e custava dois handshakes (googleapis + gstatic). Subset latino,
@@ -35,14 +35,14 @@
 <!-- LCP: a foto do hero só era descoberta depois do CSS, o que custava
      1.8s de load delay. O srcset aqui tem que bater com o do <img>. -->
 <link rel="preload" as="image" fetchpriority="high"
-      href="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82"
-      imagesrcset="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=400&q=82 400w,
-                   /.netlify/images?url=/mastermind/images/karina-hero.webp&w=550&q=82 550w,
-                   /.netlify/images?url=/mastermind/images/karina-hero.webp&w=750&q=82 750w,
-                   /.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82 900w"
+      href="/.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=900&q=82"
+      imagesrcset="/.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=400&q=82 400w,
+                   /.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=550&q=82 550w,
+                   /.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=750&q=82 750w,
+                   /.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=900&q=82 900w"
       imagesizes="(max-width: 899px) 23rem, 27rem">
 
-<link rel="stylesheet" href="/mastermind/style.css?v=11">
+<link rel="stylesheet" href="/mastermind/style.css?v=17">
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
 <!-- Google Tag Manager -->
@@ -79,9 +79,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Sem aria-label: o "O" de MICROBIOTA virou o orb do microbioma, então
            o nome acessível saía "Microbi ta" e não batia com o rótulo. Agora o
            texto visível é o próprio nome, com um "o" só para leitor de tela. -->
+      <!-- DS: o intestino ocupa o segundo O de MICROBIOTA e é VAZADO —
+           nenhuma aplicação pode exibir o O como círculo cheio. O laço
+           deixa o fundo passar. -->
       <a class="lockup" href="/mastermind/">
         <span class="lockup__over">Mastermind</span>
-        <span class="lockup__main">Microbi<span class="lockup__orb" aria-hidden="true"></span><span class="sr-only">o</span>ta</span>
+        <span class="lockup__main">Microbi<span class="lockup__orb" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="18.6" stroke="currentColor" stroke-width="2.8"/>
+            <path d="M20 6.5c-4.6 0-7.4 3.1-7.4 6.6 0 3.4 2.6 5 5.2 6.1 2.9 1.2 5.4 2.3 5.4 5.4 0 2.8-2.3 4.9-5.4 4.9-3 0-5.1-1.9-5.4-4.4"
+                  stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span><span class="sr-only">o</span>ta</span>
       </a>
       <span class="masthead__rule" aria-hidden="true"></span>
       <span class="masthead__tag">Turma de agosto<span class="masthead__tag-yr"> · 2026</span></span>
@@ -151,11 +160,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <figure class="hero__media">
       <img
-        src="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82"
-        srcset="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=400&q=82 400w,
-                /.netlify/images?url=/mastermind/images/karina-hero.webp&w=550&q=82 550w,
-                /.netlify/images?url=/mastermind/images/karina-hero.webp&w=750&q=82 750w,
-                /.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82 900w"
+        src="/.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=900&q=82"
+        srcset="/.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=400&q=82 400w,
+                /.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=550&q=82 550w,
+                /.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=750&q=82 750w,
+                /.netlify/images?url=/mastermind/images/karina-hero-bw.webp&w=900&q=82 900w"
         sizes="(max-width: 899px) 23rem, 27rem"
         alt="Karina Al Assal, nutricionista especialista em microbiota intestinal"
         width="900" height="1350"
@@ -189,7 +198,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Arquétipo: Index strip editorial (sem card, sem ícone)
        Constraints: Hairline dividers (layout) + Mixed Weights (tipografia)
        ============================================================ -->
-  <section class="ledger" aria-label="Credibilidade do programa">
+  <section class="sec ledger" aria-label="Credibilidade do programa">
     <div class="ledger__inner">
 
       <article class="ledger__item" data-aos="fade-up">
@@ -226,7 +235,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Constraints: Color Blocking (cor) + Stagger (movimento)
                     · Hover Reveal / flip de duas faces (interação)
        ============================================================ -->
-  <section class="sec sec--dark trava" id="trava">
+  <section class="sec trava" id="trava">
     <span class="trava__spot" aria-hidden="true"></span>
 
     <div class="sec__inner">
@@ -339,7 +348,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Constraints: Sticky Element + Asymmetric Padding (layout)
                     · Scroll Progress / Draw (movimento)
        ============================================================ -->
-  <section class="sec mapa" id="mapa">
+  <section class="sec sec--light on-light mapa" id="mapa">
     <div class="sec__inner">
 
       <header class="mapa__head" data-aos="fade-up">
@@ -468,7 +477,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Constraints: Overlap Elements (layout) + Shadow Depth (efeito)
                     · Hover Lift (interação)
        ============================================================ -->
-  <section class="sec sec--deep aulas" id="aulas">
+  <section class="sec aulas" id="aulas">
     <div class="sec__inner">
 
       <header class="aulas__head" data-aos="fade-up">
@@ -592,7 +601,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     · Hover Reveal (interação)
        PENDENTE: autorização de nome e imagem de todos os docentes.
        ============================================================ -->
-  <section class="sec docentes" id="docentes">
+  <section class="sec sec--light on-light docentes" id="docentes">
     <div class="sec__inner">
 
       <header class="docentes__head" data-aos="fade-up">
@@ -695,7 +704,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     · Tabs + Reveal on Demand + edição real (interação)
        Fundo creme conforme a copy. O contraste vem do objeto, não do chão.
        ============================================================ -->
-  <section class="tool" id="ferramenta">
+  <section class="sec tool" id="ferramenta">
 
     <div class="tool__wash" aria-hidden="true"></div>
 
@@ -1042,7 +1051,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="photo-frame">
           <span class="photo-frame__rule" aria-hidden="true"></span>
           <img
-            src="/.netlify/images?url=/mastermind/images/karina-bio.jpg&w=760&q=82"
+            src="/.netlify/images?url=/mastermind/images/karina-bio-bw.jpg&w=760&q=82"
             alt="Karina Al Assal em retrato editorial, terno preto, fundo creme"
             width="760" height="950"
             loading="lazy" decoding="async">
@@ -1145,7 +1154,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="dossie__grid">
         <figure class="dossie__item">
           <div class="dossie__frame">
-            <img src="/.netlify/images?url=/mastermind/images/karina-mestrado-beca.jpg&w=640&q=80"
+            <img src="/.netlify/images?url=/mastermind/images/karina-mestrado-beca-bw.jpg&w=640&q=80"
                  alt="Karina Al Assal de beca acadêmica, em sala de banca"
                  width="640" height="360" loading="lazy" decoding="async">
           </div>
@@ -1154,7 +1163,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <figure class="dossie__item">
           <div class="dossie__frame">
-            <img src="/.netlify/images?url=/mastermind/images/karina-apresentacao-dore.jpg&w=640&q=80"
+            <img src="/.netlify/images?url=/mastermind/images/karina-apresentacao-dore-bw.jpg&w=640&q=80"
                  alt="Karina apresentando a pesquisa; o slide mostra os autores Karina Al Assal e Joel Doré, do Laboratório de Nutrição e Cirurgia Metabólica da FMUSP"
                  width="640" height="360" loading="lazy" decoding="async">
           </div>
@@ -1166,7 +1175,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <figure class="dossie__item">
           <div class="dossie__frame">
-            <img src="/.netlify/images?url=/mastermind/images/karina-poster-cientifico.jpg&w=640&q=80"
+            <img src="/.netlify/images?url=/mastermind/images/karina-poster-cientifico-bw.jpg&w=640&q=80"
                  alt="Karina ao lado do pôster científico do estudo, com a linha de autoria visível"
                  width="640" height="360" loading="lazy" decoding="async">
           </div>
@@ -1178,7 +1187,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <figure class="dossie__item">
           <div class="dossie__frame">
-            <img src="/.netlify/images?url=/mastermind/images/karina-congresso-usp.jpg&w=640&q=80"
+            <img src="/.netlify/images?url=/mastermind/images/karina-congresso-usp-bw.jpg&w=640&q=80"
                  alt="Karina no púlpito em congresso na Faculdade de Medicina da USP"
                  width="640" height="360" loading="lazy" decoding="async">
           </div>
@@ -1196,7 +1205,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        PENDENTE: data do 1º encontro (assumido setembro/2026) e
        autorização de anunciar a conversa de setembro (data-pendente).
        ============================================================ -->
-  <section class="sec sec--dark vivo" id="encontros">
+  <section class="sec vivo" id="encontros">
     <div class="sec__inner vivo__grid">
 
       <div class="vivo__body" data-aos="fade-up">
@@ -1315,7 +1324,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Constraints: Scroll Snap + Drag (interação) + Overlap (layout)
        PENDENTE: autorização de nome e cidade de cada uma.
        ============================================================ -->
-  <section class="sec sec--deep depo" id="depoimentos">
+  <section class="sec sec--light on-light depo" id="depoimentos">
     <div class="sec__inner">
 
       <header class="depo__head" data-aos="fade-up">
@@ -1419,7 +1428,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Constraints: Color Blocking (cor) + Shadow Depth (efeito)
                     + Accordion (estrutura) + Counter Animation (movimento)
        ============================================================ -->
-  <section class="sec sec--dark oferta" id="oferta">
+  <section class="sec oferta" id="oferta">
     <div class="sec__inner">
 
       <header class="oferta__head" data-aos="fade-up">
@@ -1605,7 +1614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Arquétipo: Split Vertical / Feature Comparison (Divisão)
        Constraints: Color Blocking (cor) + Hover Lift (interação)
        ============================================================ -->
-  <section class="sec sec--deep fit" id="para-quem">
+  <section class="sec sec--light on-light fit" id="para-quem">
     <div class="sec__inner">
 
       <header class="fit__head" data-aos="fade-up">
@@ -1764,7 +1773,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Constraints: White Space Hero (densidade) + Headline Full Width
                     (tipografia) + Breathe Loop (movimento)
        ============================================================ -->
-  <section class="sec sec--dark fim" id="entrar">
+  <section class="sec fim" id="entrar">
     <div class="fim__inner">
       <span class="fim__halo" aria-hidden="true"></span>
 
@@ -1829,6 +1838,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      dentro do style.css (só o fade-up é usado), então o unpkg entrega
      apenas o JS agora. Scripts defer rodam na ordem do documento. -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
-<script src="/mastermind/script.js?v=11" defer></script>
+<script src="/mastermind/script.js?v=13" defer></script>
 </body>
 </html>
