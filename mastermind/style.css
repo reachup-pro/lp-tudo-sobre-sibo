@@ -19,6 +19,26 @@
    de produto (o console da ferramenta) tratado como peça fotografada.
    ============================================================ */
 
+/* ---------- Unbounded + Instrument Sans (self-hosted) ----------
+   Subset latino, direto do Google Fonts. Servidas do mesmo domínio pra
+   eliminar o CSS externo render-blocking e dois handshakes. Arquivos
+   variáveis: um por família cobre todos os pesos usados. */
+@font-face {
+  font-family: "Unbounded";
+  src: url("/mastermind/fonts/unbounded-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("/mastermind/fonts/instrument-sans-latin.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---------- Walkway Expand (self-hosted) ---------- */
 @font-face {
   font-family: "Walkway Expand";
@@ -3762,6 +3782,32 @@ img { display: block; max-width: 100%; height: auto; }
   .hero__sub { font-size: .84rem; line-height: 1.48; margin-top: .75rem; }
   .hero__cta { margin-top: 1.05rem; }
 }
+
+/* ============================================================
+   AOS — só o fade-up, que é o único efeito usado na página
+   Substitui o aos.css do unpkg, que bloqueava a renderização por
+   838ms pra entregar 3KB. O aos.js segue cuidando do .aos-animate.
+   ============================================================ */
+[data-aos] {
+  pointer-events: none;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: .7s;
+  transition-timing-function: cubic-bezier(.215, .61, .355, 1); /* ease-out-cubic */
+}
+
+[data-aos="fade-up"] { transform: translate3d(0, 100px, 0); }
+
+[data-aos].aos-animate {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateZ(0);
+}
+
+[data-aos][data-aos-delay="60"].aos-animate  { transition-delay: .06s; }
+[data-aos][data-aos-delay="70"].aos-animate  { transition-delay: .07s; }
+[data-aos][data-aos-delay="80"].aos-animate  { transition-delay: .08s; }
+[data-aos][data-aos-delay="140"].aos-animate { transition-delay: .14s; }
 
 /* ============================================================
    MOTION

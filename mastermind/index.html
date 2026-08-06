@@ -25,12 +25,25 @@
 <meta name="twitter:description" content="Um ano comigo, com encontro ao vivo todo mês, discutindo os casos que não fecham em nenhum protocolo.">
 <meta name="twitter:image" content="https://lp.karinaalassal.com.br/.netlify/images?url=/mastermind/images/karina-bio.jpg&w=1200&h=630&fit=cover&position=top">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Fontes self-hosted. O CSS do Google Fonts bloqueava a renderização por
+     885ms e custava dois handshakes (googleapis + gstatic). Subset latino,
+     que cobre todos os acentos do português. -->
+<link rel="preload" as="font" type="font/woff2" href="/mastermind/fonts/unbounded-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/mastermind/fonts/instrument-sans-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/mastermind/fonts/walkway-expand-900.woff2" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/mastermind/style.css?v=6">
-<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+<!-- LCP: a foto do hero só era descoberta depois do CSS, o que custava
+     1.8s de load delay. O srcset aqui tem que bater com o do <img>. -->
+<link rel="preload" as="image" fetchpriority="high"
+      href="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82"
+      imagesrcset="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=400&q=82 400w,
+                   /.netlify/images?url=/mastermind/images/karina-hero.webp&w=550&q=82 550w,
+                   /.netlify/images?url=/mastermind/images/karina-hero.webp&w=750&q=82 750w,
+                   /.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82 900w"
+      imagesizes="(max-width: 899px) 23rem, 27rem">
+
+<link rel="stylesheet" href="/mastermind/style.css?v=7">
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -63,9 +76,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="hero">
 
     <header class="masthead">
-      <a class="lockup" href="/mastermind/" aria-label="Mastermind Microbiota">
-        <span class="lockup__over" aria-hidden="true">Mastermind</span>
-        <span class="lockup__main" aria-hidden="true">Microbi<span class="lockup__orb"></span>ta</span>
+      <!-- Sem aria-label: o "O" de MICROBIOTA virou o orb do microbioma, então
+           o nome acessível saía "Microbi ta" e não batia com o rótulo. Agora o
+           texto visível é o próprio nome, com um "o" só para leitor de tela. -->
+      <a class="lockup" href="/mastermind/">
+        <span class="lockup__over">Mastermind</span>
+        <span class="lockup__main">Microbi<span class="lockup__orb" aria-hidden="true"></span><span class="sr-only">o</span>ta</span>
       </a>
       <span class="masthead__rule" aria-hidden="true"></span>
       <span class="masthead__tag">Turma de agosto<span class="masthead__tag-yr"> · 2026</span></span>
@@ -136,6 +152,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <figure class="hero__media">
       <img
         src="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82"
+        srcset="/.netlify/images?url=/mastermind/images/karina-hero.webp&w=400&q=82 400w,
+                /.netlify/images?url=/mastermind/images/karina-hero.webp&w=550&q=82 550w,
+                /.netlify/images?url=/mastermind/images/karina-hero.webp&w=750&q=82 750w,
+                /.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82 900w"
+        sizes="(max-width: 899px) 23rem, 27rem"
         alt="Karina Al Assal, nutricionista especialista em microbiota intestinal"
         width="900" height="1350"
         loading="eager" fetchpriority="high" decoding="async">
@@ -152,8 +173,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <dd>12 meses de programa</dd>
       </div>
       <div class="colophon__cell">
-        <dt>Turma</dt>
-        <dd>A sexta. Roda desde 2020</dd>
+        <dt>Programa</dt>
+        <dd>Reestruturado. Roda desde 2020</dd>
       </div>
       <div class="colophon__cell colophon__cell--accent">
         <dt>Inscrições</dt>
@@ -173,23 +194,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <article class="ledger__item" data-aos="fade-up">
         <span class="ledger__idx" aria-hidden="true">№ 01</span>
-        <h2 class="ledger__lead">Sexta turma.</h2>
-        <p class="ledger__body">O Mastermind roda desde 2020.</p>
+        <h2 class="ledger__lead">Roda desde 2020.</h2>
+        <p class="ledger__body">
+          Microbiota mudou muito nesse tempo, e o programa mudou junto.
+        </p>
       </article>
 
       <article class="ledger__item" data-aos="fade-up" data-aos-delay="70">
         <span class="ledger__idx" aria-hidden="true">№ 02</span>
-        <h2 class="ledger__lead">Aula com quem faz a bancada e com quem opera.</h2>
+        <h2 class="ledger__lead">O programa foi reestruturado.</h2>
         <p class="ledger__body">
-          Pesquisadoras do ICB-USP e da USP, coloproctologista, gastrocirurgiã,
-          pediatra imunologista.
+          Os encontros ao vivo agora são mensais: um por mês, ao longo de doze meses.
         </p>
       </article>
 
       <article class="ledger__item" data-aos="fade-up" data-aos-delay="140">
         <span class="ledger__idx" aria-hidden="true">№ 03</span>
-        <h2 class="ledger__lead">Três professoras do programa foram alunas dele antes.</h2>
-        <p class="ledger__body">Entraram como turma. Hoje dão aula.</p>
+        <h2 class="ledger__lead">Aula com quem faz a bancada e com quem opera.</h2>
+        <p class="ledger__body">
+          Pesquisadoras do ICB-USP e da USP, coloproctologista, gastrocirurgiã,
+          pediatra imunologista.
+        </p>
       </article>
 
     </div>
@@ -1315,7 +1340,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <div class="depo__ctrl">
-        <div class="depo__dots" data-dots role="tablist" aria-label="Navegar entre os depoimentos"></div>
+        <!-- group, não tablist: são botões de navegação do carrossel, não abas.
+             tablist exige filhos com role="tab" e reprovava o aria-required-children. -->
+        <div class="depo__dots" data-dots role="group" aria-label="Navegar entre os depoimentos"></div>
         <div class="depo__arrows">
           <button type="button" class="depo__arrow" data-prev aria-label="Depoimento anterior">
             <span aria-hidden="true">&larr;</span>
@@ -1741,7 +1768,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="/mastermind/script.js?v=6" defer></script>
+<!-- defer: sem ele o aos.js trava o parser aqui. O CSS do AOS foi para
+     dentro do style.css (só o fade-up é usado), então o unpkg entrega
+     apenas o JS agora. Scripts defer rodam na ordem do documento. -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
+<script src="/mastermind/script.js?v=7" defer></script>
 </body>
 </html>
