@@ -2132,76 +2132,6 @@ img { display: block; max-width: 100%; height: auto; }
   .fac:hover .fac__name { color: var(--teal-ink); }
 }
 
-/* Bloco das ex-alunas: o argumento mais forte da seção */
-.alumnae {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  max-width: 62rem;
-  padding: clamp(1.6rem, 4vw, 3rem);
-  border-radius: 12px;
-  background: var(--indigo);
-  background-image: radial-gradient(115% 90% at 88% 0%, var(--indigo-soft) 0%, transparent 60%);
-  color: var(--creme);
-}
-
-.alumnae__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.1rem, 3vw, 1.42rem);
-  line-height: 1.30;
-  letter-spacing: -0.028em;
-  color: var(--creme);
-  text-wrap: pretty;
-}
-
-.alumnae__seals {
-  display: grid;
-  gap: .7rem;
-  margin: clamp(1.35rem, 3vw, 1.85rem) 0;
-}
-
-.seal {
-  display: grid;
-  gap: .25rem;
-  padding: .85rem 1rem;
-  border: 1px solid rgba(107, 181, 147, .28);
-  border-radius: 8px;
-  background: rgba(42, 141, 128, .08);
-}
-
-.seal__name {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.05rem;
-  letter-spacing: -0.028em;
-  color: var(--creme);
-}
-
-.seal__stamp {
-  font-family: var(--font-mark);
-  font-weight: 900;
-  font-size: .52rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--teal-light);
-}
-
-.alumnae p {
-  margin: 0 0 1rem;
-  font-size: .9rem;
-  line-height: 1.70;
-  color: rgba(252, 248, 243, .76);
-  text-wrap: pretty;
-}
-
-.alumnae p:last-child { margin-bottom: 0; }
-
-.alumnae__kicker {
-  padding-left: 1.15rem;
-  border-left: 1px solid var(--teal);
-  color: var(--creme) !important;
-}
-
 /* ============================================================
    SEÇÃO 7 · QUEM É A KARINA
    Arquétipo: Framed Content · Nested Frames + Sticky
@@ -3560,7 +3490,6 @@ img { display: block; max-width: 100%; height: auto; }
   }
   .fac__topic { padding-left: 0; border-left: 0; }
   .fac__topic::before { content: "\2014\00a0"; color: var(--teal-ink); }
-  .alumnae__seals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* §13 */
