@@ -356,10 +356,12 @@ img { display: block; max-width: 100%; height: auto; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: .86em;
-  height: .86em;
+  width: 1.02em;
+  height: 1.02em;
+  margin-inline: -.05em;
   flex-shrink: 0;
   color: currentColor;
+  vertical-align: middle;
 }
 
 .lockup__orb svg { width: 100%; height: 100%; display: block; }
@@ -3596,7 +3598,7 @@ img { display: block; max-width: 100%; height: auto; }
     width: 100%;
     justify-self: end;
     margin-right: calc(var(--gutter) * -1);
-    height: min(68svh, 40rem);
+    height: min(78svh, 46rem);
     max-height: 100%;
     display: flex;
     align-items: flex-end;
@@ -3788,7 +3790,7 @@ img { display: block; max-width: 100%; height: auto; }
    Ordem natural do DOM já entrega headline + CTA antes da foto.
    ============================================================ */
 @media (max-width: 899px) {
-  .hero { padding-top: 0; gap: 2.25rem; }
+  .hero { padding-top: 0; gap: 1.25rem; }
 
   .masthead { padding-bottom: 1.6rem; }
 
