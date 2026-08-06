@@ -531,6 +531,10 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--graphite);
 }
 
+/* O parcelado é a âncora de preço; o à vista fica no peso normal */
+.microcopy b { font-weight: 500; color: var(--indigo); }
+.microcopy--light b { color: var(--creme); }
+
 .microcopy--light { color: rgba(252, 248, 243, .58); }
 
 /* Parcelamento no boleto → suporte no WhatsApp. Discreto de propósito:
@@ -2886,6 +2890,19 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--graphite);
 }
 
+/* A outra forma de pagamento, deliberadamente menor que o número grande */
+.price__alt {
+  margin: .5rem 0 0;
+  padding-top: .5rem;
+  border-top: 1px solid var(--hairline);
+  max-width: 22rem;
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--graphite);
+}
+
+.price__alt b { font-weight: 500; color: var(--indigo); }
+
 .price__deadline {
   display: flex;
   align-items: baseline;
@@ -3640,7 +3657,9 @@ img { display: block; max-width: 100%; height: auto; }
   .railbar__meta { flex: 1 1 auto; min-width: 0; flex-wrap: wrap; gap: .1rem .45rem; }
   .railbar__brand, .railbar__sep { display: none; }
   .railbar__price { font-size: .86rem; }
-  .railbar__price small { margin-left: .3rem; font-size: .66rem; }
+  /* "ou R$ 3.997 à vista" não cabe ao lado do botão em 375px e trunca.
+     O parcelado é a mensagem da barra; o à vista está na seção da oferta. */
+  .railbar__price small { display: none; }
   .railbar__deadline { flex-basis: 100%; font-size: .66rem; }
 
   .railbar .btn {

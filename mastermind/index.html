@@ -42,7 +42,7 @@
                    /.netlify/images?url=/mastermind/images/karina-hero.webp&w=900&q=82 900w"
       imagesizes="(max-width: 899px) 23rem, 27rem">
 
-<link rel="stylesheet" href="/mastermind/style.css?v=8">
+<link rel="stylesheet" href="/mastermind/style.css?v=9">
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
 <!-- Google Tag Manager -->
@@ -128,7 +128,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </a>
 
         <p class="microcopy">
-          R$ 3.997 à vista ou 12x de R$ 413,38.
+          <b>12x de R$ 413,38</b> ou R$ 3.997 à vista.
           As inscrições ficam abertas até 16 de agosto.
         </p>
 
@@ -1223,7 +1223,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span>Quero entrar no Mastermind</span>
         </a>
         <p class="microcopy">
-          R$ 3.997 à vista ou 12x de R$ 413,38. Inscrições até 16 de agosto.
+          <b>12x de R$ 413,38</b> ou R$ 3.997 à vista. Inscrições até 16 de agosto.
         </p>
       </div>
 
@@ -1415,21 +1415,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="card__b">
           <p class="card__label">Investimento</p>
 
+          <!-- O parcelado é o número principal. O à vista fica na aba
+               secundária e como linha menor abaixo do preço. -->
           <div class="pay" role="tablist" aria-label="Forma de pagamento">
             <button type="button" class="pay__opt is-on" role="tab" aria-selected="true"
-                    data-pay="avista">À vista</button>
+                    data-pay="parcelado">12x no cartão</button>
             <button type="button" class="pay__opt" role="tab" aria-selected="false"
-                    data-pay="parcelado">12x</button>
+                    data-pay="avista">À vista</button>
           </div>
 
-          <div class="price" data-price="avista">
-            <p class="price__big">R$&nbsp;<span data-count="3997">3.997</span></p>
+          <div class="price" data-price="parcelado">
+            <p class="price__big">
+              <span class="price__x">12x de</span> R$&nbsp;<span data-count="413">413</span>,38
+            </p>
+            <p class="price__sub">no cartão, sem entrada</p>
+            <p class="price__alt">ou <b>R$ 3.997</b> à vista, no cartão ou Pix</p>
+          </div>
+
+          <div class="price" data-price="avista" hidden>
+            <p class="price__big">R$&nbsp;3.997</p>
             <p class="price__sub">à vista, no cartão ou Pix</p>
-          </div>
-
-          <div class="price" data-price="parcelado" hidden>
-            <p class="price__big"><span class="price__x">12x de</span> R$&nbsp;413,38</p>
-            <p class="price__sub">no cartão · total de R$ 4.960,56</p>
+            <p class="price__alt">ou <b>12x de R$ 413,38</b> · total de R$ 4.960,56</p>
           </div>
 
           <!-- A frase inteira num span: em flex, cada nó de texto solto vira
@@ -1444,7 +1450,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <span>Garantir minha vaga</span>
             </a>
             <p class="microcopy">
-              R$ 3.997 à vista ou 12x de R$ 413,38 no cartão.
+              <b>12x de R$ 413,38</b> no cartão ou R$ 3.997 à vista.
             </p>
             <a class="boleto" href="https://wa.me/5511912779806" data-wpp-clean data-cta="boleto-oferta">
               <span class="boleto__icon" aria-hidden="true">
@@ -1707,7 +1713,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span>Quero entrar no Mastermind</span>
         </a>
         <p class="microcopy microcopy--light">
-          R$ 3.997 à vista ou 12x de R$ 413,38. Inscrições até 16 de agosto.
+          <b>12x de R$ 413,38</b> ou R$ 3.997 à vista. Inscrições até 16 de agosto.
         </p>
       </div>
     </div>
@@ -1731,7 +1737,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="railbar__meta">
     <span class="railbar__brand">Mastermind Microbiota</span>
     <span class="railbar__sep" aria-hidden="true"></span>
-    <span class="railbar__price">R$ 3.997 <small>ou 12x de R$ 413,38</small></span>
+    <span class="railbar__price">12x R$ 413,38 <small>ou R$ 3.997 à vista</small></span>
     <span class="railbar__sep" aria-hidden="true"></span>
     <span class="railbar__deadline">Inscrições até 16 de agosto</span>
   </div>
@@ -1744,6 +1750,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      dentro do style.css (só o fade-up é usado), então o unpkg entrega
      apenas o JS agora. Scripts defer rodam na ordem do documento. -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
-<script src="/mastermind/script.js?v=8" defer></script>
+<script src="/mastermind/script.js?v=9" defer></script>
 </body>
 </html>
