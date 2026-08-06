@@ -28,6 +28,11 @@ design-plan.md
 INTEGRACAO-LOTE-SUPABASE.md
 emails/
 curso/emails/
+analise-conteudo-*.md
+copy-*.md
+
+# Versões antigas de LP (a ativa mora na raiz da pasta)
+_backup_v*/
 
 # ----------------------------------------------------------------
 # Material bruto / referências (1GB de fotos brutas, transcrições)
