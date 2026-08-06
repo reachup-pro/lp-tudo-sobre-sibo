@@ -964,6 +964,108 @@ img { display: block; max-width: 100%; height: auto; }
   text-wrap: pretty;
 }
 
+/* ---------- Curva do teste respiratório ----------
+   Redesenhada a cada edição da tabela. Segmentos retos com nó em cada
+   ponto medido, não spline: são medidas discretas, e a reta é honesta. */
+.curva {
+  margin: 0 0 clamp(1rem, 2vw, 1.35rem);
+  padding: clamp(.75rem, 1.8vw, 1rem) clamp(.5rem, 1.5vw, .85rem) .5rem;
+  border: 1px solid rgba(252, 248, 243, .1);
+  border-radius: 10px;
+  background: rgba(252, 248, 243, .04);
+}
+
+.curva__svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.curva__grid line { stroke: rgba(252, 248, 243, .07); stroke-width: 1; }
+
+.curva__corte {
+  stroke: rgba(252, 248, 243, .34);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.curva__corte-lbl {
+  fill: rgba(252, 248, 243, .5);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  dominant-baseline: middle;
+}
+
+.curva__linha {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all .45s var(--ease);
+}
+
+.curva__linha--h2  { stroke: var(--teal-light); }
+.curva__linha--ch4 { stroke: var(--amber); }
+
+.curva__no { stroke: var(--indigo); stroke-width: 1.5; }
+.curva__no--h2  { fill: var(--teal-light); }
+.curva__no--ch4 { fill: var(--amber); }
+
+.curva__pico {
+  fill: var(--teal-light);
+  stroke: var(--creme);
+  stroke-width: 1.5;
+  transition: cx .45s var(--ease), cy .45s var(--ease);
+}
+
+.curva__pico-lbl {
+  fill: var(--creme);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.curva__eixo text {
+  fill: rgba(252, 248, 243, .42);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.curva__legenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .9rem;
+  margin-top: .35rem;
+  font-size: .7rem;
+  color: rgba(252, 248, 243, .55);
+}
+
+.curva__chave {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: .3rem;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+.curva__chave--h2    { background: var(--teal-light); }
+.curva__chave--ch4   { background: var(--amber); }
+.curva__chave--corte { background: repeating-linear-gradient(90deg, rgba(252,248,243,.5) 0 4px, transparent 4px 8px); }
+
+.curva__min { margin-left: auto; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+
+/* O SVG escala proporcional: numa coluna estreita ele cai pra ~0.65 e os
+   rótulos de 9px viram 6px. Aumentar em unidades de viewBox devolve o
+   tamanho aparente. */
+@media (max-width: 620px) {
+  .curva__eixo text     { font-size: 14px; }
+  .curva__pico-lbl      { font-size: 15px; }
+  .curva__corte-lbl     { font-size: 13px; }
+  .curva__linha         { stroke-width: 3; }
+  .curva__no            { r: 3.6; }
+  .curva__legenda       { font-size: .68rem; }
+}
+
 /* ---------- Tabela editável ---------- */
 .tbl__scroll { overflow-x: auto; }
 

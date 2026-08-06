@@ -602,22 +602,112 @@
     return isFinite(v) ? v : 0;
   }
 
+  /* ---- Curva do teste respiratório ----
+     Mesma fonte de dados da tabela: edita a célula, a curva redesenha. */
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  var G = { L: 34, R: 408, T: 16, B: 164, maxMin: 120 };
+
+  var elCurva = {
+    grid:    console_.querySelector('[data-grid]'),
+    corte:   console_.querySelector('[data-corte]'),
+    corteL:  console_.querySelector('[data-corte-lbl]'),
+    linhaH2: console_.querySelector('[data-linha-h2]'),
+    linhaCh4:console_.querySelector('[data-linha-ch4]'),
+    nosH2:   console_.querySelector('[data-nos-h2]'),
+    nosCh4:  console_.querySelector('[data-nos-ch4]'),
+    pico:    console_.querySelector('[data-pico]'),
+    picoL:   console_.querySelector('[data-pico-lbl]'),
+    eixoX:   console_.querySelector('[data-eixo-x]'),
+    eixoY:   console_.querySelector('[data-eixo-y]')
+  };
+
+  function svgEl(tag, attrs) {
+    var e = document.createElementNS(SVG_NS, tag);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    return e;
+  }
+
+  function limpar(n) { while (n && n.firstChild) n.removeChild(n.firstChild); }
+
+  function desenharCurva(pontos, basalH2, picoH2, picoMin, picoCh4) {
+    if (!elCurva.linhaH2) return;
+
+    // Teto do eixo Y: cabe o maior valor e a linha de corte, com folga
+    var teto = Math.max(picoH2, picoCh4, basalH2 + 20, 30) * 1.18;
+
+    var px = function (m) { return G.L + (m / G.maxMin) * (G.R - G.L); };
+    var py = function (v) { return G.B - (Math.max(0, v) / teto) * (G.B - G.T); };
+
+    // grade + eixo Y
+    limpar(elCurva.grid);
+    limpar(elCurva.eixoY);
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
+      var y = G.B - f * (G.B - G.T);
+      elCurva.grid.appendChild(svgEl('line', { x1: G.L, y1: y, x2: G.R, y2: y }));
+      elCurva.eixoY.appendChild(svgEl('text', {
+        x: G.L - 7, y: y + 3, 'text-anchor': 'end'
+      })).textContent = String(Math.round(teto * f));
+    });
+
+    // eixo X, um rótulo por medida
+    limpar(elCurva.eixoX);
+    pontos.forEach(function (p) {
+      elCurva.eixoX.appendChild(svgEl('text', {
+        x: px(p.min), y: G.B + 16, 'text-anchor': 'middle'
+      })).textContent = String(p.min);
+    });
+
+    // linha de corte: basal + 20 ppm de H2
+    var yCorte = py(basalH2 + 20);
+    elCurva.corte.setAttribute('y1', yCorte);
+    elCurva.corte.setAttribute('y2', yCorte);
+    elCurva.corteL.setAttribute('y', yCorte);
+
+    // polilinhas + nós
+    var ptsH2 = [], ptsCh4 = [];
+    limpar(elCurva.nosH2);
+    limpar(elCurva.nosCh4);
+
+    pontos.forEach(function (p) {
+      var x = px(p.min);
+      ptsH2.push(x + ',' + py(p.h2));
+      ptsCh4.push(x + ',' + py(p.ch4));
+      elCurva.nosH2.appendChild(svgEl('circle', { class: 'curva__no curva__no--h2', cx: x, cy: py(p.h2), r: 2.6 }));
+      elCurva.nosCh4.appendChild(svgEl('circle', { class: 'curva__no curva__no--ch4', cx: x, cy: py(p.ch4), r: 2.6 }));
+    });
+
+    elCurva.linhaH2.setAttribute('points', ptsH2.join(' '));
+    elCurva.linhaCh4.setAttribute('points', ptsCh4.join(' '));
+
+    // marcador do pico de H2
+    var xp = px(picoMin), yp = py(picoH2);
+    elCurva.pico.setAttribute('cx', xp);
+    elCurva.pico.setAttribute('cy', yp);
+    elCurva.picoL.setAttribute('x', Math.min(xp + 9, G.R - 54));
+    elCurva.picoL.setAttribute('y', Math.max(yp - 9, G.T + 8));
+    elCurva.picoL.textContent = 'pico ' + (Math.round(picoH2 * 10) / 10) + ' ppm';
+  }
+
   function recalcular() {
     var basalH2 = 0;
     var picoH2 = -Infinity, picoMin = 0, picoRow = null;
     var picoCh4 = -Infinity;
+    var pontos = [];
 
     rows.forEach(function (tr, i) {
       var minuto = parseInt(tr.querySelector('th').textContent, 10) || 0;
       var h2 = num(tr.querySelector('[data-h2]'));
       var ch4 = num(tr.querySelector('[data-ch4]'));
 
+      pontos.push({ min: minuto, h2: h2, ch4: ch4 });
       if (i === 0) basalH2 = h2;
       if (h2 > picoH2) { picoH2 = h2; picoMin = minuto; picoRow = tr; }
       if (ch4 > picoCh4) picoCh4 = ch4;
     });
 
     rows.forEach(function (tr) { tr.classList.toggle('is-peak', tr === picoRow); });
+
+    desenharCurva(pontos, basalH2, picoH2, picoMin, picoCh4);
 
     var delta = picoH2 - basalH2;
 
