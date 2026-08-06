@@ -689,9 +689,13 @@ img { display: block; max-width: 100%; height: auto; }
                 · tabs + reveal on demand + edição real (interação)
    Fundo creme, conforme orientação da copy. O contraste vem do objeto.
    ============================================================ */
+/* Fundo creme-deep porque a seção agora fica entre docentes (creme) e a
+   biografia (creme), que voltou ao creme pedido pela copy. */
 .tool {
   position: relative;
   padding: clamp(3.25rem, 7vw, 7rem) 0 clamp(3.5rem, 7vw, 7.5rem);
+  background: var(--creme-deep);
+  border-block: 1px solid var(--hairline);
   overflow: clip;
 }
 
@@ -2393,6 +2397,65 @@ img { display: block; max-width: 100%; height: auto; }
 
 .author__cta { margin-top: clamp(2.25rem, 4vw, 3rem); }
 
+/* ---------- Dossiê acadêmico ----------
+   Contact sheet de evidência: as fotos sustentam o que a bio afirma. */
+.dossie { margin-top: clamp(2.75rem, 6vw, 5rem); }
+
+.dossie__label {
+  display: flex;
+  align-items: center;
+  gap: .7em;
+  margin: 0 0 clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-top: clamp(1.75rem, 4vw, 2.75rem);
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-mark);
+  font-weight: 900;
+  font-size: .6rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.dossie__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.dossie__item { margin: 0; }
+
+.dossie__frame {
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: var(--creme);
+  aspect-ratio: 16 / 9;
+}
+
+.dossie__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Fotos antigas, de câmera de celular: o leve dessaturado tira o tom
+     amarelado sem estilizar demais. */
+  filter: saturate(.88);
+  transition: scale .8s var(--ease), filter .5s var(--ease);
+}
+
+.dossie__item figcaption {
+  margin-top: .7rem;
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--graphite);
+  text-wrap: pretty;
+}
+
+.dossie__item figcaption b { font-weight: 500; color: var(--indigo); }
+
+@media (hover: hover) and (pointer: fine) {
+  .dossie__item:hover .dossie__frame img { scale: 1.04; filter: saturate(1); }
+}
+
 /* ============================================================
    SEÇÃO 8 · OS ENCONTROS AO VIVO
    Arquétipo: Calendar / Rhythmic · Dark + Wave Stagger + Tooltip
@@ -3528,6 +3591,11 @@ img { display: block; max-width: 100%; height: auto; }
 
   /* §10 — setas só onde há ponteiro e espaço */
   .depo__arrows { display: flex; }
+}
+
+/* Dossiê em faixa única quando cabe: lê como contact sheet */
+@media (min-width: 1000px) {
+  .dossie__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1200px) {
