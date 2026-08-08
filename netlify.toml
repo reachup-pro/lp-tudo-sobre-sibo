@@ -82,11 +82,29 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Redirect /curso (sem barra) → /curso/index.html
+# ----------------------------------------------------------------
+# /curso (lista de espera do curso de SIBO) → /mastermind/
+# O curso inteiro passou a morar dentro do Mastermind, que é a oferta
+# ativa. A pasta continua no repo: só o tráfego é desviado.
+#
+# force = true é obrigatório. Sem ele o Netlify serve o arquivo que
+# existe em /curso/index.html e o redirect nunca chega a rodar.
+#
+# 302 e não 301: a lista de espera volta quando abrir a próxima turma,
+# e 301 fica preso no cache do browser sem hora para sair.
+# ----------------------------------------------------------------
 [[redirects]]
   from = "/curso"
-  to = "/curso/index.html"
-  status = 200
+  to = "/mastermind/"
+  status = 302
+  force = true
+
+# Pega /curso/ e tudo abaixo dela. A regra acima não casa a barra final.
+[[redirects]]
+  from = "/curso/*"
+  to = "/mastermind/"
+  status = 302
+  force = true
 
 # ----------------------------------------------------------------
 # Subpath /reset-intestinal (LP low-ticket B2C — Reset Intestinal R$47)
@@ -316,17 +334,19 @@
 # Redirects / SPA fallback (não há SPA, mas garante 200 nas rotas)
 # ----------------------------------------------------------------
 
-# Raiz → /curso/ (imersão encerrada, curso vira oferta principal)
+# Raiz → /mastermind/ (o Mastermind é a oferta ativa).
+# Apontava para /curso/, que agora redireciona para cá: sem esta
+# mudança a raiz saltaria duas vezes antes de chegar no destino.
 [[redirects]]
   from = "/"
-  to = "/curso/"
-  status = 301
+  to = "/mastermind/"
+  status = 302
   force = true
 
 [[redirects]]
   from = "/index.html"
-  to = "/curso/"
-  status = 301
+  to = "/mastermind/"
+  status = 302
   force = true
 
 # Dashboard Imersão (sem .html no URL público)
@@ -353,17 +373,27 @@
   to = "/reset-intestinal/index.html"
   status = 200
 
-# Redirect /imersao-intestino-irritavel (sem barra) → index.html
+# ----------------------------------------------------------------
+# Imersão Intestino Irritável na Prática (evento de 08/08/2026,
+# encerrado) → /mastermind/. A imersão era justamente o evento de
+# venda do Mastermind, então quem chega atrasado cai na oferta.
+#
+# O splat leva junto a /obrigado: passado o evento, ninguém deve mais
+# cair numa confirmação de inscrição para uma aula que já aconteceu.
+#
+# 302 para o caso de uma próxima edição reusar o mesmo endereço.
+# ----------------------------------------------------------------
 [[redirects]]
   from = "/imersao-intestino-irritavel"
-  to = "/imersao-intestino-irritavel/index.html"
-  status = 200
+  to = "/mastermind/"
+  status = 302
+  force = true
 
-# Redirect /imersao-intestino-irritavel/obrigado (sem barra) → index.html
 [[redirects]]
-  from = "/imersao-intestino-irritavel/obrigado"
-  to = "/imersao-intestino-irritavel/obrigado/index.html"
-  status = 200
+  from = "/imersao-intestino-irritavel/*"
+  to = "/mastermind/"
+  status = 302
+  force = true
 
 # Redirect /reset-intestinal/obrigado (sem barra) → index.html da página de obrigado
 [[redirects]]
