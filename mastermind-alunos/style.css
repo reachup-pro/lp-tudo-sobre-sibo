@@ -4078,3 +4078,103 @@ img { display: block; max-width: 100%; height: auto; }
   background: var(--accent);
   flex-shrink: 0;
 }
+
+/* ================================================================
+   FAIXA DE AVISOS · fixa no topo, acompanha o scroll
+   Altura travada em --ann-h porque o hero desconta esse valor.
+   Se mudar o tamanho da fonte aqui, remedir a dobra mobile a 375x667.
+   ================================================================ */
+:root { --ann-h: 30px; }
+
+.ann {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 80;
+  height: var(--ann-h);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 251, 202, .18);
+  background: rgba(38, 38, 38, .96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* A faixa empurra o documento em vez de cobrir o topo do hero. */
+body { padding-top: var(--ann-h); }
+
+/* A barra de progresso encosta embaixo da faixa, senão as duas
+   disputam o mesmo top:0 e o traço some atrás do painel. */
+.progress { top: var(--ann-h); }
+
+/* O skip link também: em foco ele caía por baixo da faixa. */
+.skip { top: calc(var(--ann-h) + .75rem); }
+
+.ann__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: annMarquee 26s linear infinite;
+}
+
+.ann__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 2.75rem);
+  margin: 0;
+  padding: 0 clamp(.75rem, 2.5vw, 1.375rem);
+  list-style: none;
+}
+
+.ann__item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  white-space: nowrap;
+  font-family: var(--font-mark);
+  font-weight: 900;
+  font-size: .58rem;
+  letter-spacing: .17em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--cream-50);
+}
+
+.ann__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--cream-100);
+  flex-shrink: 0;
+}
+
+/* -50% e não -100%: são duas listas idênticas, então meia volta
+   já recoloca a segunda exatamente onde a primeira começou. */
+@keyframes annMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Cabe tudo lado a lado: para o loop, centraliza e descarta a cópia. */
+@media (min-width: 900px) {
+  :root { --ann-h: 34px; }
+
+  .ann__track {
+    width: 100%;
+    justify-content: center;
+    animation: none;
+  }
+
+  .ann__list--clone { display: none; }
+  .ann__item { font-size: .6rem; }
+
+  /* O hero ocupa a altura da janela MENOS a faixa. Sem isso ele
+     estoura a dobra exatamente no tamanho da faixa. */
+  .hero { min-height: calc(100svh - var(--ann-h)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ann { overflow-x: auto; scrollbar-width: none; }
+  .ann::-webkit-scrollbar { display: none; }
+  .ann__track { animation: none; }
+  .ann__list--clone { display: none; }
+}

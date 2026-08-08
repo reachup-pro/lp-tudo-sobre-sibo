@@ -46,7 +46,7 @@
                    /.netlify/images?url=/mastermind-alunos/images/karina-hero-bw.webp&w=900&q=82 900w"
       imagesizes="(max-width: 899px) 23rem, 27rem">
 
-<link rel="stylesheet" href="/mastermind-alunos/style.css?v=19">
+<link rel="stylesheet" href="/mastermind-alunos/style.css?v=20">
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
 <!-- Google Tag Manager -->
@@ -64,6 +64,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <a class="skip" href="#oferta">Ir para a oferta</a>
+
+<!-- ============================================================
+     FAIXA DE AVISOS · fixa no topo, acompanha o scroll
+     Altura travada em --ann-h. O hero desconta esse valor
+     (100svh - var(--ann-h)) para o CTA não sair da primeira
+     dobra no mobile, que é a regra mais cara desta página.
+     No mobile os três avisos passam em loop porque não cabem
+     lado a lado a 375px; no desktop ficam parados e centrados.
+     ============================================================ -->
+<aside class="ann" aria-label="Condições desta turma">
+  <div class="ann__track">
+    <ul class="ann__list">
+      <li class="ann__item"><span class="ann__dot" aria-hidden="true"></span>Fellowship presencial para a primeira que comprar</li>
+      <li class="ann__item"><span class="ann__dot" aria-hidden="true"></span>Sorteio de vaga no Fellow entre as 20 primeiras</li>
+      <li class="ann__item"><span class="ann__dot" aria-hidden="true"></span>12 meses de acesso</li>
+    </ul>
+    <!-- Cópia only-for-loop: o leitor de tela lê a lista de cima.
+         Some no desktop e em reduced-motion, onde não há loop. -->
+    <ul class="ann__list ann__list--clone" aria-hidden="true">
+      <li class="ann__item"><span class="ann__dot" aria-hidden="true"></span>Fellowship presencial para a primeira que comprar</li>
+      <li class="ann__item"><span class="ann__dot" aria-hidden="true"></span>Sorteio de vaga no Fellow entre as 20 primeiras</li>
+      <li class="ann__item"><span class="ann__dot" aria-hidden="true"></span>12 meses de acesso</li>
+    </ul>
+  </div>
+</aside>
 
 <div class="grain" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
