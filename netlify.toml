@@ -189,6 +189,47 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # ----------------------------------------------------------------
+# Subpath /mastermind-alunos (V2 da página de vendas — condição de
+# ex-aluna, R$ 1.997). Página privada: o link circula só entre quem
+# já estudou com a Karina, e o HTML carrega noindex.
+# ----------------------------------------------------------------
+
+[[headers]]
+  for = "/mastermind-alunos/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/mastermind-alunos/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/mastermind-alunos/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/mastermind-alunos/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/mastermind-alunos/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/mastermind-alunos/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ----------------------------------------------------------------
 # Imersão Intestino Irritável na Prática (SII) — subpath
 # Globs raiz não casam subpath; duplicar com prefixo /imersao-intestino-irritavel/
 # ----------------------------------------------------------------
@@ -334,4 +375,10 @@
 [[redirects]]
   from = "/mastermind"
   to = "/mastermind/index.html"
+  status = 200
+
+# Redirect /mastermind-alunos (sem barra) → /mastermind-alunos/index.html
+[[redirects]]
+  from = "/mastermind-alunos"
+  to = "/mastermind-alunos/index.html"
   status = 200
