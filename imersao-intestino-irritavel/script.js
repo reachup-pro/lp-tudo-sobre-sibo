@@ -128,11 +128,17 @@
    *  Acima de 50%, exibe valor real e mostra vagas restantes. */
   const PISO_VISUAL = 50;
 
+  /** Percentual fixo da barra (escassez do dia do evento). Quando não-nulo, a barra
+   *  exibe SEMPRE este valor e oculta as vagas restantes, independentemente das
+   *  vendas reais. Preço, lote ativo e URL de checkout continuam vindo do Supabase.
+   *  Para voltar ao comportamento real (piso visual + vagas restantes): null. */
+  const PERCENT_FIXO = 90;
+
   /** Estado do último fetch — registro do valor real (auditoria) e do display calculado */
   const loteState = {
     cor: LOTE_FALLBACK_COR,
     realPercent: 0,
-    displayPercent: PISO_VISUAL,
+    displayPercent: PERCENT_FIXO != null ? PERCENT_FIXO : PISO_VISUAL,
     showVagas: false,
     loteNumero: 1,
     esgotado: false,
@@ -223,12 +229,17 @@
 
     const cor = data.lote_cor || LOTE_FALLBACK_COR;
     const realPercent = Math.min(100, Math.round(Number(data.lote_percent) || 0));
-    const displayPercent = Math.max(PISO_VISUAL, realPercent);
-    const showVagas = realPercent > PISO_VISUAL;
+    const fixo = PERCENT_FIXO != null;
+    const displayPercent = fixo ? PERCENT_FIXO : Math.max(PISO_VISUAL, realPercent);
+    /* Com percentual fixo, o número de vagas restantes vem das vendas reais e
+     * contradiria a barra — por isso fica oculto. */
+    const showVagas = !fixo && realPercent > PISO_VISUAL;
     const vagasRestantes = Number(data.lote_vagas_restantes) || 0;
     const lotePreco = Number(data.lote_preco) || 0;
     const loteNumero = Number(data.lote_numero) || 1;
-    const escassez = emEscassez(realPercent, vagasRestantes);
+    const escassez = fixo
+      ? displayPercent >= SCARCITY_PERCENT_MIN
+      : emEscassez(realPercent, vagasRestantes);
     const corEfetiva = escassez ? SCARCITY_COR : cor;
 
     loteState.cor = cor;
